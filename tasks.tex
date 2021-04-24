@@ -1,0 +1,112 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kodreszlet}%
+\lstset{language=Java,
+backgroundcolor=\color[HTML]{ebebeb},
+keywordstyle={\bfseries \color[HTML]{5d00ff}},
+frame=single,
+basicstyle=\footnotesize\ttfamily,
+captionpos=b,
+tabsize=2,
+numbers=left,
+aboveskip=2em,
+belowskip=1em
+}
+\usepackage{graphicx}
+
+\title{Java SE Gyakorlo Feladatsor 1}
+\author{Szabo Daniel}
+
+\date{\today}
+
+\begin{document}
+
+    \maketitle
+    \begin{abstract}
+
+    \end{abstract}
+    \tableofcontents{}
+
+    \newpage
+
+
+    \section{Tesztek Futtatasa}
+
+    Ez a feladatsor tesztekkel lett kiegeszitve, ami lehetove teszi szamodra, hogy azonnal visszajelzest kapj, hogy megfeleloen mukodik-e egy bizonyos feladatra irt megoldasod, illetve a megoldas ertekelojenek is segit egy pillanat alatt ellenorizni, hogy mukodokepes megoldast adtal be. A tesztelesi keretrendszer mukodesi elve miatt a feladatoknak muszaj az OOP elveit hasznalnia, a metodusoknak parametereket befogadnia es visszateresi ertekeket adnia. Erdemes a teszteket minden valtoztatas utan lefuttatni, hogy folyamatosan lasd, esetleg elrontottal-e valamit egy valtoztatasoddal, ami korabban mukodott.
+
+    A teszteket a kovetkezo keppen tudod futtatni:
+
+    \paragraph{Eclipse}
+
+    \paragraph{IntelliJ IDEA}
+
+
+    \section{Szamologep}
+
+    \paragraph{Bevezetes}
+
+    Ebben a feladatban a \lstinline{Szamologep} osztaly fuggvenyeit fogjuk implementalni. Az egyszeruseg kedveert ebben az osztalyban csak \lstinline{float} adattipust hasznalunk szamitasokhoz. A feladat 4 reszbol all, minden reszben egy metodus hianyzo logikajat kell potolnod. Egy pelda metodus \lstinline{osszead()} segitsegkent el lett helyezve a forraskodban.
+
+    \begin{lstlisting}[language=Java, caption=Pelda Metodus]
+	public float osszead(float a, float b){
+		return a + b;
+	}
+    \end{lstlisting}
+
+    \subsection{kivon(a,b)}
+    A \lstinline{kivon} fuggveny a ket parameterkent kapott szam kulonbseget kell visszaadja, peldaul:\newline
+    \lstinline[mathescape]{kivon(4,3) $\rightarrow$ 1}\newline
+    \lstinline[mathescape]{kivon(-2.5,3) $\rightarrow$ -5.5}\newline
+    \lstinline[mathescape]{kivon(0,2.25) $\rightarrow$ -2.25}\newline
+
+    \subsection{szoroz(a,b)}
+    A \lstinline{kivon} fuggveny a ket parameterkent kapott szam szorzatat kell visszaadja, peldaul:\newline
+    \lstinline[mathescape]{szoroz(4,3) $\rightarrow$ 12}\newline
+    \lstinline[mathescape]{szoroz(-2.5,3) $\rightarrow$ -7.5}\newline
+    \lstinline[mathescape]{szoroz(0,2.25) $\rightarrow$ 0}\newline
+
+    \subsection{oszt(a,b)}
+    Az \lstinline{oszt} fuggveny a ket parameterkent kapott szam hanyadosat kell visszaadja, peldaul:\newline
+    \lstinline[mathescape]{kivon(4,3) $\rightarrow$ 1}\newline
+    \lstinline[mathescape]{kivon(-2.5,3) $\rightarrow$ -5.5}\newline
+    \lstinline[mathescape]{kivon(0,2.25) $\rightarrow$ -2.25}\newline
+
+    \subsection{hatvany(a,b)}
+    A \lstinline{hatvany} fuggveny a ket parameterkent kapott szam hatvanyat kell visszaadja, peldaul:\newline
+    \lstinline[mathescape]{hatvany(2,3) $\rightarrow$ 8}\newline
+    \lstinline[mathescape]{hatvany(2,-2) $\rightarrow$ 0.5}\newline
+    \lstinline[mathescape]{hatvany(0,2.25) $\rightarrow$ 0}\newline
+
+    \subsection{negyzetgyok(a)}
+    A \lstinline{negyzetgyok} fuggveny a ket parameterkent kapott szam kulonbseget kell visszaadja,
+peldaul:\newline
+\lstinline[mathescape]{negyzetgyok(4) $\rightarrow$ 2}\newline
+\lstinline[mathescape]{negyzetgyok(1) $\rightarrow$ 1}\newline
+\lstinline[mathescape]{negyzetgyok(-2) $\rightarrow$ hiba (-1)}\newline
+
+    \section{Ciklusok}
+
+    \paragraph{Bevezetes}
+
+    \sub{Feladatok}
+
+
+    \section{Tombok}
+
+    \paragraph{Bevezetes}
+
+    \paragraph{Feladatok}
+
+
+    \section{Versenyauto}
+
+    \paragraph{Bevezetes}
+
+    \paragraph{Feladatok}
+
+    \paragraph{Feladatok}
+\end{document}
