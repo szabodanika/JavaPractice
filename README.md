@@ -1,3 +1,5 @@
+Contact: daniel.szabo99@outlook.com
+
 # English
 
 Coming soon
