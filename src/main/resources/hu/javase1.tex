@@ -31,7 +31,8 @@ Java SE Feladatsor 1 \\
 
 \maketitle
 \begin{abstract}
-
+Ez a feladatsor egy sorozat elso resze, amelyben Java programozasi nyelven a kovetkezo temakhoz fuzodo feladatsorok talalhatok: ciklusok, tombok es objektumorientalt programozas alapok. A feladatsor harom allomanybol tevodik ossze: a feladatok leirasa (ez a dokumentum), egy kodvazlat amiben feladatokat kell kidolgozni illetve egysegtesztek.
+Aki a feladatsor minden feladatat sikeresen teljesiteti, az magabiztosan tudja kezelni a tomboket es ciklusokat egyutt es kulon, azokkal hasznos muveleteket tud vegezni onalloan, fuggvenyeket tud definialni es az objektumorientalt programozasrol alapszintu megertese van.
 \end{abstract}
 
 \newpage
@@ -56,7 +57,7 @@ Ebben a feladatban a \lstinline{Szamologep} osztaly fuggvenyeit fogjuk implement
 
 \begin{lstlisting}[language=Java, caption=Pelda Metodus]
 public float osszead(float a, float b){
-return a + b;
+    return a + b;
 }
 \end{lstlisting}
 
@@ -100,13 +101,13 @@ Segitseg: \href{https://docs.oracle.com/javase/tutorial/java/nutsandbolts/for.ht
 
 \begin{lstlisting}[language=Java, caption=Pelda Metodus]
 public int szamOsszeg10ig(){
-int eredmeny = 0;
+    int eredmeny = 0;
 
-for (int i = 1; i <= 10; i++) {
-eredmeny = eredmeny + i;
-}
+    for (int i = 1; i <= 10; i++) {
+        eredmeny = eredmeny + i;
+    }
 
-return eredmeny;
+    return eredmeny;
 }
 \end{lstlisting}
 
@@ -147,13 +148,13 @@ Segitseg: \href{https://docs.oracle.com/javase/tutorial/java/nutsandbolts/arrays
 
 \begin{lstlisting}[language=Java, caption=Pelda Metodus]
 public int szum(int[] tomb) {
-int eredmeny = 0;
+    int eredmeny = 0;
 
-for (int i = 1; i <= 10; i++) {
-eredmeny = eredmeny + tomb[i];
-}
+    for (int i = 1; i <= 10; i++) {
+        eredmeny = eredmeny + tomb[i];
+    }
 
-return eredmeny;
+    return eredmeny;
 }
 \end{lstlisting}
 
@@ -241,6 +242,6 @@ Auto: Mercedes (740kg)
 A \lstinline{Verseny} osztaly \lstinline{verseny} fuggvenye ket versenyauto peldany kap bemenetkent, a ket autot megversenyezteti es a verseny nyertesenek nevet adja vissza eredmenyul. A verseny nyerteset a kovetkezo keppen dontjuk el: ha az egyik auto tomege 100kg-al vagy tobbel alacsonyabb mint a masik auto tomege, akkor a konnyebbik auto fog nyerni. Ha a kulonbseg a tomegek kozott kevesebb mint 100kg, akkor veletlenszeruen 50-50\% esellyel nyerhet barmelyik versenyzo.
 
 \section{Megoldas beadasa}
-Ha minden feladatot megoldottal es az osszes teszt sikeresen lefut, akkor gyozodj meg rola, hogy a kodod tiszta es olvashato, nem tartalmaz felesleges, kommentelt vagy nem mukodo kodot, majd a teljes projektet (tehat nem csak a src mappat vagy csak a .java fajlokat) csomagold be egy .zip kiterjesztesu fajlba, aminek a neve legyen peldaul \lstinline{DanielSzabo_JavaSE1.zip}. Ezt a fajlt utana vagy el kell kuldened e-mail-ben vagy egy megadott Google Drive mappaba kell feltoltened. Errol utasitast szoban fogsz kapni/kaptal.
+Ha minden feladatot megoldottal es az osszes teszt sikeresen lefut, akkor gyozodj meg rola, hogy a kodod tiszta es olvashato, nem tartalmaz felesleges, kommentelt vagy nem mukodo kodot, majd a teljes projektet (tehat nem csak a src mappat vagy csak a .java fajlokat) csomagold be egy .zip kiterjesztesu fajlba, aminek a neve legyen peldaul \lstinline{DanielSzabo_JavaSE1.zip}. Ezt a fajlt utana vagy el kell kuldened e-mail-ben vagy fel kell feltoltened, errol kulon fogsz pontos utmutatast kapni.
 
 \end{document}
