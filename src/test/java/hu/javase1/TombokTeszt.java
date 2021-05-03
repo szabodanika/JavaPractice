@@ -1,5 +1,6 @@
+package hu.javase1;
 
-import tombok.Tombok;
+import hu.javase1.tombok.Tombok;
 
 import static org.junit.jupiter.api.Assertions.*;
 

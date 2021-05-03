@@ -1,5 +1,7 @@
+package hu.javase1;
+
 import org.junit.jupiter.api.Test;
-import szamologep.Szamologep;
+import hu.javase1.szamologep.Szamologep;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

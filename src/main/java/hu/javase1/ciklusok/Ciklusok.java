@@ -1,4 +1,4 @@
-package ciklusok;
+package hu.javase1.ciklusok;
 
 public class Ciklusok {
 

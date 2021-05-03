@@ -1,4 +1,6 @@
-import ciklusok.Ciklusok;
+package hu.javase1;
+
+import hu.javase1.ciklusok.Ciklusok;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

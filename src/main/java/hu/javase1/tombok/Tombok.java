@@ -1,4 +1,4 @@
-package tombok;
+package hu.javase1.tombok;
 
 public class Tombok {
 

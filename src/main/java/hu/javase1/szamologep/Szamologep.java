@@ -1,4 +1,4 @@
-package szamologep;
+package hu.javase1.szamologep;
 
 public class Szamologep {
 
