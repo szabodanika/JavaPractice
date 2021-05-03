@@ -1,4 +1,4 @@
-package main.java.ciklusok;
+package ciklusok;
 
 public class Ciklusok {
 
@@ -14,19 +14,19 @@ public class Ciklusok {
 		return eredmeny;
 	}
 
-	public int szamOsszegNig(int n){
+	public int szamOsszeg(int n){
 		int eredmeny = 0;
 		// TODO ide ird az 1. feladat megoldasat
 		return eredmeny;
 	}
 
-	public int legnagyobbPrimNig(int n){
+	public int legnagyobbPrim(int n){
 		int eredmeny = 0;
 		// TODO ide ird a 2. feladat megoldasat
 		return eredmeny;
 	}
 
-	public int fibonacciNedik(int n) {
+	public int fibonacci(int n) {
 		int eredmeny = 0;
 		// TODO ide ird a 3. feladat megoldasat
 		return eredmeny;

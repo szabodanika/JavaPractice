@@ -1,4 +1,4 @@
-package main.java.tombok;
+package tombok;
 
 public class Tombok {
 
@@ -7,23 +7,21 @@ public class Tombok {
 	public int szum(int[] tomb) {
 		int eredmeny = 0;
 
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 0; i < tomb.length; i++) {
 			eredmeny = eredmeny + tomb[i];
 		}
 
 		return eredmeny;
 	}
 
-	public int ujTomb10HosszuIntTomb() {
-		int eredmeny = 0;
+	public int[] uj10HosszuIntTomb() {
 		// TODO ide ird az 1. feladat megoldasat
-		return eredmeny;
+		return null;
 	}
 
-	public int ujIntTombMegadottSzamokkal(int a, int b, int c, int d) {
-		int eredmeny = 0;
+	public int[] ujIntTombMegadottSzamokkal(int a, int b, int c, int d) {
 		// TODO ide ird a 2. feladat megoldasat
-		return eredmeny;
+		return null;
 	}
 
 	public int tombHossz(int[] tomb) {
