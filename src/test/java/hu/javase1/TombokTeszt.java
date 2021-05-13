@@ -17,13 +17,13 @@ class TombokTeszt {
 
 	@org.junit.jupiter.api.Test
 	void ujTomb10HosszuIntTomb() {
-		assertEquals(new int[]{0,0,0,0,0,0,0,0,0,0}, tombok.uj10HosszuIntTomb());
+		assertArrayEquals(new int[]{0,0,0,0,0,0,0,0,0,0}, tombok.uj10HosszuIntTomb());
 	}
 
 	@org.junit.jupiter.api.Test
 	void ujIntTombMegadottSzamokkal() {
-		assertEquals(new int[]{1, 2, 3, 4}, tombok.ujIntTombMegadottSzamokkal(1, 2, 3, 4));
-		assertEquals(new int[]{5, 5, 5, 5}, tombok.ujIntTombMegadottSzamokkal(5, 5, 5, 5));
+		assertArrayEquals(new int[]{1, 2, 3, 4}, tombok.ujIntTombMegadottSzamokkal(1, 2, 3, 4));
+		assertArrayEquals(new int[]{5, 5, 5, 5}, tombok.ujIntTombMegadottSzamokkal(5, 5, 5, 5));
 	}
 
 	@org.junit.jupiter.api.Test

@@ -1,0 +1,273 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kodreszlet}%
+\lstset{language=Java,
+backgroundcolor=\color[HTML]{ebebeb},
+%keywordstyle={\bfseries \color[HTML]{5d00ff}},
+frame=single,
+basicstyle=\footnotesize\ttfamily,
+captionpos=b,
+tabsize=2,
+%numbers=left,
+aboveskip=2em,
+belowskip=1em
+}
+\usepackage{graphicx}
+\usepackage{float}
+\restylefloat{table}
+
+\title{%
+Java Shell Feladatsor \\
+\large Java alapok JShell kornyezetben}
+
+\author{Szabo Daniel\\daniel.szabo99@outlook.com}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+Ebben a feladatsorban a Java programozas alapjaival fogsz megismerkedni a Java konzolos kornyezetenek hasznalataval, a JShell-el. A feladatsor fontos alapokat fektet le valtozok kezelesevel, muveletek irasaval es a linearis programozas elso lepeseivel kapcsolatban, amik a legelso programozasi koncepciok amiket megtanulunk, igy a legfontosabbak is. Minden kovetkezo programozasi tananyag erre a tudasra fog epiteni. A feladatsor elvegzesehez szukseged lesz a JShell kornyezetre, amit az \lstinline{jshell} paranccsal tudsz elohivni, ha a JDK-t korabban feltelepitetted a szamitogepdre. Ha ez nem tortent meg, a Java hivatalos honlapjan megtalalod a telepitesi utmutatot.
+\end{abstract}
+
+\newpage
+
+\tableofcontents{}
+
+\newpage
+
+\section{Valtozok}
+
+\paragraph{Bevezetes}
+
+Ebben a feladatban megismerkedunk a programozas egyik legalapvetobb koncepciojaval, a valtozokkal. Megtanuljuk oket letrehozni, modositani, muveletekkel felhasznalni es megjeleniteni oket.
+
+\subsection{Adattipusok}
+
+A Java nyelvben minden valtozonak kotelezo adattipust meghatarozni. Rengeteg beepitett adattipus van a nyelvben es sajat tipusokat is tudunk letrehozni, de egyelore nehany alapveto tipussal ismerkedunk meg:
+
+\begin{table}[H]
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{Adattipus} & \textbf{Tarolt adat}  & \textbf{Alapertek} & \textbf{Pelda ertekek} \\ \hline
+        int                & egesz szam            & 0                  & -10, 0, 2021           \\ \hline
+        float              & tort szam             & 0.0                & -1.25. 0.0, 3.14       \\ \hline
+        boolean            & logikai ertek         & false              & true, false            \\ \hline
+        String             & szoveg (karakterlanc) & null               & "", "Hello!"           \\ \hline
+    \end{tabular}
+    \caption{Alap Java adattipusok}
+    \label{tab:adattipusok}
+\end{table}
+
+\subsection{Valtozo letrehozasa}
+
+Egy valtozo letrehozasa jellemzoen ket reszbol all, egy deklaraciobol es egy inicializaciobol. A deklaracio letrehoz egy ures valtozot a megadott nevvel, az inicializacio pedig megadja a valtozo kezdoerteket amit kesobb ha szeretnenk tudunk valtoztatni.
+
+\begin{lstlisting}[language=Java, caption=Int valtozo deklaralasa inicializacioval. Ennek a valtozonak 12 a kezdoerteke]
+int i = 12;
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Int valtozo deklaralasa inicializacioval. Ennek a valtozonak 4.5 a kezdoerteke]
+float f = 4.5;
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=Java, caption=Boolean valtozo deklaralasa inicializacioval. Ennek a valtozonak true a  kezdoerteke]
+boolean b = true;
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=String valtozo deklaralasa inicializacioval. Ennek a valtozonak "Hello!" lesz a kezdoerteke]
+String s = "Hello!";
+\end{lstlisting}
+
+\subsection{Valtozok modositasa}
+
+Egy valtozot korabban letrehoztunk, akkor annak az erteket felulirhatjuk, de a tipusat nem valtoztathatjuk meg. Egy mar korabban letrehozott valtozo hivasakor az adattipust nem kell ujbol meghatarozni. Ha megis ujbol beirjuk az adattipust, Java azt fogja hinni, hogy megint egy valtozot deklaralunk.
+
+\begin{lstlisting}[language=Java, caption=Egy 12 kezdoerteku int valtozot modositunk.]
+int a = 12;
+a = 5;
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Egy "Hello" kezdoerteku String valtozot modositunk.]
+String s = "Hello!";
+s = "Hello World!";
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Egy false kezdoerteku boolean valtozot modositunk.]
+boolean b = false;
+b = true;
+\end{lstlisting}
+
+\newpage
+
+\subsection{Feladatok}
+
+\subsubsection{Feladat}
+
+Hozz letre minden adattipussal 2 valtozot kulonbozo ertekekkel.
+
+\subsubsection{Feladat}
+
+Mi tortenik,
+\begin{itemize}
+    \item ha deklaralsz egy erteket de nem inicializalod,
+    \item ha olyan erteket adsz egy valtozonak ami mas tipushoz tartozik,
+    \item ha int valtozoba egy nagyon nagy szamot (nagyobb mint 2147483647) mentesz?
+\end{itemize}
+
+\newpage
+\section{Operatorok}
+
+\paragraph{Bevezetes}
+
+Ebben a feladatban nehany alapveto operator (muveleti jel) hasznalatat targyaljuk.
+
+\subsection{Alap operatorok}
+
+\begin{table}[H]
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{Operator} & \textbf{Adattipus}                                                          & \textbf{Muvelet}          & \textbf{Hasznalat}                                                                                                             \\ \hline
+        =                 & Barmilyen tipus                                                             & Ertekadas                 & a = 5;                                                                                                                         \\ \hline
+        +                 & Szam/String                                                                 & Osszeadas/Osszefuzes      & \begin{tabular}[c]{@{}l@{}}a = 1 + 2 \\ hello = "Hel"+ "lo"\end{tabular}                                                       \\ \hline
+        -                 & Szam                                                                        & Kivonas                   & a = 2 - 1                                                                                                                      \\ \hline
+        *                 & Szam                                                                        & Szorzas                   & a = 2 * 3                                                                                                                      \\ \hline
+        /                 & Szam                                                                        & Osztas                    & a = 10 / 5                                                                                                                     \\ \hline
+        \%                & Szam                                                                        & Maradekkepzes             & a = 10 \% 3 ( = 1 )                                                                                                            \\ \hline
+        !                 & Boolean                                                                     & Negacio                   & b = !false ( =  true )                                                                                                         \\ \hline
+        \&\&              & Boolean                                                                     & Es                        & \begin{tabular}[c]{@{}l@{}}false \&\& false ( = false )\\ false \&\& true ( = false )\\ true \&\& true ( = true )\end{tabular} \\ \hline
+        \textbar\textbar                & Boolean                                                                     & Vagy                      & \begin{tabular}[c]{@{}l@{}}false \textbar\textbar false ( = false )\\ false \textbar\textbar true ( = true )\\ true \textbar\textbar true ( = true )\end{tabular}        \\ \hline
+        ==                & \begin{tabular}[c]{@{}l@{}}Barmilyen bemenet\\ Boolean kimenet\end{tabular} & Egyenloseg                & 5 == 3 ( = false )                                                                                                             \\ \hline
+        !=                & \begin{tabular}[c]{@{}l@{}}Barmilyen bemenet\\ Boolean kimenet\end{tabular} & Egyenlotlenseg            & 5 != 3 ( = true )                                                                                                              \\ \hline
+        \textgreater{}    & Szam                                                                        & Nagyobb mint              & 1 \textgreater 2                                                                                                               \\ \hline
+        \textless{}       & Szam                                                                        & Kisebb mint               & 1 \textless 2                                                                                                                  \\ \hline
+        \textgreater{}=   & Szam                                                                        & Nagyobb vagy egyenlo mint & 2 \textgreater{}= 2                                                                                                            \\ \hline
+        \textless{}=      & Szam                                                                        & Kisebb vagy egyenlo mint  & 2 \textless{}= 2                                                                                                               \\ \hline
+    \end{tabular}
+    \caption{Alap Java operatorok}
+    \label{tab:operatorok}
+\end{table}
+
+\newpage
+
+\subsection{Operatorok hasznalata}
+
+\begin{lstlisting}[language=Java, caption=Pelda muvelet integer, float es String valtozokkal: 10 sugaru kor terulete]
+float pi = 3.14;
+int R = 10;
+float terulet = pi * R * R;
+String eredmeny = "A kor terulete " + terulet + ".";
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Pelda muvelet boolean valtozokkal (kalandpark)]
+int kor = 22;
+
+boolean gyermek = kor < 12;
+boolean serdulo = kor >= 12 && kor < 19;
+boolean felnott = kor >= 19 && kor < 60;
+boolean idos = kor >= 60;
+
+boolean kotelezoSisak = !felnott;
+boolean kotelezoFelugyelet = !(felnott);
+boolean ingyenJegy = gyermek || idos;
+
+\end{lstlisting}
+
+\subsection{Feladatok}
+
+\subsubsection{Feladat}
+
+Minden operatorral vegezz legalabb 2 muveletet. Talalj ki praktikus, valos problemakat amiket ezekkel az operatorokkal lehet megoldani.
+
+\subsubsection{Feladat}
+
+Mi tortenik,
+\begin{itemize}
+    \item ha String-et osszefuzol egy masik, nem String valtozoval,
+    \item ha boolean operatort hasznalsz int valtozokkal vagy forditva,
+    \item ha ket osszeadott int eredmenye nagyobb mint 2147483647),
+    \item ha int es float valtozokkal vegyesen vegzel muveleteket?
+\end{itemize}
+
+\subsubsection{Feladat}
+
+A megfelelo operatorok hasznalataval vegezz maradekos osztast.\newline
+\lstinline[mathescape]{ a = 20 }\newline
+\lstinline[mathescape]{ b = 4 }\newline
+\lstinline[mathescape]{ hanyados = ? }\newline
+\lstinline[mathescape]{ maradek = ? }\newline
+
+\subsubsection{Feladat}
+
+Mi lesz a boolean B erteke az alabbi muveletek utan? Eloszor probald meg fejben megoldani, majd ellenorizd magad JShell-ben.
+
+\begin{lstlisting}[language=Java, caption=Muvelet 1.]
+int a = 4;
+int b = 3;
+boolean B = a > b;
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Muvelet 1.]
+int a = 4;
+int b = 3;
+boolean B = a <= b || a != 3;
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Muvelet 1.]
+int a = 4;
+int b = 3;
+boolean c = !(a > b || a < b);
+boolean d = a % 2 == 0;
+boolean B = c || d;
+\end{lstlisting}
+
+\newpage
+
+\section{Kiiras konzolra}
+
+A JShell engedelyezi, hogy egy erteket megtekintsunk egyszeruen azzal, hogy beirjuk egy valtozo nevet vagy egy muveletet, de a konzolra kiirasnak kulon parancsa van: \lstinline{System.out.println("Szoveg")}.
+Ez egy beepitett fuggveny ami egy \lstinline{String} tipusu objektumot kap parameterkent es azt megjeleniti. Gyakran ha nem \lstinline{String} tipusu objektumot kap akkor megprobalja automatikusan String-ge atalakitani.
+
+\begin{lstlisting}[language=Java, caption=Konzolra kiiras 1.]
+String hello = "Hello ";
+String world = "World!";
+System.out.println(hello + world);
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Konzolra kiiras 2.]
+String nev = "Juliska";
+int kor = 22;
+System.out.println("Hello, a nevem " + nev + " es "
+    + kor + " eves vagyok.");
+\end{lstlisting}
+
+\newpage
+
+\section{Kiiras konzolra}
+
+A JShell engedelyezi, hogy egy erteket megtekintsunk egyszeruen azzal, hogy beirjuk egy valtozo nevet vagy egy muveletet, de a konzolra kiirasnak kulon parancsa van: \lstinline{System.out.println("Szoveg")}.
+Ez egy beepitett fuggveny ami egy \lstinline{String} tipusu objektumot kap parameterkent es azt megjeleniti. Gyakran ha nem \lstinline{String} tipusu objektumot kap akkor megprobalja automatikusan String-ge atalakitani.
+
+\begin{lstlisting}[language=Java, caption=Konzolra kiiras 1.]
+String hello = "Hello ";
+String world = "World!";
+System.out.println(hello + world);
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Konzolra kiiras 2.]
+String nev = "Juliska";
+int kor = 22;
+System.out.println("Hello, a nevem " + nev + " es "
+    + kor + " eves vagyok.");
+\end{lstlisting}
+
+
+\end{document}

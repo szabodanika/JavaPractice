@@ -10,7 +10,7 @@ public class Szamologep {
 
 	public float kivon(float a, float b){
 		// TODO ide ird az 1. feladat megoldasat
-		return 0;
+		return a - b;
 	}
 
 	public float szoroz(float a, float b){

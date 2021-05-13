@@ -21,7 +21,7 @@ class SzamologepTeszt {
 	void kivon() {
 		assertEquals(1, szamologep.kivon(4, 3));
 		assertEquals(-5.5, szamologep.kivon(-2.5f, 3));
-		assertEquals(-2.25, szamologep.kivon(0, -2.25f));
+		assertEquals(-2.25, szamologep.kivon(0, 2.25f));
 		assertEquals(0, szamologep.kivon(0, 0));
 	}
 
