@@ -8,12 +8,12 @@
 \renewcommand{\lstlistingname}{Kodreszlet}%
 \lstset{language=Java,
 backgroundcolor=\color[HTML]{ebebeb},
-%keywordstyle={\bfseries \color[HTML]{5d00ff}},
+keywordstyle={\bfseries \color[HTML]{5d00ff}},
 frame=single,
 basicstyle=\footnotesize\ttfamily,
 captionpos=b,
 tabsize=2,
-%numbers=left,
+numbers=left,
 aboveskip=2em,
 belowskip=1em
 }
@@ -156,6 +156,16 @@ Ebben a feladatban nehany alapveto operator (muveleti jel) hasznalatat targyalju
     \label{tab:operatorok}
 \end{table}
 
+Fontos!
+A == egyenloseg vizsgalo operator kizarolag primitiv tipusokkal (pl.: int, float, boolean) mukodik. String-eket es mas nem primitiv tipusokat a reverzibilis \lstinline{.equals()} fuggvennyel hasonlitunk ossze. A == operator ezeken a tipusokon csak akkor fog igazat adni eredmenyuk, ha egy valtozot onmagaval hasonlitasz ossze.
+
+\begin{lstlisting}[language=Java, caption=String egyenloseg vizsgalata helyesen]
+String s1 = "abcd";
+String s2 = "abc";
+boolean egyenloseg = s1.equals(s2);
+boolean egyenloseg2 = s2.equals(s1);
+\end{lstlisting}
+
 \newpage
 
 \subsection{Operatorok hasznalata}
@@ -215,13 +225,13 @@ int b = 3;
 boolean B = a > b;
 \end{lstlisting}
 
-\begin{lstlisting}[language=Java, caption=Muvelet 1.]
+\begin{lstlisting}[language=Java, caption=Muvelet 2.]
 int a = 4;
 int b = 3;
 boolean B = a <= b || a != 3;
 \end{lstlisting}
 
-\begin{lstlisting}[language=Java, caption=Muvelet 1.]
+\begin{lstlisting}[language=Java, caption=Muvelet 3.]
 int a = 4;
 int b = 3;
 boolean c = !(a > b || a < b);
@@ -269,5 +279,113 @@ System.out.println("Hello, a nevem " + nev + " es "
     + kor + " eves vagyok.");
 \end{lstlisting}
 
+\newpage
+
+\section{If-Else}
+
+Az If-Else egy a sok vezerloszerkezet kozul, amit a Java nyelvben hasznalunk. Alapvetoen a program szabalyosan parancsrol parancsra, felulrol lefele ugrik, de vannak helyzetek amikor egy kondiciotol fuggoen szeretnenk valtoztatni, hogy mit csinaljon a programunk. Az If-Else vezerloszerkezet a legegyszerubb ilyen megoldas, amivel a valosagban is gyakran talalkozunk:
+
+Ha [kondicio] akkor [tortenjen valami]
+
+Peldaul:
+\begin{lstlisting}[language=Java, caption=If hasznalata]
+int a = 4;
+if( a > 2) {
+    System.out.println("a nagyobb mint 2");
+}
+\end{lstlisting}
+
+Ha [kondicio] akkor [tortenjen valami], kulonben [tortenjen valami mas]
+
+Peldaul:
+\begin{lstlisting}[language=Java, caption=If hasznalata]
+int a = 4;
+if( a > 2) {
+    System.out.println("a nagyobb mint 2");
+} else {
+    System.out.println("a nem nagyobb mint 2")
+}
+\end{lstlisting}
+
+Ha [kondicio] akkor [tortenjen valami], kulonben ha [masodik kondicio] akkor [tortenjen valami mas],  kulonben ha [masodik kondicio] akkor [tortenjen valami mas] , kulonben [tortenjen valami mas].
+
+\begin{lstlisting}[language=Java, caption=If hasznalata]
+int a = 4;
+if( a > 2) {
+    System.out.println("a nagyobb mint 2");
+} else if ( a > 1) {
+    System.out.println("a nem nagyobb mint 2 de nagyobb mint 1");
+} else if ( a >= 0) {
+    System.out.println("a nem nagyobb mint 2 es nem nagyobb mint 1,
+        de nagyobb vagy egyenlo 0-val");
+} else {
+    System.out.println("a nem nagyobb mint 2, nem nagyobb mint 1
+        es nem nagyobb vagy egyenlo 0-val");
+}
+\end{lstlisting}
+
+\subsection{Feladatok}
+
+\subsubsection{Feladat}
+
+Mit fognak kiirni a konzolra a kovetkezo kodreszletek? Eloszor probald meg fejben megoldani, majd ellenorizd magad JShell-ben.
+
+\begin{lstlisting}[language=Java, caption=Muvelet 1.]
+int a = 4;
+int b = 3;
+int c = 0;
+if(a > b) {
+    c = a;
+} else {
+    c = b;
+}
+System.out.println(c);
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Muvelet 2.]
+int a = 4;
+int b = 3;
+if(a == b) {
+    System.out.println(a);
+} else if (a > b){
+    System.out.println(a);
+} else {
+    System.out.println(b);
+}
+System.out.println(c);
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=Java, caption=Muvelet 3.]
+Strin nev = "Julcsika";
+int kor = 7;
+if(nev.equals("Julcsika") && kor <= 7) {
+    System.out.println("Szia Julcsika!");
+} else if(kor <= 7) {
+    System.out.println("Szia!");
+} else {
+    System.out.println("Udvozlet!");
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Muvelet 4.]
+int a = 4;
+int b = 3;
+int c = 5;
+
+if(a < b || a < c) {
+    a = b;
+    if(a >= c) {
+        System.out.println(a);
+    } else {
+        a = c;
+        System.out.println(a);
+    }
+} else {
+    System.out.println(a == b);
+}
+
+\end{lstlisting}
 
 \end{document}
