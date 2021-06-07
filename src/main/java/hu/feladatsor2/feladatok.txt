@@ -1,0 +1,58 @@
+// 1. Irjuk ki az osszes elemet a konzolra a kovetkezo formatumban
+
+Rendszam    Gyarto      Modell      Szin        Ev
+ABC123      Toyota      Corolla     Kek     2018
+ABC124      Toyota      Auris       Piros       2013
+ABC125      Renault     Megane      Piros       2004
+ABC126      Renault     Megane      Fekete      2012
+ABC127      Ford        Focus       Feher       2011
+BBC128      Ford        Focus       Fekete      2004
+BBC129      Ford        Mustang     Feher       2018
+BBC110      Ford        Mustang     Fekete      2013
+BBC111      Renault     Megane      Feher       2011
+BBC112      Toyota      Auris       Piros       2016
+BBC113      Toyota      Corolla     Feher       2004
+
+// 2. Irjuk ki a jarmuvek szamat
+
+Jarmuvek szama: 11 db
+
+// 3. Jelenitsuk meg a legujabb es legidosebb autok adatait
+
+Legujabb jarmu:
+Rendszam    Gyarto      Modell      Szin        Ev
+ABC123      Toyota      Corolla     Kek     2019
+
+Legidosebb jarmu:
+Rendszam    Gyarto      Modell      Szin        Ev
+BBC128      Ford        Focus       Fekete      2003
+
+// 4. Jelenitsuk az osszes Fordot
+
+Rendszam    Gyarto      Modell      Szin        Ev
+ABC127      Ford        Focus       Feher       2011
+BBC128      Ford        Focus       Fekete      2004
+BBC129      Ford        Mustang     Feher       2018
+BBC110      Ford        Mustang     Fekete      2013
+
+// 5. Kerjunk be a felhasznalotol egy rendszamot
+// Ha letezik jarmu ezzel a rendszammal, jelenitsuk meg:
+// pl.:
+(letezo rendszamnal)
+Rendszam
+> BBC129
+
+Rendszam    Gyarto      Modell      Szin        Ev
+BBC129      Ford        Mustang     Feher       2018
+(nem letezo rendszamnal)
+Rendszam
+> BBC555
+
+Ezzel a rendszammal jarmu nem talalhato
+
+// 6. Soroljuk fel az osszes gyartot
+
+Gyartok:
+Toyota
+Renault
+Ford

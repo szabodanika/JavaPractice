@@ -1,4 +1,4 @@
-package hu.javase1.ciklusok;
+package hu.feladatsor1.ciklusok;
 
 public class Ciklusok {
 

@@ -1,4 +1,4 @@
-package hu.javase1.szamologep;
+package hu.feladatsor1.szamologep;
 
 public class Szamologep {
 

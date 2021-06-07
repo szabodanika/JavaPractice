@@ -1,6 +1,6 @@
-package hu.javase1;
+package hu.feladatsor1;
 
-import hu.javase1.ciklusok.Ciklusok;
+import hu.feladatsor1.ciklusok.Ciklusok;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

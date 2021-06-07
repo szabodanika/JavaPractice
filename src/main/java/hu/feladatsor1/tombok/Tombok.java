@@ -1,4 +1,4 @@
-package hu.javase1.tombok;
+package hu.feladatsor1.tombok;
 
 public class Tombok {
 

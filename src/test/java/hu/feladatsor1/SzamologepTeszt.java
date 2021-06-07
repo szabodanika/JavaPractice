@@ -1,7 +1,7 @@
-package hu.javase1;
+package hu.feladatsor1;
 
 import org.junit.jupiter.api.Test;
-import hu.javase1.szamologep.Szamologep;
+import hu.feladatsor1.szamologep.Szamologep;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

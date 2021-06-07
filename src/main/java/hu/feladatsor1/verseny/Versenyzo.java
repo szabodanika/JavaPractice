@@ -1,4 +1,4 @@
-package hu.javase1.verseny;
+package hu.feladatsor1.verseny;
 
 public class Versenyzo {
 

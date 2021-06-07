@@ -1,0 +1,250 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kodreszlet}%
+\lstset{language=Java,
+backgroundcolor=\color[HTML]{ebebeb},
+keywordstyle={\bfseries \color[HTML]{5d00ff}},
+frame=single,
+basicstyle=\footnotesize\ttfamily,
+captionpos=b,
+tabsize=2,
+numbers=left,
+aboveskip=2em,
+belowskip=1em
+}
+\usepackage{graphicx}
+
+\title{%
+Java SE Feladatsor 1 \\
+\large Ciklusok, Tombok, OOP alapok}
+
+\author{Szabo Daniel\\daniel.szabo99@outlook.com}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+Ez a feladatsor egy sorozat elso resze, amelyben Java programozasi nyelven a kovetkezo temakhoz fuzodo feladatsorok talalhatok: ciklusok, tombok es objektumorientalt programozas alapok. A feladatsor harom allomanybol tevodik ossze: a feladatok leirasa (ez a dokumentum), egy kodvazlat amiben feladatokat kell kidolgozni illetve egysegtesztek.
+Aki a feladatsor minden feladatat sikeresen teljesiteti, az magabiztosan tudja kezelni a tomboket es ciklusokat egyutt es kulon, azokkal hasznos muveleteket tud vegezni onalloan, fuggvenyeket tud definialni es az objektumorientalt programozasrol alapszintu megertese van.
+\end{abstract}
+
+\newpage
+
+\tableofcontents{}
+
+\newpage
+
+\section{Tesztek Futtatasa}
+
+Ez a feladatsor tesztekkel lett kiegeszitve, ami lehetove teszi szamodra, hogy azonnal visszajelzest kapj, hogy megfeleloen mukodik-e egy bizonyos feladatra irt megoldasod, illetve a megoldas ertekelojenek is segit egy pillanat alatt ellenorizni, hogy mukodokepes megoldast adtal be. A tesztelesi keretrendszer mukodesi elve miatt a feladatoknak muszaj az OOP elveit hasznalnia, a metodusoknak parametereket befogadnia es visszateresi ertekeket adnia. Erdemes a teszteket minden valtoztatas utan lefuttatni, hogy folyamatosan lasd, esetleg elrontottal-e valamit egy valtoztatasoddal, ami korabban mukodott.
+
+Segitseg: \href{https://www.jetbrains.com/help/idea/performing-tests.html}{Tesztek futtatasa IntelliJ IDEA-ban}, \href{https://www.tutorialspoint.com/junit/junit_plug_with_eclipse.htm}{Tesztek futtatasa Eclipse-ben}
+
+\newpage
+
+\section{Szamologep}
+
+\paragraph{Bevezetes}
+
+Ebben a feladatban a \lstinline{Szamologep} osztaly fuggvenyeit fogjuk implementalni. Az egyszeruseg kedveert ebben az osztalyban csak \lstinline{float} adattipust hasznalunk szamitasokhoz. A feladat 5 reszbol all, minden reszben egy metodus hianyzo logikajat kell potolnod. Egy pelda metodus \lstinline{osszead()} segitsegkent el lett helyezve a forraskodban.
+
+\begin{lstlisting}[language=Java, caption=Pelda Metodus]
+public float osszead(float a, float b){
+    return a + b;
+}
+\end{lstlisting}
+
+\subsection{kivon(a,b)}
+A \lstinline{kivon} fuggveny a ket parameterkent kapott szam kulonbseget kell visszaadja, peldaul:\newline
+\lstinline[mathescape]{kivon(4,3) $\rightarrow$ 1}\newline
+\lstinline[mathescape]{kivon(-2.5,3) $\rightarrow$ -5.5}\newline
+\lstinline[mathescape]{kivon(0,2.25) $\rightarrow$ -2.25}\newline
+
+\subsection{szoroz(a,b)}
+A \lstinline{kivon} fuggveny a ket parameterkent kapott szam szorzatat kell visszaadja, peldaul:\newline
+\lstinline[mathescape]{szoroz(4,3) $\rightarrow$ 12}\newline
+\lstinline[mathescape]{szoroz(-2.5,3) $\rightarrow$ -7.5}\newline
+\lstinline[mathescape]{szoroz(0,2.25) $\rightarrow$ 0}\newline
+
+\subsection{oszt(a,b)}
+Az \lstinline{oszt} fuggveny a ket parameterkent kapott szam hanyadosat kell visszaadja, peldaul:\newline
+\lstinline[mathescape]{oszt(4, 2) $\rightarrow$ 2}\newline
+\lstinline[mathescape]{oszt(-4, 8) $\rightarrow$ -0.5}\newline
+\lstinline[mathescape]{oszt(3, 0) $\rightarrow$ hiba(-$\infty$)}\newline
+
+\newpage
+\subsection{hatvany(a,b)}
+A \lstinline{hatvany} fuggveny a ket parameterkent kapott szam hatvanyat kell visszaadja, peldaul:\newline
+\lstinline[mathescape]{hatvany(2,3) $\rightarrow$ 8}\newline
+\lstinline[mathescape]{hatvany(2,-2) $\rightarrow$ 0.5}\newline
+\lstinline[mathescape]{hatvany(0,2.25) $\rightarrow$ 0}\newline
+
+\subsection{negyzetgyok(a)}
+A \lstinline{negyzetgyok} fuggveny a ket parameterkent kapott szam kulonbseget kell visszaadja,
+peldaul:\newline
+\lstinline[mathescape]{negyzetgyok(4) $\rightarrow$ 2}\newline
+\lstinline[mathescape]{negyzetgyok(1) $\rightarrow$ 1}\newline
+\lstinline[mathescape]{negyzetgyok(-2) $\rightarrow$ hiba (-1)}\newline
+
+\newpage
+\section{Ciklusok}
+
+Ebben a feladatban a \lstinline{Ciklusok} osztaly fuggvenyeit fogjuk implementalni, aminek soran ciklusos algoritmusokat gyakorlunk. Az egyszeruseg kedveert ebben az osztalyban csak \lstinline{int} adattipust hasznalunk szamitasokhoz. A feladat 4 reszbol all, minden reszben egy metodus hianyzo logikajat kell potolnod. Egy pelda metodus \lstinline{szamOsszeg10ig()} segitsegkent el lett helyezve a forraskodban. A feladatok megoldasahoz javasolt a \lstinline|for(int i = 0; i < n; i++){...} | struktura hasznalata, de mas megoldas is megengedett (\lstinline{while(condition)}, \lstinline|for(Object o: objects){...}|)\
+
+Segitseg: \href{https://docs.oracle.com/javase/tutorial/java/nutsandbolts/for.html}{docs.oracle.com - The for statement}.
+
+\begin{lstlisting}[language=Java, caption=Pelda Metodus]
+public int szamOsszeg10ig(){
+    int eredmeny = 0;
+
+    for (int i = 1; i <= 10; i++) {
+        eredmeny = eredmeny + i;
+    }
+
+    return eredmeny;
+}
+\end{lstlisting}
+
+\subsection{szamOsszeg(n)}
+A \lstinline{szamOsszeg} 0 es n kozott (inkluziv) levo osszes egesz szam osszeget adja vissza eredmenyul, peldaul:\newline
+\lstinline[mathescape]{szamOsszeg(-3) $\rightarrow$ -6}\newline
+\lstinline[mathescape]{szamOsszeg(0) $\rightarrow$ 0}\newline
+\lstinline[mathescape]{szamOsszeg(4) $\rightarrow$ 10}\newline
+
+\subsection{legnagyobbPrim(n)}
+A \lstinline{legnagyobbPrim} 0 es n kozott (inkluziv) a legnagyobb primszamot adja eredmenyul, peldaul:\newline
+\lstinline[mathescape]{legnagyobbPrim(0) $\rightarrow$ hiba(-1)}\newline
+\lstinline[mathescape]{legnagyobbPrim(2) $\rightarrow$ 2}\newline
+\lstinline[mathescape]{legnagyobbPrim(10) $\rightarrow$ 7}\newline
+
+\newpage
+\subsection{fibonacci(n)}
+Az \lstinline{fibonacci} a fibonacci sorozat n-edig elemet adja vissza \newline (\lstinline{[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, ...]}), ahol \lstinline|fibonacci(0) = 0|, peldaul: \newline
+\lstinline[mathescape]{fibonacci(-1) $\rightarrow$ hiba (-1)}\newline
+\lstinline[mathescape]{fibonacci(1) $\rightarrow$ 1}\newline
+\lstinline[mathescape]{fibonacci(7) $\rightarrow$ 13}\newline
+
+\subsection{legnagyobbKozosOszto(a,b)}
+
+A \lstinline{legnagyobbKozosOszto} fuggveny a ket parameterkent kapott szam legnagyobb kozos osztojat kell visszaadja, peldaul:\newline
+\lstinline[mathescape]{legnagyobbKozosOszto(0, 4) $\rightarrow$ hiba(-1) }\newline
+\lstinline[mathescape]{legnagyobbKozosOszto(3, 7) $\rightarrow$ 1}\newline
+\lstinline[mathescape]{legnagyobbKozosOszto(54, 24) $\rightarrow$ 6}\newline
+
+Segitseg: \href{https://hu.wikipedia.org/wiki/Legnagyobb_k\%C3\%B6z\%C3\%B6s_oszt\%C3\%B3}{Wikipedia - Legnagyobb Kozos Oszto}.
+
+\newpage
+
+\section{Tombok}
+
+Ebben a feladatban a \lstinline{Tombok} osztaly fuggvenyeit fogjuk implementalni, aminek soran tombok hasznalatat gyakoroljuk. Az egyszeruseg kedveert ebben az osztalyban csak \lstinline{int} tipusu tomboket hasznalunk hasznalunk szamitasokhoz, egyedul a 10. feladat hasznal String tipust. A feladat 10 reszbol all, minden reszben egy metodus hianyzo logikajat kell potolnod. Egy pelda metodus \lstinline{szum()} segitsegkent el lett helyezve a forraskodban. A feladatok megoldasahoz javasolt a \lstinline|for(int i = 0; i < n; i++){...} | struktura hasznalata, de mas megoldas is megengedett (\lstinline{while(condition)}, \newline \lstinline|for(Object o: objects){...} |)
+
+Segitseg: \href{https://docs.oracle.com/javase/tutorial/java/nutsandbolts/arrays.html}{docs.oracle.com - Arrays}.
+
+\begin{lstlisting}[language=Java, caption=Pelda Metodus]
+public int szum(int[] tomb) {
+    int eredmeny = 0;
+
+    for (int i = 1; i <= 10; i++) {
+        eredmeny = eredmeny + tomb[i];
+    }
+
+    return eredmeny;
+}
+\end{lstlisting}
+
+\subsection{uj10HosszuIntTomb()}
+A \lstinline{uj10HosszuIntTomb} egy 10 hosszusagu \lstinline{int} tombot ad vissza. A tomb minden eleme 0 legyen.\newline
+
+\subsection{ujIntTombMegadottSzamokkal(a, b, c, d)}
+A \lstinline{ujIntTombMegadottSzamokkal} 4 megadott szammal tolt fel egy 4 hosszusagu tombot, peladul:\newline
+\lstinline[mathescape]{ujIntTombMegadottSzamokkal(2, 3, 8, 3) $\rightarrow$ [2, 3, 8, 3]}\newline
+
+\subsection{tombHossz(t)}
+Az \lstinline{tombHossz} a parameterkent kapott tomb hosszat adja vissza eredmenyul, peldaul:\newline
+\lstinline[mathescape]{tombHossz([]) $\rightarrow$ 0}\newline
+\lstinline[mathescape]{tombHossz([9, 23]) $\rightarrow$ 2}\newline
+
+\subsection{legkisebb(t)}
+
+A \lstinline{legnagyobb} fuggveny a ket parameterkent kapott tomb legkisebb erteket adja vissza, peldaul:\newline
+\lstinline[mathescape]{legnagyobb([]) $\rightarrow$ hiba(-1) }\newline
+\lstinline[mathescape]{legnagyobb([3, 4, 1, 6]) $\rightarrow$ 1 }\newline
+
+\subsection{legnagyobb(t)}
+
+A \lstinline{legnagyobb} fuggveny a ket parameterkent kapott tomb legnagyobb erteket adja vissza, peldaul:\newline
+\lstinline[mathescape]{legnagyobb([]) $\rightarrow$ hiba(-1) }\newline
+\lstinline[mathescape]{legnagyobb([3, 4, 1, 6]) $\rightarrow$ 6 }\newline
+
+\subsection{atlag(t)}
+
+A \lstinline{legnagyobb} fuggveny a ket parameterkent kapott tomb ertekeinek atlagat adja vissza \lstinline{int}-kent, peldaul:\newline
+\lstinline[mathescape]{legnagyobb([]) $\rightarrow$ 0 }\newline
+\lstinline[mathescape]{legnagyobb([2, 0, 5, 7]) $\rightarrow$ 3 }\newline
+
+\subsection{keres(t,k)}
+
+A \lstinline{keres} fuggveny a parameterkent kapott tombben a parameterkent kapott int erteket keresi meg, es ha megtalalja akkor
+a szam tombon beli indexet adja vissza eredmenyul, peldaul:\newline
+\lstinline[mathescape]{keres([1, 3, 6], 3) $\rightarrow$ 1 }\newline
+\lstinline[mathescape]{keres([1, 3, 6], 2) $\rightarrow$ hiba(-1) }\newline
+
+\subsection{szamol(t, k)}
+
+A \lstinline{szamol} fuggveny a parameterkent kapott tombben a parameterkent kapott int erteket keresi meg, es megszamolja, hanyszor fordul elo benne, majd ezt a szamot adja vissza eredmenyul, peldaul:\newline
+\lstinline[mathescape]{szamol([1, 3, 3], 1) $\rightarrow$ 1 }\newline
+\lstinline[mathescape]{szamol([1, 3, 3], 3) $\rightarrow$ 2 }\newline
+\lstinline[mathescape]{szamol([1, 3, 3], 2) $\rightarrow$ 0 }\newline
+
+\newpage
+\subsection{tukroz(t)}
+
+A \lstinline{tukroz} a parameterkent kapott tombot atrendezi ugy, hogy az elemek eredeti sorrendjet megforditja. Fontos, hogy ez a fuggveny nem ter vissza eredmennyel, hanem magat a parameterkent kapott tombot modositja, peldaul:\newline
+\lstinline[mathescape]{tukroz([]) $\rightarrow$ [] }\newline
+\lstinline[mathescape]{tukroz([1, 2, 3]) $\rightarrow$ [3, 2, 1]}\newline
+
+\subsection{osszefuz(t)}
+
+A \lstinline{osszefuz} a parameterkent kapott String tomb elemeit egy \lstinline{String} objektumma fuzi ossze es azt az objektumot adja vissza eredmenyul, peldaul:\newline
+\lstinline[mathescape]{osszefuz(["j", "a", "v", "a"]) $\rightarrow$ "java" }\newline
+\lstinline[mathescape]{osszefuz(["hello", " ", "world!"]) $\rightarrow$ "hello world!" }\newline
+\lstinline[mathescape]{osszefuz([]) $\rightarrow$ "" }\newline
+
+\newpage
+
+\section{Versenyauto}
+
+Ebben a feladatban a \lstinline{verseny} csomag osztalyainak (\lstinline|verseny.Verseny,|\\\lstinline|verseny.Versenyauto, verseny.Versenyzo|) fuggvenyeit fogjuk implementalni, aminek soran az objektum orientalt programozasi szemlelet alapjait gyakoroljuk. A feladat 3 fo reszbol all, minden reszben egy vagy tobb metodus hianyzo logikajat kell potolnod.
+
+
+Segitseg: \href{https://docs.oracle.com/javase/tutorial/java/javaOO/classes.html}{docs.oracle.com - Classes}, \href{https://docs.oracle.com/javase/tutorial/java/javaOO/methods.html}{docs.oracle.com - Methods}.
+
+\subsection{get-set, konstruktor}
+Implementald a \lstinline{Versenyauto} es \lstinline{Versenyzo} osztalyok teljes konstruktorait, get-set metodusait.
+
+\subsection{gyorsitas, lassitas}
+Implementald a \lstinline{Versenyauto} osztaly \lstlinline{gyorsit} es \lstinline{lassit} metodusait. Mindket metodus a versenyauto sebesseget modositjak a parameterkent kapott mennyiseggel, amig el nem eri az auto a maximalis sebesseget (200km/h) vagy meg nem all (0km/h). Ha az auto tomege 1000kg felett van, gyorsitani es lassitani is egyszerre csak 10km/h-al lehet, alatta 15km/h-val. Ha ezeknel az ertekeknel nagyobbat kap a fuggveny, akkor is csak 10 vagy 15km/h-val fogja modositani a sebesseget. Negativ bemenetet egyik fuggveny sem kezel, a sebesseg maradjon valtozatlan.
+
+\subsection{toString}
+A \lstinline{Versenyauto} osztaly \lstinline{toString} fuggvenye a versenyauto adatait egy String objektumban osszefoglalja es azt az objektumot adja vissza eredmenyul. A String-nek a kovetkezo formatumot kell kovetnie egy pelda Versenyauto eseteben:
+
+\begin{lstlisting}[language=Java, caption=Pelda toString kimenet]
+Nev: Michael Schumacher (1969)
+Auto: Mercedes (740kg)
+\end{lstlisting}
+
+\subsection{verseny}
+A \lstinline{Verseny} osztaly \lstinline{verseny} fuggvenye ket versenyauto peldany kap bemenetkent, a ket autot megversenyezteti es a verseny nyertesenek nevet adja vissza eredmenyul. A verseny nyerteset a kovetkezo keppen dontjuk el: ha az egyik auto tomege 100kg-al vagy tobbel alacsonyabb mint a masik auto tomege, akkor a konnyebbik auto fog nyerni. Ha a kulonbseg a tomegek kozott kevesebb mint 100kg, akkor veletlenszeruen 50-50\% esellyel nyerhet barmelyik versenyzo.
+
+\section{Megoldas beadasa}
+Ha minden feladatot megoldottal es az osszes teszt sikeresen lefut, akkor gyozodj meg rola, hogy a kodod tiszta es olvashato, nem tartalmaz felesleges, kommentelt vagy nem mukodo kodot, majd a teljes projektet (tehat nem csak a src mappat vagy csak a .java fajlokat) csomagold be egy .zip kiterjesztesu fajlba, aminek a neve legyen peldaul \lstinline{DanielSzabo_JavaSE1.zip}. Ezt a fajlt utana vagy el kell kuldened e-mail-ben vagy fel kell feltoltened, errol kulon fogsz pontos utmutatast kapni.
+
+\end{document}

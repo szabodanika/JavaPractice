@@ -1,8 +1,8 @@
-package hu.javase1;
+package hu.feladatsor1;
 
 import org.junit.jupiter.api.Test;
-import hu.javase1.verseny.Versenyauto;
-import hu.javase1.verseny.Versenyzo;
+import hu.feladatsor1.verseny.Versenyauto;
+import hu.feladatsor1.verseny.Versenyzo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -1,0 +1,552 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kodreszlet}%
+\lstset{language=Java,
+backgroundcolor=\color[HTML]{ebebeb},
+keywordstyle={\bfseries \color[HTML]{5d00ff}},
+frame=single,
+basicstyle=\footnotesize\ttfamily,
+captionpos=b,
+tabsize=2,
+numbers=left,
+aboveskip=2em,
+belowskip=1em
+}
+\usepackage{graphicx}
+\usepackage{float}
+\restylefloat{table}
+\let\l\lstinline
+
+\title{%
+Java SE 3 \\
+\large Objektum Orientalt Programozas Alapjai}
+
+\author{Szabo Daniel\\daniel.szabo99@outlook.com}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+Ebben a feladatsorban az objektum orientalt programozas (OOP) alapjaival ismerkedunk meg: az osztalyokkal,
+objektumokkal, metodusokkal, osztalyvaltozokkal es az ezek kozotti kapcsolatokkal, lehetosegekkel. Az OOP nem csak a
+Java, hanem szamos mas programozasi nyelv fontos resze, ezert nagyon fontos, hogy az OOP alapfogalmait hianytalanul
+elsajatitsd.
+\end{abstract}
+
+\newpage
+
+\tableofcontents{}
+
+\newpage
+
+\section{Bevezetes az Osztalyokba}
+
+\paragraph{Bevezetes}
+
+Az osztaly egy olyan szerkezet ami leirja egy valos targy, esemeny, koncepcio stb. jellemzoit es egyedi metodusait
+(fuggvenyeit). Az osztaly csak egy minta, onmaga nem fog adatot tartalmazni, hanem majd peldanyositaskor hozunk
+letre a deklaralt osztaly alapjan egy valtozot ami rendelkezni fog az osztalyban meghatarozott jellemzokkel es metodusokkal.
+
+\subsection{Osztaly deklaralasa}
+
+Egy osztaly hasznalatanak az elso lepese mindig az osztaly deklaralasa. Jellemzoen minden osztaly sajat .java fajlba
+kerul, aminek a neve megegyezik az osztaly nevevel. A lenti Kutya osztaly peldaul egy Kutya.java nevu fajlba kerulne.
+
+Ebben az elso peldaban kutyakat szeretnenk modellezni. Minden kutyanak eltaroljuk a nevet, korat es azt, hogy be
+lett-e oltva. Minden valtozot kulon deklaralok megfelelo adattipussal. Mivel minden kutyanak mas lesz a neve, kora es
+oltottsaga, ezert nem allitok be egyiknek sem kezdoerteket. Amikor en nem allitok be manualisan kezdoerteket egy
+ilyen valtozonak, olyankor a tipus alaperteket fogja felvenni (lasd: Java SE 1, 1. tablazat).
+
+\begin{lstlisting}[language=Java, caption=Pelda osztaly]
+class Kutya {
+    String nev;
+    int kor;
+    boolean oltott;
+}
+\end{lstlisting}
+
+Ebben a kovetkezo peldaban egy rendelesi rendszerben egy rendelest irok le. Minden rendelesnek van egy cikkszama, ami
+mivel betuket is tartalmazhat, String tipusu lett. Jellemzoen(de nem mindig) a vasarlok 1db-ot rendelnek egy termekbol,
+ezert a darabszamnak rogton 1 erteket adok.
+
+\begin{lstlisting}[language=Java, caption=Pelda osztaly]
+class Rendeles {
+    String cikkszam;
+    int darabszam = 1;
+    String vasarloNeve;
+}
+\end{lstlisting}
+
+\newpage
+
+Ezeket a valtozokat osztalyvaltozoknak nevezzuk, es a tipusuk barmi lehet, akar tomb, akar egy egyedi adattipus, vagy
+akar egy egyedi adattipusokat tarolo tomb is.
+
+\begin{lstlisting}[language=Java, caption=Pelda osztaly]
+class Tanulo {
+    String nev;
+    int szuletesiEv;
+}
+...
+class Osztaly {
+    String osztalyNev;
+    Tanulo[] nevsor;
+}
+\end{lstlisting}
+
+\newpage
+
+\subsection{Peldanyositas}
+
+Miutan meghataroztunk egy uj osztalyt, peldanyositassal tudjuk azt felhasznalni. A peldanyositas tehat az a folyamat
+amivel egy osztaly alapjan uj valtozot (objektumot) hozunk letre. A sajat osztalybol valo valtozo letrehozasnak a
+szabalyai ugyan azok mint ami barmilyen mas tipusra vonatkozik.
+
+\begin{lstlisting}[language=Java, caption=Webaruhaz termekeit leiro osztaly deklaralasa]
+class Termek {
+    int azonositoSzam;
+    String megnevezes;
+    int ar;
+}
+\end{lstlisting}
+
+A fent definialt Termek osztalybol fogunk most peldanyokat letrehozni, osszesen 2 darabot. Mind a harom valtozo
+felvett alapertekeket, de en ezeket szeretnem felulirni az igazi ertekekkel amiket hasznalni fogunk a programban.
+Egy objektum jellemzoit a \l{peldany.jellemzo} szintaxissal erem el, es a jellemzovel minden olyan muveletet
+vegezhetek amit akkor is vegezhetnek vele, ha nem egy osztaly valtozojakent lenne jelen, tehat akadaly nelkul tudom
+kiolvasni, beallitani es modositani.
+
+\begin{lstlisting}[language=Java, caption=Termekek valtozoinak beallitasa]
+Termek t1 = new Termek();
+Termek t2 = new Termek();
+
+t1.azonositoSzam = 2021001;
+t2.azonositoSzam = 2021002;
+t1.megnevezes = "Eper";
+t2.megnevezes = "Csokolade";
+t1.ar = 225;
+t2.ar = 360;
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Termekek atlagaranak kiszamolasa]
+int osszeg = t1.ar + t2.ar;
+double atlag = osszeg / 2d;
+System.out.println("Termekek atlagara: " + atlag + "Ft");
+\end{lstlisting}
+
+\newpage
+
+\subsection{Metodusok}
+
+Ebben a peldaban egy szamologep osztalyt hozunk letre aminek ket metodusa van: osszead() es kivon(). Mind a ket
+metodus 2-2 parametert fogad be bemenetkent es egy eredmenyt ad.
+
+\begin{lstlisting}[language=Java, caption=Szamologep osztaly metodusokkal]
+class Szamologep {
+    int osszead(int a, int b) {
+        int osszeg = a + b;
+        return osszeg;
+    }
+
+    int kivon(int a, int b) {
+        return a - b;
+    }
+}
+\end{lstlisting}
+
+Egy metodus deklaraciojanak reszeit/lepeseit figyeld meg:
+\begin{itemize}
+    \item \l{int} a visszateresi tipusa a metodusnak: milyen tipusu valtozot ad eredmenyul,
+    \item \l{osszead} a metodus neve, amire majd \l{peldany.metodus()} szintaxissal tudok hivatkozni
+    \item \l{(int a, int b)} a metodus bemenetei: azoknak tipusai es helyi elnevezesei
+    \item 3. sor: a metodus testenek elso sora, ami a metodus hivasakor fog futni.
+    \item 4. sor: a \l{return} kulcsszo hatarozza meg a fuggveny eredmenyet
+\end{itemize}
+
+A villanykapcsolo peldajaban mar egy olyan osztalyt hozunk letre aminek osztalyvaltozoi es metodusai is vannak: ez a
+leggyakoribb, olyan osztalyokra amik csak adatot tarolnak vagy csak metodusokat deklaralnak, viszonylag ritkan van
+szuksegunk.
+
+\begin{lstlisting}[language=Java, caption=Villanykapcsolo osztaly]
+class Villanykapcsolo {
+    boolean felkapcsolva = false;
+
+    void felkapcsol() {
+        felkapcsolva = true;
+    }
+
+    void lekapcsol() {
+        felkapcsolva = false;
+    }
+}
+\end{lstlisting}
+
+Figyeld meg ebben a peldaban azt is, hogy a metodusoknak nincs bemenete, se kimenete. Mivel nincs
+kimenetuk, a visszateresi tipusuk \l{void}-ra van allitva. Amig a nem-\l{void} metodusok minden
+esetben felvesznek valami erteket (meg akkor is, ha esetleg csak \l{null}-t), addig a \lstlinline{void}
+metodusok semmilyen erteket nem vesznek fel.
+
+\begin{lstlisting}[language=Java, caption=Ez a kod hibat okoz]
+Villanykapcsolo nappali = new Villanykapcsolo();
+int i = nappali.felkapcsol();
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Ez a kod nem okoz hibat]
+Szamologep sz = new Szamologep();
+int eredmeny = sz.osszead(10, 20);
+\end{lstlisting}
+
+\newpage
+
+\subsection{Feladatok}
+
+\subsubsection{Feladat}
+
+Mi tortenik, ha
+\begin{itemize}
+    \item ket azonos nevu osztalyt hozok letre,
+    \item egy osztalyban se osztalyvaltozok, se metodusok nincsenek,
+    \item egy osztalyvaltozo neve megegyezik egy metodusban levo valtozoval,
+    \item egy \l{void} metodusbol ertekkel probalok visszaterni,
+    \item egy nem-\l{void} metodusbol nem terek vissza ertekkel
+    \item egy metodusbol egy masik metodust meghivok
+    \item egy metodus meghivja onmagat
+    \item deklaralok egy valtozot a sajat osztalyombol de nem inicializalom, majd egy fuggvenyet megprobalom meghivni
+\end{itemize}
+
+\subsubsection{Feladat}
+
+Mit csinal es mit ad eredmenyul a kovetkezo metodus?
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+int metodus(int a, int b, boolean c) {
+    int x;
+    if(c) {
+        x = a + b;
+    } else {
+        x = a - b;
+    }
+    return x;
+}
+\end{lstlisting}
+
+\subsubsection{Feladat}
+
+Mit csinal es mit ad eredmenyul a kovetkezo metodus?
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+String metodus(String s, String s2) {
+    return s + s2;
+}
+\end{lstlisting}
+
+\subsubsection{Feladat}
+
+Mit csinal es mit ad eredmenyul a kovetkezo metodus?
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+void metodus(boolean a, boolean b) {
+    if(a) {
+        return;
+    }
+
+    System.out.println(b);
+}
+\end{lstlisting}
+
+
+\subsubsection{Feladat}
+
+Hozz letre a kovetkezo osztalyt:
+
+Nev:
+
+\l{Ora}
+
+Jellemzok:
+\begin{itemize}
+    \item \l{ora} (egesz szam)
+    \item \l{perc} (egesz szam)
+\end{itemize}
+
+Metodusok:
+\begin{itemize}
+    \item \l{printIdo} Kiirja a konzolra az ora jelenlegi idejet a kovetkezo formatumban: \l{Az ido 17
+    ora 23 perc.}. Eredmenyt nem ad es bemenete sincsen.
+    \item \l{beallit} Bevesz parameterkent ket egesz szamot es beallitja oket a jelenlegi idonek. Eredmenyt
+    nem ad.
+    \item \l{ora} Ez a metodus visszaadja az ora valtozo jelenlegi erteket, parametere nincsen.
+\end{itemize}
+
+\newpage
+
+\section{Osztalyokrol Bovebben}
+
+\paragraph{Bevezetes}
+
+Az elozo fejezetben az osztalyokkal kapcsolatos alapveto szabalyokat es koncepciokat fektettuk le, osztalyvaltozok es
+metodusok deklaralasat, hasznalatat. Ebben a fejezetben ezeket a koncepciokat bovitjuk ki uj, opcionalis
+lehetosegekkel amivel jobb, komplexebb adatmodelleket hozhatunk letre.
+
+\subsection{Konstruktor es a this kulcsszo}
+
+Eddig amikor egy peldanyt hoztunk letre egy valtozobol, a kovetkezo keppen tettuk:
+
+\begin{lstlisting}[language=Java, caption=Peldanyositas es osztalyvaltozok beallitasa]
+Kutya kutya1 = new Kutya();
+kutya1.nev = "Buksi";
+kutya1.kor = 5;
+kutya1.oltott = true;
+\end{lstlisting}
+
+Szepen olvashato es ertheto a kod, viszont lathatoan sokat kell irnunk ahhoz, hogy ezt a 3 rovid adatot elmentsuk a
+peldanyunkban, ezert jo lenne, ha rovidebben ezt le tudnank irni. Az is jo lenne, hogy ha megszabok egy jellemzot egy
+osztalyomban, tudjam szabalyozni, hogy azt a jellemzot kotelezoen minden peldanynak be kelljen allitani. Ezzel
+elkerulhetnem, hogy veletlenul valamikor kor vagy nev nelkul hozzak letre egy kutya peldanyt. Ezekre es szamos mas
+problemara is a konstruktor a megoldas. A konstruktor az egy olyan metodus ami a peldanyositaskor hivodik meg. A
+kovetkezo peldaban meghatarozok egy konstruktort a Kutya osztalyomban, majd az uj konstruktorom segitsegevel ujra
+letrehozom ugyanazt a peldanyt amit az elozo kodreszletben.
+
+\begin{lstlisting}[language=Java, caption=Konstruktor pelda]
+class Kutya {
+    String nev;
+    int kor;
+    boolean oltott;
+
+    Kutya (String nev, int kor, boolean oltott) {
+        this.nev = nev;
+        this.kor = kor;
+        this.oltott = oltott;
+    }
+}
+...
+Kutya kutya1 = new Kutya("Buksi", 5, true);
+\end{lstlisting}
+
+A fenti peldaban figyeld meg a konstruktor felepiteset. Mint lathatod, nincs visszateresi erteke, csak neve, ami
+pedig pontosan megegyezik az osztaly nevevel. Ugyanugy vannak parameterei mint barmilyen masik metodusnak, ebben az
+esetben minden osztalyvaltozohoz egy darab. Mivel az osztalyvaltozok es a konstruktor metodus parameterei ugyanazokat
+az elnevezeseket kaptak, igy a \l{this} kulcsszoval tudom megkulomboztetni a kettot. Tehat a \l{this
+.valtozo} vagy \l{this.metodus} mindig a peldany sajat osztalyvaltozojara vagy metodusara mutat. Ez a
+kulcsszo a legtobb esetben opcionalis, de a fenti konstruktorban kotelezo, mert kulonben nem tudna Java megmondani,
+hogy az ertekadas baloldalan az osztalyvaltozora gondoltunk, es nem a parameterkent kapott valtozora.
+
+A kovetkezo peldaban olyan konstruktort hozunk letre a \l{Jarmu} osztalyhoz, ami a \l{tulajdonosNeve}
+valtozot egy parameter helyett mindig arra allitja be, hogy \l{"Nincs Tulajdonos"}, illetve minden
+peldanyositaskor a konzolon ertesiti a felhasznalot, hogy egy uj jarmu jott letre.
+
+\begin{lstlisting}[language=Java, caption=Konstruktor pelda]
+class Jarmu {
+    String rendszam;
+    String gyarto;
+    String modell;
+    String tulajdonosNeve;
+
+    Jarmu (String rendszam, String gyarto, String modell) {
+        this.rendszam = rendszam;
+        this.gyarto = gyarto;
+        this.modell = modell;
+        this.tulajdonosNeve = "Nincs Tulajdonos";
+        System.out.println("Egy uj autot hoztunk letre!");
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+\subsection{Feladatok}
+
+\subsubsection{Feladat}
+
+Adj hozza egy teljes konstruktort a kovetkezo osztalyhoz
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+class Tanulo {
+    int azonosito;
+    String nev;
+    String osztaly;
+
+    ...
+}
+\end{lstlisting}
+
+\subsubsection{Feladat}
+
+Adj hozza egy olyan konstruktort a kovetkezo osztalyhoz, ami 4db \l{String} parametert ker be es azok alapjan
+allitja be
+a \l{szamok} valtozot.
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+class Album {
+    String[] szamok;
+
+    ...
+}
+\end{lstlisting}
+
+\newpage
+
+\section{Objektum tombok}
+
+Egy objektum tobb kulonbozo erteket tarol amik egy bizonyos valamit jellemeznek, tehat ugy viselkeldik mint egy
+tablazatban egy sor. Ha pedig sok objektumot veszunk (ugyanabbol az osztalybol) akkor pedig egy tablazathoz
+hasonlithato strukturat kapunk. Sajat osztalyokkal valo tombok keszitesere szinten ugyanazok a szabalyok vonatkoznak,
+mint barmilyen mas adattipusra.
+
+Ebben a peldaban egy 10 elembol allo \l{Kutya} tombot hozunk letre. Ha a tombot a lenti modon inicializaljuk,
+\l{null} ertekekkel lesz feltoltve.
+
+\begin{lstlisting}[language=Java, caption=Kutya tomb keszitese - 1. modszer]
+Kutya[] kutyak = new Kutya[10];
+\end{lstlisting}
+
+Ha szeretnenk rogton ertekekkel feltolteni egy objektum tombot, megtehetjuk, hogy felsoroljuk az ertekeket.
+
+\begin{lstlisting}[language=Java, caption=Kutya tomb keszitese - 2. modszer]
+Kutya kutya1 = new Kutya("Buksi", 5, true);
+Kutya kutya2 = new Kutya("Folti", 2, true);
+Kutya kutya3 = new Kutya("Tapi", 9, false);
+
+Kutya[] kutyak = {kutya1, kutya2, kutya3};
+\end{lstlisting}
+
+Ha az ertekek meg nem leteznek, inicializalhatjuk oket a felsorolason belul is.
+
+\begin{lstlisting}[language=Java, caption=Kutya tomb keszitese - 3. modszer]
+Kutya[] kutyak = {new Kutya("Buksi", 5, true),
+                new Kutya("Folti", 2, true),
+                new Kutya("Tapi", 9, false)};
+\end{lstlisting}
+
+\newpage
+
+\subsection{Objektum Tomb Feldolgozasa}
+
+Miutan letrehoztunk egy objektumokat tartalmazo tombot, azt az eddig tanult modszerekkel kezelhetjuk, peldaul \l{for}
+ciklusokkal bejarhatjuk es modosithatjuk oket vagy statisztikakat szamolhatunk beloluk. Tetszes szerint valaszthatunk
+\l{for} es \l{for-each} ciklusok kozott, de a legtobb esetben nem vagyunk kivancsiak az elemek indexeire es nem
+terunk el az alap bejarasi modszertol, igy a \l{for-each} jobb  valasztas lesz.
+
+\begin{lstlisting}[language=Java, caption=A kutya tomb amivel dolgozni fogunk a kovetkezo peldakban]
+Kutya[] kutyak = {new Kutya("Buksi", 5, true),
+                new Kutya("Folti", 2, true),
+                new Kutya("Tapi", 9, false)};
+\end{lstlisting}
+
+\subsubsection{Bejaras, Megjelenites}
+
+\begin{lstlisting}[language=Java, caption=Kutyak adatainak megjelenitese]
+System.out.println("nev\tkor\toltott");
+for(Kutya k : kutyak) {
+    System.out.println(k.nev + "\t" + k.kor + "\t" + k.oltott);
+}
+\end{lstlisting}
+
+\subsubsection{Extrem Ertek Kereses}
+
+\begin{lstlisting}[language=Java, caption=Legidosebb kutya megkeresese]
+Kutya legidosebb = kutyak[0];
+
+for(Kutya k : kutyak) {
+    if(k.kor > legidosebb) {
+        legidosebb = k;
+    }
+}
+
+System.out.println("A legidosebb kutya " + legidosebb.nev
+            + " aki " + legidosebb.kor + " eves." );
+\end{lstlisting}
+
+\newpage
+
+\subsection{Feladatok}
+
+A lenti feladatokban a kovetkezo osztallyal fogunk dolgozni:
+
+\begin{lstlisting}[language=Java, caption=Feladat - Termek osztaly]
+class Termek {
+    int azonositoSzam;
+    String megnevezes;
+    int ar;
+    String[] kategoriak;
+
+    Termek(int azonositoSzam, String megnevezes,
+                int ar, String[] kategoriak) {
+        this.azonositoSzam = azonositoSzam;
+        this.megnevezes = megnevezes;
+        this.ar = ar;
+        this.kategoriak = kategoriak;
+    }
+
+}
+
+\end{lstlisting}
+
+\subsubsection{Feladat}
+A \l{Termek} osztalybol keszits peldanyokat a kovetkezo adatokkal es helyezd el oket egy \l{termekek} nevu tombben.
+
+\begin{table}[H]
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{Azonosito} & \textbf{Megnevezes} & \textbf{Ar} & \textbf{Kategoriak}  \\ \hline
+        10001              & Alma                & 20          & elelmiszer, egeszseg \\ \hline
+        10002              & Chips               & 32          & elelmiszer           \\ \hline
+        10003              & C-Vitamin           & 19          & egeszseg             \\ \hline
+        10004              & Elektromos Fogkefe  & 262         & elektronika, egeszeg \\ \hline
+        10005              & Telefon Tolto       & 220         & elektronika          \\ \hline
+    \end{tabular}
+    \caption{Termekek}
+    \label{tab:termekek}
+\end{table}
+
+\newpage
+
+\subsubsection{Feladat}
+
+Egy ciklus segitsegevel ird ki az osszes termek adatait a kovetkezo formaban:
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+Azonosito   Megnevezes          Ar      Kategoriak
+10001       Alma                20 Ft   elelmiszer, egeszseg
+10002       Chips               32 Ft   elelmiszer
+10003       C-Vitamin           19 Ft   egeszseg
+10004       Elektromos Fogkefe  262 Ft  elektronika, egeszseg
+10005       Telefon Tolto       220 Ft  elektronika
+\end{lstlisting}
+
+Egy ciklus segitsegevel ird ki az osszes egeszeg kategoriaban levo termek adatait a kovetkezo formaban:
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+Egeszseg kategoria termekei:
+Azonosito   Megnevezes          Ar
+10001       Alma                20 Ft
+10003       C-Vitamin           19 Ft
+10004       Elektromos Fogkefe  262 Ft
+\end{lstlisting}
+
+\subsubsection{Feladat}
+
+Egy ciklus segitsegevel szamold ki a termekek atlagarat es ird ki a konzolra a kovetkezo formaban:
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+A termekek atlagara 110.6 Ft.
+\end{lstlisting}
+
+\subsubsection{Feladat}
+
+Egy ciklus segitsegevel keresd meg es jelenitsd meg a legdragabb termek adatait
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+A legdragabb termek:
+Azonosito   Megnevezes          Ar      Kategoriak
+10004       Elektromos Fogkefe  262     elektronika, egeszseg
+\end{lstlisting}
+
+\end{document}

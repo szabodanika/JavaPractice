@@ -1,6 +1,6 @@
-package hu.javase1;
+package hu.feladatsor1;
 
-import hu.javase1.tombok.Tombok;
+import hu.feladatsor1.tombok.Tombok;
 
 import static org.junit.jupiter.api.Assertions.*;
 
