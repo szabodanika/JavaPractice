@@ -72,9 +72,9 @@ class TombokTeszt {
 	void tukroz() {
 		int[] tomb = {1, 2, 3, 4, 5};
 		tombok.tukroz(tomb);
-		assertEquals(new int[]{5, 4, 3, 2, 1}, tomb);
+		assertArrayEquals(new int[]{5, 4, 3, 2, 1}, tomb);
 		tombok.tukroz(tomb);
-		assertEquals(new int[]{1, 2, 3, 4, 5}, tomb);
+		assertArrayEquals(new int[]{1, 2, 3, 4, 5}, tomb);
 	}
 
 	@org.junit.jupiter.api.Test

@@ -456,7 +456,7 @@ Kutya legidosebb = kutyak[0];
 
 for(Kutya k : kutyak) {
     if(k.kor > legidosebb) {
-        legidosebb = k;
+        legidosebb = k.kor;
     }
 }
 
@@ -475,14 +475,14 @@ class Termek {
     int azonositoSzam;
     String megnevezes;
     int ar;
-    String[] kategoriak;
+    String kategoria;
 
     Termek(int azonositoSzam, String megnevezes,
-                int ar, String[] kategoriak) {
+                int ar, String kategoria) {
         this.azonositoSzam = azonositoSzam;
         this.megnevezes = megnevezes;
         this.ar = ar;
-        this.kategoriak = kategoriak;
+        this.kategoria = kategoria;
     }
 
 }
@@ -495,12 +495,12 @@ A \l{Termek} osztalybol keszits peldanyokat a kovetkezo adatokkal es helyezd el 
 \begin{table}[H]
     \begin{tabular}{|l|l|l|l|}
         \hline
-        \textbf{Azonosito} & \textbf{Megnevezes} & \textbf{Ar} & \textbf{Kategoriak}  \\ \hline
-        10001              & Alma                & 20          & elelmiszer, egeszseg \\ \hline
-        10002              & Chips               & 32          & elelmiszer           \\ \hline
-        10003              & C-Vitamin           & 19          & egeszseg             \\ \hline
-        10004              & Elektromos Fogkefe  & 262         & elektronika, egeszeg \\ \hline
-        10005              & Telefon Tolto       & 220         & elektronika          \\ \hline
+        \textbf{Azonosito} & \textbf{Megnevezes} & \textbf{Ar} & \textbf{Kategoriak}    \\ \hline
+        10001              & Alma                & 20          & elelmiszer             \\ \hline
+        10002              & Kenyer              & 32          & elelmiszer             \\ \hline
+        10003              & C-Vitamin           & 19          & egeszseg               \\ \hline
+        10004              & Billentyuzet        & 262         & elektronika            \\ \hline
+        10005              & Telefon Tolto       & 220         & elektronika            \\ \hline
     \end{tabular}
     \caption{Termekek}
     \label{tab:termekek}
@@ -513,22 +513,21 @@ A \l{Termek} osztalybol keszits peldanyokat a kovetkezo adatokkal es helyezd el 
 Egy ciklus segitsegevel ird ki az osszes termek adatait a kovetkezo formaban:
 
 \begin{lstlisting}[language=Java, caption=Feladat]
-Azonosito   Megnevezes          Ar      Kategoriak
-10001       Alma                20 Ft   elelmiszer, egeszseg
-10002       Chips               32 Ft   elelmiszer
-10003       C-Vitamin           19 Ft   egeszseg
-10004       Elektromos Fogkefe  262 Ft  elektronika, egeszseg
-10005       Telefon Tolto       220 Ft  elektronika
+Azonosito   Megnevezes          Ar(Ft)      Kategoriak
+10001       Alma                20          elelmiszer
+10002       Kenyer              32          elelmiszer
+10003       C-Vitamin           19          egeszseg
+10004       Billentyuzet        262         elektronika
+10005       Telefon Tolto       220         elektronika
 \end{lstlisting}
 
-Egy ciklus segitsegevel ird ki az osszes egeszeg kategoriaban levo termek adatait a kovetkezo formaban:
+Egy ciklus segitsegevel ird ki az osszes elelmiszer kategoriaban levo termek adatait a kovetkezo formaban:
 
 \begin{lstlisting}[language=Java, caption=Feladat]
-Egeszseg kategoria termekei:
-Azonosito   Megnevezes          Ar
-10001       Alma                20 Ft
-10003       C-Vitamin           19 Ft
-10004       Elektromos Fogkefe  262 Ft
+Elelmiszer kategoria termekei:
+Azonosito   Megnevezes          Ar(Ft)
+10001       Alma                20
+10002       Kenyer              32
 \end{lstlisting}
 
 \subsubsection{Feladat}
@@ -546,7 +545,7 @@ Egy ciklus segitsegevel keresd meg es jelenitsd meg a legdragabb termek adatait
 \begin{lstlisting}[language=Java, caption=Feladat]
 A legdragabb termek:
 Azonosito   Megnevezes          Ar      Kategoriak
-10004       Elektromos Fogkefe  262     elektronika, egeszseg
+10004       Billentyuzet        262     elektronika
 \end{lstlisting}
 
 \end{document}

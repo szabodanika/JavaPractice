@@ -44,7 +44,7 @@ class SzamologepTeszt {
 	@Test
 	void hatvany() {
 		assertEquals(8, szamologep.hatvany(2, 3));
-		assertEquals(0.5, szamologep.hatvany(2, -2));
+		assertEquals(0.25, szamologep.hatvany(2, -2));
 		assertEquals(0, szamologep.hatvany(0, 2.25f));
 	}
 

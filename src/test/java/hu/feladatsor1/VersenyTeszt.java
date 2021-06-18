@@ -1,10 +1,14 @@
 package hu.feladatsor1;
 
-import org.junit.jupiter.api.Test;
+import hu.feladatsor1.verseny.Verseny;
 import hu.feladatsor1.verseny.Versenyauto;
 import hu.feladatsor1.verseny.Versenyzo;
+import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
 
 class VersenyTeszt {
 
@@ -113,7 +117,32 @@ class VersenyTeszt {
 
 	@Test
 	void verseny() {
-		Versenyzo versenyzo = new Versenyzo("Teszt Versenyzo", 2000);
-		assertEquals("Teszt Versenyzo (2000)", versenyzo.toString());
+		Verseny verseny = new Verseny();
+
+		Versenyzo versenyzo1 = new Versenyzo("Teszt Versenyzo 1", 2000);
+		Versenyzo versenyzo2 = new Versenyzo("Teszt Versenyzo 2", 2000);
+
+		// elso versenyzo nyer
+		Versenyauto versenyauto1 = new Versenyauto("Gyarto", 800, 200, versenyzo1);
+		Versenyauto versenyauto2 = new Versenyauto("Gyarto", 1000, 200, versenyzo2);
+
+		assertEquals(versenyauto1.getVersenyzo().nev, verseny.verseny(versenyauto1, versenyauto2));
+
+		// masodik versenyzo nyer
+		versenyauto1.tomeg = 1000;
+		versenyauto2.tomeg = 800;
+
+		assertEquals(versenyauto2.getVersenyzo().nev, verseny.verseny(versenyauto1, versenyauto2));
+
+
+		//mindketto nyer
+		versenyauto2.tomeg = 1000;
+
+		Versenyauto finalVersenyauto1 = versenyauto1;
+		Versenyauto finalVersenyauto2 = versenyauto2;
+		assertTimeout(Duration.ofSeconds(1), () -> {
+			while (!verseny.verseny(finalVersenyauto1, finalVersenyauto2).equals(versenyauto1.getVersenyzo().nev));
+			while (!verseny.verseny(finalVersenyauto1, finalVersenyauto2).equals(versenyauto2.getVersenyzo().nev));
+		}, "Egyenlo tomegu versenyautok versenyzesenel mindket versenyzonek legyen lehetosege nyerni!");
 	}
 }

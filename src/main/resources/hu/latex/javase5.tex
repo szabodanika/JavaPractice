@@ -1,0 +1,493 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kodreszlet}%
+\lstset{language=Java,
+backgroundcolor=\color[HTML]{ebebeb},
+keywordstyle={\bfseries \color[HTML]{5d00ff}},
+frame=single,
+basicstyle=\footnotesize\ttfamily,
+captionpos=b,
+tabsize=2,
+numbers=left,
+aboveskip=2em,
+belowskip=1em
+}
+\usepackage{graphicx}
+\usepackage{float}
+\restylefloat{table}
+\let\l\lstinline
+
+\title{%
+Java SE 5 \\
+\large Oroklodes az Objektum Orientalt Programozasban}
+
+\author{Szabo Daniel\\daniel.szabo99@outlook.com}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+Ebben a feladatsorban az objektum orientalt programozas egyik legfontosabb eszkozevel, az oroklodessel ismerkedunk meg, ami segitsegevel a programunk flexibilisebb, rendezettebb lesz.
+Az oroklodes lehetove teszi szamunkra, hogy meglevo funkcionalitast kibovitsunk, illetve magunk is bovitheto kodot hozzunk letre, ezzel megalapozva a komplex, modularis rendszerekben valo munkat.
+\end{abstract}
+
+\newpage
+
+\tableofcontents{}
+
+\newpage
+
+\section{Oroklodes Alapjai}
+\paragraph{Bevezetes}
+
+Az oroklodes az objektum orientalt elmeletben azt jelenti, hogy egy osztaly alosztalya lehet egy masik osztalynak. Az alosztaly ugyanazokat a jellemzoket illetve eljarasokat fogja tartalmazni mint a szuloosztaly, azokat orokli. Oroklodes tehat tipus-altipus kozott van, peldaul szamitogep-laptop, jarmu-auto, allat-kutya.
+
+\subsection{Osztalyvaltozok Oroklese}
+A Java nyelvben egy osztalynak tobb alosztalya is lehet, de un. tobbszoros oroklodest, (tehat egy osztalybol egyszerre tobb masik osztalyt) nem tamogat. Az osztalyt amibol orokolni szeretnenk (tehat kiboviteni) a \l{extends} kulcsszoval hatarozhatjuk meg:
+
+\begin{lstlisting}[language=Java, caption=A Laptop osztaly kiboviti a Szamitogep osztalyt]
+class Szamitogep {
+    String gyarto;
+    String modell;
+    int processzorMagok;
+    int memoria; // GB
+    int hattertar; // GB
+}
+...
+class Laptop extends Szamitogep {
+   int tomeg; // kg
+   int akkumulatorKapacitas; // mAh
+}
+\end{lstlisting}
+
+A fenti peldaban letrehozott \l{Laptop} a \l{Szamitogep} osztalyt orokli, ami azt jelenti, hogy a sajat \l{tomeg} es \l{akkumulatorKapacitas} valtozoi mellett orokolte a \l{Szamitogep} osztaly osszes valtozojat is.
+
+\newpage
+
+\subsection{Metodusok Oroklese}
+
+A kibovitett osztalybol nem csak osztalyvaltozokat, hanem metodusokat is oroklunk, tehat a lenti peldaban, miutan hozaadtunk egy uj \l{bekapcsol()} metodust a \l{Szamitogep}, az automatikusan oroklodik a \l{Laptop} osztalyba, ahol azt majd minden peldanyon meg lehet hivni, ugyan ugy mint ha eleve a Laptop osztalyban lett volna deklaralva.
+
+\begin{lstlisting}[language=Java, caption=A Laptopnak is lesz bekapcsol() fuggvenye]
+class Szamitogep {
+    ...
+    void bekapcsol() {
+        System.out.println("Betoltes...");
+    }
+}
+...
+class Laptop extends Szamitogep {
+
+}
+\end{lstlisting}
+
+\subsection{Tobbszoros Oroklodes}
+
+Bar egy osztaly nem bovithet ki rogton tobb osztaly, lehetseges egy olyan osztaly kiboviteni ami onmaga is egy alosztaly.
+
+\begin{lstlisting}[language=Java, caption=Tobbszintu oroklodes]
+class Szamitogep {
+    ...
+}
+...
+class Laptop extends Szamitogep {
+   ...
+}
+...
+class TwoInOne extends Laptop {
+    ...
+}
+\end{lstlisting}
+
+A fenti peldaban letrehozott \l{Laptop} a \l{Szamitogep} osztalyt orokli, ami azt jelenti, hogy a sajat \l{tomeg} es \l{akkumulatorKapacitas} valtozoi mellett orokolte a \l{Szamitogep} osztaly osszes valtozojat is.
+
+\newpage
+
+\section{Konstruktorok}
+
+Ha a szuloosztaly konstruktoranak vannak parameterei, akkor azokat a parametereket az alosztalyban ki kell elegiteni. Erre a \l{super} kulcsszot hasznaljuk, aminek segitsegevel a szuloosztaly konstruktorat hivjuk meg. A lenti peldaban a \l{Teglalap} osztaly konstruktora ket parametert ker (magassag, szelesseg), igy a \l{Negyzet} alosztaly konstruktoraban kotelezo ezt a ket erteket megadni. Mivel egy negyzet minden oldala egyenlo hosszu lesz, a \l{Negyzet} konstruktoraban csak egy szamot kerunk be, es azt a szamot adjuk meg a \l{Teglalap} konstruktor mindket ertekenek.
+
+\begin{lstlisting}[language=Java, caption=Szuloosztaly konstruktoranak meghivasa]
+class Teglalap {
+    int a, b;
+
+    Teglalap(int a, int b) {
+        this.a = a;
+        this.b = b;
+    }
+}
+...
+class Negyzet {
+    Negyzet(int a) {
+        super(a, a);
+    }
+}
+\end{lstlisting}
+
+
+A kovetkezo peldaban az alosztaly nem kevesebb, hanem tobb erteket ker be mint a szuloosztalya.
+
+\begin{lstlisting}[language=Java, caption=Szuloosztaly konstruktoranak meghivasa]
+class Jarmu {
+    String modell;
+    int ev;
+
+    Jarmu(String modell, int ev) {
+        ...
+    }
+}
+...
+class Auto {
+    String rendszam;
+    int ajtok;
+
+    Auto(String modell, int ev, String rendszam, int ajtok) {
+        super(gyarto, modell, ev);
+        this.rendszam = rendszam;
+        this.ajtok = ajtok;
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+\section{Hozzaferes Modositok}
+
+Az elozo feladatsorban mar megismerkedtunk ket hozzaferes modositoval, a \l{private}-tal es a "default"-tal. Mivel mar tudjuk, mit jelent az, ha egy osztalynak egy masik osztaly alosztalya, igy ertelmezhetjuk a masik ket hozzaferes modositot is. A \l{protected} es a \l{public} kulcsszavakkal a valtozokat es metodusokat elerhetove tehetjuk a a csomagon kivulrol is, azonban a \l{protected} a hozzaferest limitalni fogja az osztalyunk alosztalyaira. A {private} elemek tovabbra is az osztalyon belul lesznek csak elerhetok, a csomagon belul levo alosztalyok sem ferhetnek hozza.
+
+\begin{table}[H]
+    \begin{tabular}{|l|l|l|l|l|}
+        \hline
+        \textbf{Kulccszo}  & \textbf{\begin{tabular}[c]{@{}l@{}}Osztalyon \\ belul\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Csom. belul\\ barhonnan\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Csom. kivul\\ alosztalybol\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Csom. kivul\\ barhonnan\end{tabular}} \\ \hline
+        \textbf{private}   & \textbf{IGEN}                                                       & NEM                                                                         & NEM                                                                            & NEM                                                                         \\ \hline
+        \textbf{(nincs)}          & IGEN                                                                & \textbf{IGEN}                                                               & NEM                                                                            & NEM                                                                         \\ \hline
+        \textbf{protected} & IGEN                                                                & IGEN                                                                        & \textbf{IGEN}                                                                  & NEM                                                                         \\ \hline
+        \textbf{public}    & IGEN                                                                & IGEN                                                                        & IGEN                                                                           & \textbf{IGEN}                                                               \\ \hline
+    \end{tabular}
+    \caption{Hozzaferes Modositok}
+    \label{tab:hozzaferes-modositok}
+\end{table}
+
+\section{Polimorfizmus}
+
+A polimorfizmus az objektum orientalt programozas foelveinek egyike, jelentese pedig "tobbalakusag".
+Akkor beszelunk polimorfizmusrol, amikor egy tipus peldanyai tobb alakot is felvehetnek.
+Ennek a legkezenfekvobb peldaja az, amikor egy osztaly alosztalyai felulirjak a szuloosztaly metodusait.
+
+\begin{lstlisting}[language=Java, caption=Pelda osztalyok metodus felulirassal]
+class A {
+    void M() {
+        System.out.println("A");
+    }
+}
+...
+class B extends A {
+    void M() {
+        System.out.println("B");
+    }
+}
+...
+class C extends A{
+    void M() {
+        System.out.println("C");
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+Ha \l{A} osztalyunkat kiboviti a \l{B} es \l{C} osztaly, akkor egy \l{A} tipussal deklaralt valtozoba \l{B} es \l{C} tipusokat is elhelyezhetunk.
+
+\begin{lstlisting}[language=Java, caption=Polimorfizmus pelda]
+A a1 = new A();
+A a2 = new B();
+A a3 = new C();
+\end{lstlisting}
+
+Ez azt jelenti, hogy bar mind a harom valtozonk A tipusu, mivel mas osztalyok peldanyai, az \l{M()} metodus mind a harom peldanyon mast fog kiirni a konzolra.
+
+\subsection{@Override annotacio}
+
+Metodusok felulirasakor erosen ajanlott az \l{@Override} annotacio hasznalata, amivel egyertelmuen jelezzuk a Java-nak, hogy a szulosztalyban levo metodus viselkedeset fogjuk felulirni, de a ki- es bemeneteit nem.
+Ha azokat is felulirjuk, peldaul egy uj parametert adunk hozza az alosztalyban levo metodushoz, akkor az nem fogja felulirni a szuloosztaly metodusat, hanem uj metoduskent adodik hozza az alosztalyhoz.
+Egy \l{@Override} annotacioval megjelolt metodusnal ebben az esetben mar futtatas elott figyelmeztetest fogunk kapni.
+Ha egy metodust az annotacio nelkul irunk felul, azt kitakarasnak vagy arnyekolasnak hivhatjuk.
+
+\begin{lstlisting}[language=Java, caption=Override annotacio hasznalata]
+...
+class C extends A{
+    @Override
+    void M() {
+        System.out.println("C");
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+\subsection{Instanceof operator}
+
+Az \l{instanceof} operator segitsegevel ellenorizheted, hogy egy valtozo egy bizonyos alosztalyahoz tartozo objektumot tartalmaz-e. A lenti peldaban az elozo \l{A}, \l{B}, \l{C} osztalyokra hivatkozunk.
+
+\begin{lstlisting}[language=Java, caption=Instanceof hasznalata]
+A a = new B();
+if(a instanceof B) {
+    System.out.println("Ez egy B objektum");
+} else if(a instanceof C) {
+    System.out.println("Ez egy C objektum");
+}
+\end{lstlisting}
+
+Ha meggyozodtel rola, hogy az objektumod egy bizonyos alosztalyhoz tartozik, azt biztonsagban konvertalhatod az altipusba, ezzel helyben elerhetove teve az alosztaly sajatos metodusait, valtozoit.
+
+\begin{lstlisting}[language=Java, caption=Instanceof hasznalata]
+class A {
+    // ures osztaly
+}
+...
+class B extends A{
+    void M() {
+        System.out.println("En egy B vagyok!");
+    }
+}
+...
+A a = new B();
+
+if(a instanceof B) {
+    B b = (B) a;
+    b.M();
+}
+\end{lstlisting}
+
+\newpage
+
+\subsection{Final kulccszo}
+
+Ha meg szeretned akadalyozni, hogy az osztalyodnak alosztalyai johessenek letre, vagy egy metodusod felul legyen irva egy alosztalyban, egy osztaly vagy metodust ellathatsz \l{final} kulcsszoval.
+
+\begin{lstlisting}[language=Java, caption=Final osztaly amit nem lehet kiboviteni]
+final class Szamologep() {
+    void osszead(int a, int b) {
+        return a + b;
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Osztaly aminek lehet alosztalya, de az osszead metodusat nem lehet felulirni]
+class Szamologep() {
+    final void osszead(int a, int b) {
+        return a + b;
+    }
+}
+\end{lstlisting}
+
+\subsection{Super kulcsszo}
+
+A \l{super} kulcsszo nem csak konstruktoroknal hasznalatos, altalanossagban az osztaly szuloosztalyara mutat, a \l{this}-nek felel meg.
+Segitsegevel meg tudod hivni egy felulirt metodus eredeti verziojat a szuloosztalyban.
+Az alabbi peldaban a \l{Zsiraf} osztaly kiboviti a bemutatkozasat azzal, hogy megmondja a magassagat.
+
+\begin{lstlisting}[language=Java, caption=Override annotacio hasznalata]
+class Allat {
+    String nev;
+    int kor;
+
+    String bemutatkozas() {
+        return "A nevem " + nev + " es " + kor + " eves vagyok";
+    }
+}
+...
+class Zsiraf {
+    int magassag;
+
+    @Override
+    String bemutatkozas() {
+        return super.bemutatkozas() + " A magassagom "
+            + magassag + " meter.";
+    }
+}
+\end{lstlisting}
+
+\section{Object osztaly}
+
+Ugyan ez szamunkra nem lathato, minden osztaly automatikusan kiboviti a \l{java.lang.Object} osztalyt. Ez az osztalyhierarchia csucsa, ami meghataroz olyan metodusokat amit minden Java objektumnak kotelezo tartalmaznia, azonban ezeket az alosztalyokkal felulirhatjuk. Figyelmesen tanulmanyozd az \l{Object} osztalyt es keresd meg az osztaly Java dokumentaciojat az interneten.
+
+\subsubsection{toString() metodus}
+
+A \l{toString()} metodus hatarozza meg, hogy egy objektumot hogyan reprezentalunk \l{String} alakban.
+
+Amikor fontos szamunkra, hogy egy osztaly peldanyait emberek szamara is erthetoen jelenitsunk meg, olyankor ezt a metodust irjuk felul es String-kent adjuk vissza az objektumunk adatait, vagy barmit amit a szituacio kivan.
+Az alapveto implementacioja ennek a metodusnak csak az objektum osztalyat es hash kodjat fogja visszaadni, peldaul \l{Termek@1fee6fc};
+
+\subsubsection{equals() metodus}
+
+Ez a metodus hatarozza meg, hogy mi alapjan tekintjuk egy osztaly ket peldanyat egyenlonek.
+Fontos megjegyezni, hogy ennek a metodusnak a felulirasa eseteben kotelezo a \l{hashCode} metodust is felulirni, hogy az osztalyod konzisztenszen mukodjon hash alapu adatszerkezetekben, peldaul \l{HashMap()}.
+Szerencsere ezt egyszeruen megtehetjuk az \l{Objects.hash()} metodus hasznalataval.
+
+\begin{lstlisting}[language=Java, caption=Override annotacio hasznalata]
+public class Foglalas {
+    String nev;
+    int ora;
+
+    @Override
+    public boolean equals(Object o) {
+        ...
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nev, ora);
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+\section{Feladatok}
+
+\subsection{Feladat}
+
+Az alabbi fogalomparok kozott melyek vannak szuloosztaly-alosztaly kapcsolatban?
+\begin{itemize}
+    \item konyv - ujsag
+    \item auto - kormanykerek
+    \item ruhadarab - nadrag
+    \item egesz szam - 12
+    \item szam - egesz szam
+    \item kepmegjelenito - LCD kijelzo
+    \item evoeszkoz keszlet - villa
+    \item alkalmazott - nyari gyakornok
+\end{itemize}
+
+\subsection{Feladat}
+
+Mi tortenik, ha
+\begin{itemize}
+    \item megprobalsz egy osztalybol ket masik osztalyt kiboviteni,
+    \item megprobalod a Math osztaly kiboviteni,
+    \item egy szulo osztalynak statikus metodusai/valtozoi vannak,
+    \item egy alosztalybol nem elegited ki a szuloosztaly konstruktoranak parametereit,
+    \item egy tetszoleges T tipusu tombben T kulonbozo alosztalyainak objektumait tesszuk,
+    \item egy tetszoleges T tipussal deklaralt valtozonak T szuloosztalyanak objektumat adjuk ertekul,
+    \item egy tetszoleges T tipus egyik alosztalyaval deklaralt valtozojanak a T osztaly egy masik alosztalyanak objektumat adjuk ertekul,
+    \item egy alosztalyban letrehozott metodus vagy osztalyvaltozo neve megegyezik a szuloosztaly egyik metodusaval,
+    \item egy statikus metodust egy nem statikus metodussal arnyekolunk vagy forditva,
+    \item ket osztaly egymast boviti ki,
+    \item egy \l{final} kulcsszoval megjlelolt osztalyt vagy metodust megprobalsz kiboviteni vagy felulirni,
+    \item egy \l{@Override} annotacioval megjelolt metodus neve/parameterei/visszateresi erteke nem egyezik meg a szuloosztaly egyik metodusaval sem?
+\end{itemize}
+
+\subsection{Feladat}
+
+Figyelmesen tanulmanyozd es probald ki az \l{Object} osztaly \l{toString()}, \l{equals()} metodusainak alapveto implementaciojat, majd ird felul egy sajat osztalyodban.
+
+\subsection{Feladat}
+
+A kovetkezo feladatokban a lenti \l{Termek} osztallyal fogunk dolgozni.
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+class Termek {
+    private static int kovetkezoAzonosito = 100000;
+    private int azonosito;
+    private String megnevezes;
+    private int ar;
+
+    public Termek(String megnevezes, int ar) {
+        this.azonosito = kovetkezoAzonosito++;
+        this.megnevezes = megnevezes;
+        this.ar = ar;
+    }
+
+    public int getAzonosito() {
+        return azonosito;
+    }
+
+    public String getMegnevezes() {
+        return megnevezes;
+    }
+
+    public int getAr() {
+        return ar;
+    }
+}
+\end{lstlisting}
+
+\subsubsection{Feladat}
+
+Keszits a \l{Termek} osztalynak egy \l{Laptop} alosztalyt.
+Minden laptoprol el szeretnenk tarolni a processzor tipusat es a kepatlo hosszat.
+A \l{Laptop} alosztaly a szuloosztalya mintajara keszuljon, a valtozok hozzaferhetosege, az osztaly mutalhatosaga, konstruktora stb.
+egyezzen meg vele.
+
+\subsubsection{Feladat}
+
+Keszits a \l{Termek} osztalynak egy \l{Kamera} alosztalyt.
+Minden laptoprol el szeretnenk tarolni a felbontast megapixelben.
+A \l{Kamera} alosztaly a szuloosztalya mintajara keszuljon, a valtozok hozzaferhetosege, az osztaly mutalhatosaga, konstruktora stb.
+egyezzen meg vele.
+
+\subsubsection{Feladat}
+
+Keszits a \l{Termek} osztalyban egy \l{toString} metodust, amely a kovetkezo formatumu String-ben adja vissza a termek adatait:
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+100014    BananaBook Pro 12     226000 Ft
+\end{lstlisting}
+
+\subsubsection{Feladat}
+
+Egy \l{Termek} tipusu \l{List}-be helyezz vegyesen \l{Laptop} es \l{Kamera} peldanyokat, majd mindet jelenitsd meg egy ciklus segitsegevel.
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+Azon.     Megnev.               Ar
+100000    BananaBook Pro 12     226000 Ft
+100001    BananaBook Pro 15     265000 Ft
+100002    Canikon D6000D        120000 Ft
+100003    Canikon D6500D        165000 Ft
+\end{lstlisting}
+
+\subsubsection{Feladat}
+
+Az \l{instanceof} operatorral motositsd a ciklusod ugy, hogy csak a laptopokat jelenitse meg.
+
+\subsubsection{Feladat}
+
+Az \l{instanceof} operatorral minden termekhez ird oda, hogy melyik kategoriaba tartozik.
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+Azon.     Megnev.               Ar          Kat.
+100000    BananaBook Pro 12     226000 Ft   Laptop
+100001    BananaBook Pro 15     265000 Ft   Laptop
+100002    Canikon D6000D        120000 Ft   Kamera
+100003    Canikon D6500D        165000 Ft   Kamera
+\end{lstlisting}
+
+\newpage
+
+\subsubsection{Feladat}
+
+Ird felul a \l{Laptop} es \l{Kamera} osztalyokban a \l{toString()} metodust ugy, hogy a ciklusod az alabbi eredmenyt produkalja.
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+Azon.     Megnev.               Ar          Tul.            Kat.
+100000    BananaBook Pro 12     226000 Ft   ADM i6, 30cm    Laptop
+100001    BananaBook Pro 15     265000 Ft   ADM i10, 24cm   Laptop
+100002    Canikon D6000D        120000 Ft   24 MP           Kamera
+100003    Canikon D6500D        165000 Ft   36 MP           Kamera
+\end{lstlisting}
+
+
+\subsubsection{Feladat}
+
+Modositsd ugy a \l{Termek} osztaly, hogy a \l{equals()} metodussal ket peldanyat osszehasonlitval akkor tekintunk egyenlonek ket termeket, ha az azonositoik megegyeznek.
+
+\end{document}
+

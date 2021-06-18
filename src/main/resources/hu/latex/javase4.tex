@@ -1,0 +1,293 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kodreszlet}%
+\lstset{language=Java,
+backgroundcolor=\color[HTML]{ebebeb},
+keywordstyle={\bfseries \color[HTML]{5d00ff}},
+frame=single,
+basicstyle=\footnotesize\ttfamily,
+captionpos=b,
+tabsize=2,
+numbers=left,
+aboveskip=2em,
+belowskip=1em
+}
+\usepackage{graphicx}
+\usepackage{float}
+\restylefloat{table}
+\let\l\lstinline
+
+\title{%
+Java SE 4 \\
+\large Objektum Orientalt Programozas Alapjai}
+
+\author{Szabo Daniel\\daniel.szabo99@outlook.com}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+Ebben a feladatsorban az objektum orientalt programozassal kapcsolatban bovitjuk a tudasunkat nehany olyan programozasi eszkozzel ami felkeszit minket egy komplex objektum orientalt rendszer elkeszitesere. Megismerkedunk a statikus valtozokkal es statikus metodusokkal, a konstans valtozokkal, illetve bevezetjuk a hozzaferes modositok alapveto hasznalatat es veluk egyutt a get-set metodusokat es segito metodusokat.
+\end{abstract}
+
+\newpage
+
+\tableofcontents{}
+
+\newpage
+
+\section{Statikus Valtozok es Metodusok}
+\paragraph{Bevezetes}
+
+A \l{static} kulcsszo hasznalataval megjelolt osztalyvaltozok illetve metodusok a peldanyok kozott megosztottak es
+peldanyokon keresztul vagy az osztalyra valo hivatkozassal elerhetok.
+
+Statikus lehet osztalyvaltozo, metodus, kodblokk illetve belso osztaly is, de mi most csak a statikus
+osztalyvaltozokkal es metodusokkal ismerkedunk meg.
+
+\subsection{Statikus Valtozok}
+Statikus valtozokat hasznalunk abban az esetben, amikor valamilyen adatot szeretnenk az osztaly osszes peldanya
+kozott elerhetove tenni, vagy amikor szeretnenk valamilyen adathoz peldanyositas nelkul hozzaferni.
+
+\begin{lstlisting}[language=Java, caption=Pelda statikus valtozo]
+class Tanulo {
+    static String iskola = "Java Iskola";
+    String nev;
+    int szuletesiEv;
+}
+\end{lstlisting}
+
+Statikus elemeket peldanyokon ugyanugy elerhetunk mint nem statikusakat, az egyetlen valtozas amit megfigyelhetunk az
+az, hogy ha a valtozo erteket modosutjuk, az az osztaly osszes elemen reflektalodni fog.
+
+\begin{lstlisting}[language=Java, caption=Statikus valtozo modositasa peldanyon keresztul]
+Tanulo t1 = new Tanulo();
+Tanulo t2 = new Tanulo();
+
+t1.iskola = "Magyar Java Oktatasi Intezet";
+\end{lstlisting}
+
+A fenti kodreszlet lefuttatasa utan \l{t2.iskola} is \l{"Magyar Java Oktatasi Intezet"} lesz.
+
+Ezeket a statikus valtozokat, mivel nem tartoznak egy bizonyos peldanyhoz sem, az osztalyra hivatkozva is meghivhatjuk.
+
+\begin{lstlisting}[language=Java, caption=Statikus valtozo modositasa osztalyon keresztul]
+Tanulo.iskola = "Magyar Java Oktatasi Intezet";
+\end{lstlisting}
+
+\newpage
+
+\subsection{Statikus Metodusok}
+
+Statikus metodusok eseteben szinten a metodus nem a peldanyokhoz tartozik illetve nem a peldanyokon vegez
+muveleteket, hanem az osztallyal kapcsolatban egy altalanos muveletet irnak le.
+
+A fenti \l{Tanulo} osztalyt egeszitsuk ki a kovetkezo metodussal:
+
+\begin{lstlisting}[language=Java, caption=Pelda statikus metodus]
+static String getIskola() {
+    return iskola;
+}
+\end{lstlisting}
+
+Ezt a metodust peldanyokon es az osztalyon keresztul is elerhetjuk.
+
+\begin{lstlisting}[language=Java, caption=Pelda statikus metodus]
+Tanulo.getIskola();
+new Tanulo().getIskola();
+\end{lstlisting}
+
+Fontos megjegyeznunk, hogy statikus metodusokban csak statikus osztalyvaltozokat erunk el. A statikus metodus nem fer
+hozza egy bizonyos peldany valtozoihoz, igy azokat egyaltalan nem tudja olvasni/modositani: \textbf{Statikus kontextusbol
+csak statikus es lokalis elemeket hivhatunk meg}, tehat nem statikus osztalyvaltozokat, nem statikus metodusokat nem
+tudunk meghivni, viszont osztalyokat peldanyositani es azokon a nem statikus elemeket elerni, vagy peldanyositas
+nelkul az osztalyon beluli statikus elemeket elerni szabadon tudjuk.
+
+Statikus valtozokat es statikus metodusokat nem
+statikus kontextusbol szinten szabadon elerhetunk.
+
+\newpage
+
+\subsection{Feladatok}
+
+\subsubsection{Feladat}
+Mi tortenik, ha
+\begin{itemize}
+    \item egy statikus metodusbol egy nem statikus metodust probalok meghivni vagy nem statikus osztalyvaltozot elerni,
+    \item egy statikus metodusbol egy masik statikus metodust probalok meghivni vagy statikus osztalyvaltozot elerni,
+    \item egy nem statikus metodusbol egy statikus metodust probalok meghivni,
+    \item egy nem statikus metodust vagy nem statikus osztalyvaltozot az osztalyra hivatkozva, tehat statikusan probalsz elerni,
+    \item egy statikus metodust vagy statikus osztalyvaltozot peldanyon keresztul probalsz elerni?
+\end{itemize}
+
+\subsubsection{Feladat}
+
+A kovetkezo \l{X} osztalybol keszits egy peldanyt, majd modositsd az \l{a} es \l{b} valtozokat es hivd meg az \l{M}
+metodust ugy, hogy a konzolon jelenjen meg a kovetkezo: \l{A = 2, B = 5}
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+class X{
+    static int a;
+    int b;
+
+    void M() {
+        System.out.println(" A = " + a + ", B = " + b);
+    }
+}
+\end{lstlisting}
+
+A kovetkezo \l{X} osztalybol keszits egy peldanyt, majd modositsd az \l{a} es \l{b} valtozokat es hivd meg az \l{M}
+metodust ugy, hogy a konzolon jelenjen meg a kovetkezo: \l{A = 2, B = 5}
+
+\newpage
+
+\section{Konstansok}
+
+Konstansokat a \l{final} kulcsszoval hozhatunk letre. Ezzel a kulcsszoval nem csak osztalyvaltozokat, hanem lokalis valtozokat is megjelolhetunk, de arra ritkabban van szuksegunk. Egy konstans valtozo, miutan inicializalva lett, nem kaphat uj erteket. Ha valtozo egy objektum, azokon metodusokat tovabbra is meghivhatunk es metodusokkal az objektum sajat magat valtoztathatja.
+
+\begin{lstlisting}[language=Java, caption=Konstans]
+class Szemely{
+    final int azonosito;
+
+    public Szemely(int azonosito) {
+        this.azonosito = azonosito;
+    }
+}
+\end{lstlisting}
+
+A fenti osztalyban az azonosito minden objektum eseteben vegleges, a konstruktorban megadott ertek nem valtozhat. A kovetkezo peldaban matematikai allandokat hatarozunk meg egy osztalyban. Mivel ezek az ertekek nem tartoznak peldanyokhoz, igy statikussa tesszuk oket.
+
+\begin{lstlisting}[language=Java, caption=Matematikai allandok]
+class Matek{
+    static final double PI = 3.14159265358979323846;
+    static final double E = 2.7182818284590452354;
+}
+
+...
+System.out.println("Pi erteke: " + Matek.PI);
+\end{lstlisting}
+
+\newpage
+
+\section{Hozzaferes Modositok}
+
+Hozzaferes modositok segitsegevel negy kulonbozo szinten megadhatjuk, hogy milyen tag korben lehet egy osztalyvaltozot vagy metodust elerni. Ezek a szintek kozul ketto megertesehez az objektum orientalt programozasrol tobb ismeret szukseges, ezert csak kettovel fogunk most reszletesebben megismerkedni: a \l{private} es a default hozzaferes modositokkal. A \l{private} egy valos kulcsszo amit valtozok es metodusok elett megadhatunk, a default, vagy alapveto hozzaferes modosito valojaban a hozzaferes modositok hianyara utal.
+
+Tanulmanyozd a kovetkezo tablazatot, ami bemutatja a 4 hozzaferes modositot es a 4 megkulonboztetett szintet.
+
+\begin{table}[H]
+    \begin{tabular}{|l|l|l|l|l|}
+        \hline
+        \textbf{Kulccszo}  & \textbf{\begin{tabular}[c]{@{}l@{}}Osztalyon \\ belul\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Csom. belul\\ barhonnan\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Csom. kivul\\ alosztalybol\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Csom. kivul\\ barhonnan\end{tabular}} \\ \hline
+        \textbf{private}   & \textbf{IGEN}                                                       & NEM                                                                         & NEM                                                                            & NEM                                                                         \\ \hline
+        \textbf{(nincs)}          & IGEN                                                                & \textbf{IGEN}                                                               & NEM                                                                            & NEM                                                                         \\ \hline
+        \textbf{protected} & IGEN                                                                & IGEN                                                                        & \textbf{IGEN}                                                                  & NEM                                                                         \\ \hline
+        \textbf{public}    & IGEN                                                                & IGEN                                                                        & IGEN                                                                           & \textbf{IGEN}                                                               \\ \hline
+    \end{tabular}
+    \caption{Hozzaferes Modositok}
+    \label{tab:hozzaferes-modositok}
+\end{table}
+
+A default, tehat a hozzaferes modosito hianya az az allapot amivel eddig dolgoztunk. Ettol a \l{private} ugy ter el, hogy ezzel a kulcsszoval megjelolt elemeket kizarolag az osztalyon belul erhetunk el.
+
+A \l{private} ket esetben lesz igazan hasznos: az elso eset, amikor egy valtozo vagy metodus az osztaly belso mukodesehez szukseges, de annak hasznalatahoz nem.
+
+A kovetkezo peldaban a \l{keresztNev} es \l{vezetekNev} valtozok privatta lettek teve, mert ezeket bar kulon taroljuk, mindig egyben hasznaljuk a rendszerben.
+
+\begin{lstlisting}[language=Java, caption=Privat valtozok]
+class Szemely() {
+    private String keresztNev, vezetekNev;
+
+    Szemely(String keresztNev, String vezetekNev) {
+        this.keresztNev = keresztNev;
+        this.vezetekNev = vezetekNev;
+    }
+
+    String getNev() {
+        return vezetekNev + " " + keresztNev;
+    }
+}
+\end{lstlisting}
+
+\subsection{Get-Set Metodusok}
+
+A masodik eset pedig amikor kontrollalni szeretnenk egy osztalyvaltozo elerhetoseget es modosithatosagat. A fenti peldaban a \l{keresztNev} es \l{vezetekNev} valtozok nem modosithatok, miutan azok egyszer be lettek allitva a konstruktor segitsegevel.
+
+A lenti peldaban szinten csak lekerdezni engedjuk egy termek azonositojat, de modositani nem, mert az egyeni azonositoja segit beazonositani a rendszerben egy valos termeket. Ha a valtozna a rendszerben az azonosito, a termekeken is le kell cserelni a kodot/vonalkodot, kulonben a rendszer nem tukrozi a valosagot tobbe.
+
+\begin{lstlisting}[language=Java, caption=Privat valtozo]
+class Termek() {
+    private int azonosito;
+
+    String megnevezes;
+    int ar;
+
+    Termek(int azonosito, String megnevezes, int ar) {
+        this.azonosito = azonosito;
+        this.megnevezes = megnevezes;
+        this.ar = ar;
+    }
+
+    int getAzonosito() {
+        return azonosito;
+    }
+}
+\end{lstlisting}
+
+
+Egy olyan metodus, mint \l{getAzonosito}, aminek az egyetlen feladat az, hogy egy osztalyvaltozot adjon vissza eredmenyul, get metodusnak nevezunk. Hasonloan egy olyan metodust, ami parameter segitsegevel egy osztalyvaltozo erteket allitja be, set metodusnak nevezunk. A fenti \l{Termek} osztaly \l{azonosito} valtozojanak set metodusa peldaul a kovetkezo lenne:
+
+\begin{lstlisting}[language=Java, caption=Pelda set metodus]
+void setAzonosito(int azonosito) {
+    this.azonosito = azonosito;
+}
+\end{lstlisting}
+
+Legtobbszor azonban minden valtozot privatkent jelolunk meg rogton, majd ellatjuk a valtozokat get metodusokkal. Set metodusokkal csak akkor latjuk el a valtozokat amikor lehetove szeretnenk tenni, hogy egy valtozot modositani lehessen az osztalyon kivul is. Ezek a get-set metodusok pedig hozzaferes modositokat is kaphatnak, illetve az alapveto viselkedesen kivul (ertek beallitasa/vissaadasa) egyeb logikat is tartalmazhatnak.
+
+\subsection{Feladatok}
+
+\subsubsection{Feladat}
+Mi tortenik, ha
+\begin{itemize}
+    \item egy privat valtozot vagy privat metodust probalsz meg egy peldanyon egy masik osztalyban elerni
+    \item egy privat valtozot vagy privat metodust probalsz meg egy peldanyon egy az osztalyon belul elerni?
+\end{itemize}
+
+\subsubsection{Feladat}
+
+Allitsd be az alabbi osztaly valtozoit privatra es hozz letre minden valtozonak get-set metodusokat es egy teljes konstruktort.
+
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+class Konyv {
+    String cim;
+    int ar;
+    boolean akcios;
+}
+\end{lstlisting}
+
+\subsubsection{Feladat}
+
+Az elozo feladat megoldasat alakitsd at ugy, hogy az \l{ar} valtozod set metodusa csak akkor allitsa at az erteket, ha a parameterkent kapott ar nagyobb vagy egyenlo 1-el.
+
+\subsubsection{Feladat}
+
+Hozd letre a kovetkezo osztalyt:
+
+\textbf{Nev:} Auto
+
+\textbf{Valtozok:} gyarto, modell, gyartasiEv, kerekekSzama(4), ulesekSzama, alvazSzam, alvazSzamSzamlalo, tulajdonosNeve
+
+\textbf{Metodusok:} teljes konstruktor, get-set metodusok
+
+\textbf{Megjegyzes:} Valassz megfelelo adattipusokat az osztalyvaltozoknak es legyen mindegyik privat. Az alvazSzam egy statikus alvazSzamSzamlalo segitsegevel, 0-tol egyessevel novekedjen minden uj objektumnal. A kerekekSzama legyen konstans. Csak nem statikus valtozoknak legyen get metodusa. Csak a tulajdonosNeve valtozonak legyen set metodusa, es gyozodjon meg rola a metodus, hogy nem lehessen ures \l{String} (\l{""}) megadva tulajdonosnak.
+
+\end{document}
