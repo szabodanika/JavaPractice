@@ -1,0 +1,78 @@
+IT Szakmai Alapok Vizsga Megoldasa
+
+1. Feladat
+
+HTTPS:
+A HTTP szerver-kliens protokoll SSL/TLS titkositassal ellatott valtozata amit allomanyok (pl. weboldalak, kepek, dokumentumok) lekerdezesehez es informacio (pl. formak, autentikacios adatok) bekuldesehez hasznalunk.
+
+FTP:
+Az FTP szerver-kliens protokoll fajlok mozgatasahoz, fel- es letoltesehez illetve bongeszehez hasznos egy tavoli szamitogepen.
+
+SSH:
+Az SSH protokoll rendszeradminisztratoroknak ad lehetoseget egy rendszer tavoli, biztonsagos iranyitasara.
+
+Git:
+A Git egy nyilt forraskodu verziokezelo amivel leggyakrabban forraskod valtozasait kezeljuk, kifejezetten hasznos olyan projekteknel, amin tobb fejleszto is egyszerre dolgozik.
+
+VPN:
+VPN-ek segitsegevel egy tavoli szerveren keresztul erhetjuk el az internetet. A VPN kapcsolat titkositott, igy a sajat internetszolgaltatonk nem fer hozza a forgalmunkhoz, illetve az interneten a VPN szolgaltatonk IP cimevel es geolokaciojaval leszunk jelen, amivel elrejthetjuk vagy modosithatjuk a valos tartozkodasi helyunket.
+
+2. Feladat
+
+1. POST
+A HTTP kerelem tipusa POST kerelem, tehat adatot kuldunk a szervernek.
+
+2. /vizsga/form.php
+A szerveren beluli eleresi ut, ahova a kerelmunket kuldjuk, ebben az esetben egy /vizsga eleresi uton belul levo form.php programnak.
+
+3. HTTP/1.1
+HTTP protokol verzio megjelolese. Ehhez a kerelmez HTTP/1.1-et hasznalunk.
+
+4. Host: pelda.hu
+A szerver domain neve, akinek a kerelmet cimezzuk.
+
+5. nev=janos&kor=20
+A ket parameterunk amit a form.php programnak kuldunk. A nev parameter erteke janos, a kor parameter erteke 20.
+
+
+3. Feladat
+
+Elonyei:
+Sokkal felhasznalobaratabb, atlathatobb mint a konzolos felulet, nem szuksegel magas technikai tudast az uzemelteteshez, modern operacios rendszerekben konnyebb grafikus feluletu programokat egyszerre hasznalni mint konzolos programokat.
+
+Hatranyai:
+Ugyanazon a rendszeren lassabban fog mukodni es tobb eroforrast igenyel es nem hatrafele kompatibilis: konzolos programokat tudunk grafikus operacios rendszereken es feluleteken hasznalni, de GUI-t nem tudunk hasznalni konzolos interfeszeken keresztul.
+
+4. Feladat
+
+Elonyei:
+Az SQL technologiat sokkal regebb ota hasznaljuk mint a noSQL-t, igy nagyobb a tamogatottsaga, tobb az elerheto szoftver es dokumentacio, a szoftverek kiforrottabbak.
+
+A legtobb SQL platform ugyanazon a sztenderdizalt nyelven alapul, tehat ha egy fejleszto megtanulja az SQL-t hasznalni, minden SQL adatbazis fajtat hasznalni tud.
+
+Hatranyai:
+Az SQL adatbazis tablai elore meghatarozzak az adatstrukturankat, ha az adatmodellunk kesobb valtozik, nehezkes ezeket a valtozasokat implementalni.
+
+Mivel az SQL strukturalt adat tarolasara lett optimalizalva, strukturalatlan adat(pl. dokumentumok) es nem szoveges allomanyok (pl. kepek) eltarolasara nem alkalmas.
+
+5. Feladat
+
+CSV:
+Konnyen olvashato, egyszeru formatum amit rengeteg szoftver tamogat.
+
+XLS:
+Formazhato, rugalmas formatum amivel akar kifejezeseket, szamitasokat is megadhatunk, illetve esztetikai elemeket is tartalmazhat.
+
+Adatbazis:
+Nagy mennyisegu adat tarolasahoz idealis, illetve az adatbazisunk sajat nyelvevel (pl. SQL) gyors, egyszeri lekerdezeseket es szamitasokat vegezhetunk az adatunkon.
+
+6. Feladat
+
+Eredmeny:
+
+A lekerdezes eredmenyekent a Kis vezeteknevu tanulok keresztnevet es korat kapjuk kor szerint novekvo sorrendben:
+
+Janos,20
+Jakab,24
+
+A "SELECT keresztnev, kor FROM tanulok" megmondja, hogy a tanulok tablabol kerdezunk le, kizarolag a keresztnev es kor oszlopok adatait, a "WHERE vezeteknev = 'Kis'"-vel szurunk a Kis vezeteknevu tanulokra, majd a talalatokat a "ORDER BY kor" paranccsal kor alapjan sorbarendezzuk, aminek az alapveto iranya novekvo lesz.

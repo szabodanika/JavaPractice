@@ -1,0 +1,237 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kodreszlet}%
+\lstset{language=Java,
+backgroundcolor=\color[HTML]{ebebeb},
+keywordstyle={\bfseries \color[HTML]{5d00ff}},
+frame=single,
+basicstyle=\footnotesize\ttfamily,
+captionpos=b,
+tabsize=2,
+numbers=left,
+aboveskip=2em,
+belowskip=1em
+}
+\usepackage{graphicx}
+\usepackage{float}
+\restylefloat{table}
+\let\l\lstinline
+
+\title{%
+Java SE 8 \\
+\large Absztrakt Osztalyok es Interfeszek}
+
+\author{Szabo Daniel\\daniel.szabo99@outlook.com}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+Ebben a feladatsorban megismerkedunk az absztrakcio es a sztenderdizacio ket ujabb formajaval, az absztrakt osztalyokkal es az interfeszekkel, illetve ezeket hasonlitjuk ossze hagyomanyos eljarasokkal.
+\end{abstract}
+
+\newpage
+
+\tableofcontents{}
+
+\newpage
+
+\section{Absztrakt osztalyok}
+\paragraph{Bevezetes}
+
+Absztrakcio segitsegevel az felhasznalhatjuk az oroklodes rendszere altal nyujtott lehetoseget osztalyok kozott kod megosztasara anelkul, hogy felkesz szuloosztalyokat hoznank letre.
+
+\subsection{Absztrakt osztaly elonyei}
+Az oroklodes tanulmanyozasa soran mar megtanultuk, hogy ha hasonlo, relevans osztalyok osztoznak metodusokon es valtozokon, erdemes egy altalanosabb osztalyt letrehozni, amibol majd ezek az osztalyok orokolhetik a megegyezo elemeket. Ez a folyamat viszont gyakran azt eredmenyezi, hogy a szuloosztalyunk onmagaban nem hasznos, kifejezetten csak azt az egy celt szolgalja, hogy az alosztalyainak megyezo elemeit tartalmazza. Ez azt is hozhatja magaval, hogy az olyan metodusai, melyeket minden alosztaly egyenileg felulir, rendelkezni fognak egy alap implementacioval amit soha nem fogunk hasznalni, vagy ha elfelejtuk egy alosztalyban felulirni, helytelen viselkedest okoz. Erre a problemara nyujt lehetoseget az absztrakcio, melynek soran ugy osztunk meg eljarasokat es/vagy valtozokat osztalyok kozott, hogy hianyos vagy hasztalan osztalyok helyett kifejezetten erre a celra kitalalt absztrakt osztalyokat vagy interfeszeket hasznalunk, egyertelmuen deklaralva azt, hogy az adott tipus onmagaban nem hasznos, hanem az alosztalyai teszik hasznossa.
+
+Ebben a peldaban osszehasonlitjuk egy problema megoldasait hagyomanyos oroklodessel es absztrakt osztaly hasznalataval.
+
+Legyen \l{Kutya} es \l{Macska} ket osztaly, amiknek \l{nev} valtozoja es egy \l{hang()} metodusa van. Mivel egy metodusuk es valtozojuk megegyezik, ezeket kivisszuk egy kulon \l{Allat} osztalyba, majd azt az osztalyt bovitjuk ki a ket masik osztalyunkban. Mivel minden allat mas hangot ad ki, a \l{hang()} metodust minden alosztaly felul fog irni.
+
+Legyen \l{Allat} egy osztaly aminek egy \l{nev} valtozoja es egy \l{hang()} metodusa van.
+
+\begin{lstlisting}[language=Java, caption=Osztalyok hagyomanyos oroklodessel]
+public class Allat {
+	String nev;
+	void hang() { System.out.println("allat hang"); }
+}
+...
+public class Kutya extends Allat {
+	@Override
+	void hang() { System.out.println("vau vau"); }
+}
+...
+public class Macska extends Allat{
+	@Override
+	void hang() { System.out.println("miau"); }
+}
+\end{lstlisting}
+
+A fenti megoldas bar helyesen mukodik, ket problemat eszlelunk: a \l{hang()} metodusnak kenytelenek vagyunk valamilyen alapveto implementaciot adni, amit utana soha nem fogunk hasznalni, kiveve, ha egy alosztalyban elfelejtjuk ezt a metodust felulirni, ami konnyeden elofordulhat. A masodik problema az, hogy az \l{Allat} osztalyt tudjuk peldanyositani annak ellenere, hogy az allat az csak egy gyujtofogalom, egy koncepcio, de valojaban nekunk csak kutyaink es macskaink vannak.
+
+\subsection{Absztrakt osztaly hasznalata}
+
+Ebben a kovetkezo peldaban hagyomanyos oroklodes helyett egy absztrakt osztalykent hoztuk letre az \l{Allat} osztalyt, majd megjeloltuk a \l{hang()} metodust is absztraktkent. Ennek az az eredmenye, hogy minden alosztalynak kotelezoen implementalnia kell ezt a metodust, hisz alapveto implementacioja nincs neki. Ezen kivul az \l{Allat} tipust mar nem lehet peldanyositani, viszont az alosztalyait, mivel azokban mar nincsenek absztrakt metodusok, es maguk az osztalyok sem absztraktok, mar lehet peldanyositani.
+
+\begin{lstlisting}[language=Java, caption=Osztalyok absztrakcioval]
+public abstract class Allat {
+	String nev;
+	abstract void hang();
+}
+...
+public class Kutya extends Allat {
+	@Override
+	void hang() { System.out.println("vau vau"); }
+}
+...
+public class Macska extends Allat{
+	@Override
+	void hang() { System.out.println("miau"); }
+}
+\end{lstlisting}
+
+Az absztrakt osztaly fobb kulonbsegei egy konkret osztallyal szemben tehat:
+\begin{itemize}
+    \item tartalmazhat absztrakt metodusokat, amiket majd az alosztalyoknak kell implementalnia, mert alapveto implementaciojuk nincs,
+    \item nem peldanyosithatok, de olyan alosztalyok amelyek kizarolak konkret (implementalt) metodusokat tartalmaznak es nincsenek absztraktkent megjelolve, igen.
+\end{itemize}
+
+\newpage
+
+\section{Interfeszek}
+
+\paragraph{Bevezetes} Vannak olyan esetek, amikor egy absztrakt osztaly sem tokeletes megoldas osztalyok sztenderdizalasara es absztrakciora. Oroklodest akkor hasznalunk, amikor az alosztalyok relevansak, funkciojuk es temajuk egymashoz kozel all. Ha azonban egymashoz nem kozel allo osztalyoknak egy-egy bizonyos reszet szeretnenk egysegesiteni, az absztrakt osztaly ugyan hasznos, nem hasznaljuk ki minden lehetoseget.
+
+\subsection{Interfeszek elonyei}
+
+Vegyuk peldaul az alabbi \l{Sorbarendezheto} absztrakt osztaly.
+
+\begin{lstlisting}[language=Java, caption=Sorbarendezheto osztaly]
+public abstract class Sorbarendezheto {
+abstract boolean nagyobbMint(Sorbarendezheto s);
+abstract boolean egyenlo(Sorbarendezheto s);
+}
+\end{lstlisting}
+
+Ez az osztaly egy nagyon altalanos rendszert fejez ki, amit sok alosztalyra alkalmazhatunk. A lenti peldaban a \l{Szam} alosztalyat latjuk, de elkepzelheto egy \l{Jarmu} osztaly is, amely rendszam alapjan, vagy \l{Szemely} osztaly amely nev alapjan rendezodik. Ezek az osztalyok egymashoz nem kotodnek, de a sorbarendezes rendszeret egy kozos szuloosztallyal fejezzuk ki.
+
+\begin{lstlisting}[language=Java, caption=Sorbarendezheto osztaly]
+public class Szam extends Sorbarendezheto {
+
+	public int ertek;
+
+	@Override
+	boolean nagyobbMint(Sorbarendezheto s) {
+		if(s instanceof Szam) return ertek > ((Szam) s).ertek;
+		else return false;
+	}
+
+	@Override
+	boolean egyenlo(Sorbarendezheto s) {
+		if(s instanceof Szam) return ertek == ((Szam) s).ertek;
+		else return false;
+	}
+}
+\end{lstlisting}
+
+\newpage
+
+\subsection{Interfesz hasznalata}
+
+A Sorbarendezheto osztaly esetben az absztrakt osztalyunknak nincsenek konkret metodusai, se osztalyvaltozoi, tehat helyette interfeszt tudunk hasznalni. Az interfesz egy olyan tipus, ami kifejezetten absztrakt, publikus metodusokat deklaral, ezzel kulonfele osztalyoknak, amik az osztalyhierarchiaban nem allnak kozel, egyseges kulso eleresi modot adunk, ebben a peldaban az osszehasonlitasukat sztenderdizaljuk.
+
+\begin{lstlisting}[language=Java, caption=Sorbarendezheto interface]
+public interface Sorbarendezheto {
+	boolean nagyobbMint(Sorbarendezheto s);
+	boolean egyenlo(Sorbarendezheto s);
+}
+\end{lstlisting}
+
+Az interfeszen beluli metodusok automatikusan absztraktok es publikusak, igy ezeket nekunk nem kell kulon megjelolni, az implementalo osztalyokban pedig az \l{extends} kulcsszo helyett az \l{implements} kulcsszot hasznalunk. Az osztalyokkal ellentetben interfeszbol egyszerre tobbet is implementalhat egy osztaly, hisz osztalyvaltozok, konkret orokolt metodusok es \l{protected} elemek ebben az esetben nem utkozhetnek, illetve lehetosegunk van orokles mellett implementaciot is hasznalni egyszerre.
+
+\begin{lstlisting}[language=Java, caption=Sorbarendezheto interface]
+public class Szam implements Sorbarendezheto {
+
+	public int ertek;
+
+	@Override
+	public boolean nagyobbMint(Sorbarendezheto s) {
+		if(s instanceof Szam) return ertek > ((Szam) s).ertek;
+		else return false;
+	}
+
+	@Override
+	public boolean egyenlo(Sorbarendezheto s) {
+		if(s instanceof Szam) return ertek == ((Szam) s).ertek;
+		else return false;
+	}
+}
+\end{lstlisting}
+
+\newpage
+
+\subsection{Default metodusok}
+
+Ha kesobb a \l{Sorbarendezheto} interfeszt boviteni szeretnenk, es hozzaadunk egy \l{kisebbMint()} metodust, azonban hasznos lehet, ha megis adunk egy alapveto implementaciot a metodusnak, hisz a valtoztatas utan minden egyes osztalyt, ami implementalja az interfeszunket, kotelezoen bovitenunk kell ennek a metodusnak az implementaciojaval, vagy absztraktkent meg kell jelolnunk. Ez a visszafele kompatibilitast nem teszi lehetove, ezert hasonlo esetekben egy interfesz metodusanak \l{default} implementaciot adhatunk meg a kovetkezo modon:
+
+\begin{lstlisting}[language=Java, caption=Default metodus]
+default boolean kisebbMint(Sorbarendezheto s){
+    return !nagyobbMint(s) && !egyenlo(s);
+};
+\end{lstlisting}
+
+A fobb kulonbsegek tehat az interfeszek es absztrakt osztalyok kozott tehat:
+\begin{itemize}
+    \item minden metodusa alapertelmezetten publikus es absztrakt (de kaphat implementaciot),
+    \item valtozoi csak publikus, statikus konstansok lehetnek,
+    \item tamogatjak a tobbszoros oroklodest (\l{implements Interface1, Interface2}),
+    \item csak eljarast ir le, az hogy mely osztalyok implementaljak, nem szamit.
+\end{itemize}
+
+\newpage
+
+\section{Osszehasonlitas}
+
+Az absztrakt metodusok es interfeszek funkcionalitasa kozott nagy az atfedes, igy gyakran nehez lehet eldonteni, melyiket erdemes hasznalni.
+
+\subsection{Absztrakt osztalyok}
+Abban az esetben, amikor egymashoz kozel allo osztalyok kozott szeretnenk nagy mennyisegu kodot, vagy nem publikus, belso mukodeshez fontos eljarasokat es valtozokat megosztani, erdemes absztrakt osztalyokat valasztani, mert az interfesz az osztalyok publikus eleresi es hasznalati modjait hatarozza meg.
+
+Ha nem statikus, vagy nem konstans vagy nem publikus valtozokra van szuksegunk, szinten absztrakt osztalyokra van szuksegunk, mert az interfesz kizarolag publikus, statikus konstansokat tartalmazhat.
+
+\subsection{Interfeszek}
+Az egyik legfontosabb elonye az interfeszeknek a tobbszoros oroklodes tamogatottsaga, ha bizonyos absztrakt metodusokat tobb osztalyban hatarozunk meg, mert azok nem relevansak, illetve nem mindig hasznaljuk oket egyutt, de nehany esetben igen, akkor kizarolag interfeszekkel orokolhetunk tobb tipusbol is metodusokat.
+
+Akkor, amikor nagyon altalanos eljarasokat hatarozol meg, amiket valoszinuleg olyan osztalyok fognak implementalni, amik egymassal nem allnak szoros kapcsolatban, szinten erdemes interfeszt hasznalni osztalyok helyett.
+
+\newpage
+
+\section{Feladatok}
+
+\subsection{Feladat}
+
+Mi tortenik, ha
+\begin{itemize}
+    \item egy absztrakt osztaly nem tartalmaz absztrakt metodusokat,
+    \item egy konkret osztaly tartalmaz absztrakt metodusokat,
+    \item egy absztrakt osztaly alosztalyaban nem implementaljuk az absztrakt metodusokat,
+    \item egy absztrakt osztaly alosztalyaban nem implementaljuk az absztrakt metodusok egy reszet,
+    \item egy konkret osztaly alosztalyaban absztrakt metodusokat hozunk letre,
+    \item egy osztalybol tobb absztrakt osztalyt probalunk kiboviteni,
+    \item egy interfeszbol egy osztalyt kibovitunk,
+    \item egy interfeszbol egy masik interfeszt kibovitunk,
+    \item egy interfeszt implementalo osztaly nem implementalja az interfesz minden metodusat,
+    \item egy interfesz default metodusat egy implementalo osztalyban felulirjuk,
+    \item egy interfesz default metodusat egy alinterfeszben felulirjuk,
+    \item egy interfesz default metodusat egy ujradeklaraljuk implementacio nelkul?
+\end{itemize}
+
+\end{document}
+

@@ -1,0 +1,117 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kodreszlet}%
+\lstset{language=Java,
+backgroundcolor=\color[HTML]{ebebeb},
+keywordstyle={\bfseries \color[HTML]{5d00ff}},
+frame=single,
+basicstyle=\footnotesize\ttfamily,
+captionpos=b,
+tabsize=2,
+numbers=left,
+aboveskip=2em,
+belowskip=1em
+}
+\usepackage{graphicx}
+\usepackage{float}
+\restylefloat{table}
+\let\l\lstinline
+
+\title{%
+IT Szakmai Alapok Vizsga\\
+\large Web Technologiak es Adatkezeles\\
+\large Rendelkezesre allo ido: 90 perc}
+
+\author{Szabo Daniel\\daniel.szabo99@outlook.com}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Utasitasok}
+
+Hozz letre egy szoveges fajlt .txt kiterjesztessel, aminek a neve legyen \\ \lstinline{ITAlapozoVizsga_VezeteknevKeresztnev.txt}. A fajl tartalmazza az elso ket sorban a mai datumot es a teljes nevedet.
+
+Minden feladathoz ird oda, hogy hanyadik feladatra valaszolsz, majd ird le a valaszaidat minel reszletesebben es magas szakmai pontossaggal.
+
+\subsection{Megoldas beadasa}
+
+Amint elkeszultel a megoldasoddal, figyelmesen olvasd at megegyszer a valaszaidat majd add be a .txt fajlodat.
+
+\newpage
+
+\section{Feladatok}
+
+\subsection{Feladat (5 pont)}
+
+Fogalmazd meg egy mondatban, mire hasznaljuk a kovetkezo technologiakat:
+\begin{itemize}
+\item HTTPS,
+\item FTP,
+\item SSH,
+\item Git,
+\item VPN.
+\end{itemize}
+
+\subsection{Feladat  (5 pont)}
+
+Irj egy reszletes, technikai elemzest az alabbi HTTP kerelemrol. A kerelem minden reszet jelold meg es ird le, mit csinal, osszesen nem tobb mint 6-7 mondatban.
+
+\begin{lstlisting}[language=HTTP kerelem]
+POST /vizsga/form.php HTTP/1.1
+Host: pelda.hu
+nev=Janos&kor=20
+\end{lstlisting}
+
+\subsection{Feladat  (4 pont)}
+
+Fogalmazd meg a GUI ket elonyet es ket hatranyat a konzolos feluletekkel szemben.
+
+\subsection{Feladat  (4 pont)}
+
+Fogalmazd meg az SQL adatbazisok ket elonyet es ket hatranyat a noSQL adatbazisokkal szemben.
+
+\subsection{Feladat (3 pont)}
+
+Ird le minden alabbi adattarolasi formatumnak egy elonyet a masik kettovel szemben.
+
+\begin{itemize}
+\item CSV,
+\item XLS,
+\item adatbazis (pl. MySQL).
+\end{itemize}
+
+\newpage
+
+\subsection{Feladat (4 pont)}
+
+Adott a kovetkezo adattabla, aminek a neve \l{tanulok}:
+
+\begin{table}[H]
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{id} & \textbf{keresztnev} & \textbf{vezeteknev} & \textbf{kor} \\ \hline
+        0           & Kis                 & Janos               & 20           \\ \hline
+        1           & Kozepes             & Julia               & 24           \\ \hline
+        2           & Nagy                & Jolan               & 27           \\ \hline
+        3           & Kis                 & Jakab               & 24           \\ \hline
+    \end{tabular}
+\end{table}
+
+Mi lesz a kovetkezo SQL lekerdezes eredmenye? A valaszodat indokold is.
+
+\begin{lstlisting}[language=SQL lekerdezes]
+SELECT keresztnev, kor
+FROM tanulok
+WHERE vezeteknev = 'Kis'
+ORDER BY kor;
+\end{lstlisting}
+
+\end{document}

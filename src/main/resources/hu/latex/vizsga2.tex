@@ -1,0 +1,102 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kodreszlet}%
+\lstset{language=Java,
+backgroundcolor=\color[HTML]{ebebeb},
+keywordstyle={\bfseries \color[HTML]{5d00ff}},
+frame=single,
+basicstyle=\footnotesize\ttfamily,
+captionpos=b,
+tabsize=2,
+numbers=left,
+aboveskip=2em,
+belowskip=1em
+}
+\usepackage{graphicx}
+\usepackage{float}
+\restylefloat{table}
+
+\title{%
+Java SE Vizsga 2\\
+\large Java alapok, OOP, fajlkezeles\\
+\large Rendelkezesre allo ido: 90 perc}
+
+\author{Szabo Daniel\\daniel.szabo99@outlook.com}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Utasitasok}
+
+\subsection{Projekt megnyitasa}
+
+A vizsgahoz a kovetkezo fajlra van szukseged: fenykepezogepek.csv.
+
+Ezeket egy uj Eclipse Java projekt-ben helyezzuk el. A projekt neve legyen \lstinline{JavaSEVizsga2_VezeteknevKeresztnev}, a projektben hozzunk letre egy \lstinline{vizsga} csomagot es abban helyezzeuk el a megoldashoz szukseges osztalyt/osztalyokat.
+
+\subsection{Feladatok megoldasa}
+
+\begin{itemize}
+    \item A megoldas soran kovessuk az objektum orientalt programozas iranyelveit, torekedjuk osztalyokat es metodusokat hasznalni a megoldashoz.
+    \item Nem mukodo kodot illetve felesleges kommenteket ne hagyjunk a projektben
+\end{itemize}
+
+\subsection{Megoldas beadasa}
+
+A teljes projektet egy zip allomanykent mentsuk el. Ezt megtehetjuk a File $\rightarrow$ Export $\rightarrow$ Archive File menuponttal. A tomoritett allomany neve legyen a projekt nevevel azonos. Beadas elott csomagold ki a projektet es ellenorizd, hogy mukodik a megoldasod, majd add be a zip allomanyt.
+
+\newpage
+
+\section{Feladatok}
+
+Olvasd be a UTF-8 kodolasu fenykepezokepek.csv fajlt, majd oldd meg a kovetkezo feladatokat. A programod egyszeri lefuttatassal minden feladatra kell szoveges valaszt adjon. Figyelmesen olvasd el az osszes feladatot, mielott hozzakezdesz a munkahoz.
+
+\subsection{Feladat}
+Tarold be a beolvasott fenykepezokepeket egy megfelelo adatszerkezetben, amit kesobb ciklusokkal be tudsz majd jarni.
+
+\subsection{Feladat}
+
+Ird ki a beolvasott fenykepezogepek szamat a konzolra.
+
+\subsection{Feladat}
+
+Ird ki az elso 5 beolvasott fenykepezogep adatait a konzolra.
+
+\subsection{Feladat}
+
+Ird ki az atlagos szenzor felbontast a konzolra.
+
+\subsection{Feladat}
+
+Ird ki minden gyartora, hogy atlagosan hany megapixel felbontasuak a fenykepezogepeik.
+
+\subsection{Feladat}
+
+Ird ki a legnagyobb felbontasu fenykepezogep adatait.
+
+\subsection{Feladat}
+
+Melyik evben jelent meg a legtobb fenykepezogep es hany darab osszesen?
+
+\subsection{Feladat}
+
+Hozz letre egy metodust, ami beker a felhasznalotol egy gyarto nevet, majd megjeleniti a gyarto osszes kamerajat.
+
+\subsection{Feladat}
+
+Hozz letre egy olyan metodust, ami beker egy evet es megjelenit minden fenykepezogepet ami abban az evben jelent meg.
+
+\subsection{Feladat}
+
+Hozz letre egy olyan metodust, ami bekeri egy uj fenykepezogep minden adatat es eltarolja a tobbi fenykepezogeppel egyutt, majd kiirja az osszes fenykepezogep adatait, beleertve az iment hozzaadott fenykepezot. A fenykepezogepek.csv fajlba nem kell elmentened ezt az uj adatot.
+
+
+\end{document}

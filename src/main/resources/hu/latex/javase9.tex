@@ -1,0 +1,219 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kodreszlet}%
+\lstset{language=Java,
+backgroundcolor=\color[HTML]{ebebeb},
+keywordstyle={\bfseries \color[HTML]{5d00ff}},
+frame=single,
+basicstyle=\footnotesize\ttfamily,
+captionpos=b,
+tabsize=2,
+numbers=left,
+aboveskip=2em,
+belowskip=1em
+}
+\usepackage{graphicx}
+\usepackage{float}
+\restylefloat{table}
+\let\l\lstinline
+
+\title{%
+Java SE 9 \\
+\large Generikusok}
+
+\author{Szabo Daniel\\daniel.szabo99@outlook.com}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+Ebben a feladatsorban megismerkedunk a generikusokkal, amik lehetove teszik szamunkra a kodunk altalanositasat es felkeszit egyedi adatszerkezetek keszitesere.
+\end{abstract}
+
+\newpage
+
+\tableofcontents{}
+
+\newpage
+
+\section{Generikusok elonyei}
+\paragraph{Bevezetes}
+
+Adott az alabbi \l{Doboz} osztaly, ami egyetlen erteket tarol, ennek a valtozonak a neve legyen csak \l{ertek}. Java-ban az osztalyvaltozoknak kotelezo tipust meghataroznunk, igy ha a dobozunkat univerzalissa szeretnenk tenni, a tipusa \l{Object} kell legyen, amibe utana az oroklodes szabalyai szerint barmilyen objektumot eltarolhatunk.
+
+\begin{lstlisting}[language=Java, caption=Doboz osztaly]
+public class Doboz {
+	Object ertek;
+
+	public Object getErtek() {
+		return ertek;
+	}
+
+	public void setErtek(Object ertek) {
+		this.ertek = ertek;
+	}
+}
+\end{lstlisting}
+
+Amikor ebben ezt az osztalyt peldanyositunk, barmilyen objektumot tarolhatunk benne, de az ertek hasznalatahoz es lekerdezeshez szukito tipuskonverziora van szuksegunk. A lenti peldaban String tipussal hasznaljuk a dobozt, es ez a kod hibatlanul mukodik, azonban rogton felismerjuk, hogy ez csak addig lesz helyes, amig emlekszunk arra, hogy ez a doboz String-et tarol. Ha sok dobozunk van, nekunk kell emlekeznunk mindig arra, hogy melyik doboz mit tarol, kulonben helytelen tipuskonverziot vegezhetunk es hibat kaphatunk, illetve ugyanez tortenhet, ha veletlenul nem String erteket tarolunk el a dobozban.
+
+\begin{lstlisting}[language=Java, caption=Doboz hasznalata String-gel]
+Doboz doboz = new Doboz();
+doboz.setErtek("Hello");
+String ertek = (String) doboz.getErtek();
+\end{lstlisting}
+
+Ebben a helyzetben lenne hasznos az, ha a \l{Doboz} osztaly minden peldanyanak kulon deklaralhatnank, milyen tipusa legyen, amit generikusokkal megtehetunk.
+
+\newpage
+
+\section{Generikusok hasznalata}
+
+A kovetkezo peldaban a \l{Doboz} osztalyt ugy modositottuk, hogy \l{Object} helyett egy \l{T} tipusparameter altal megszabott tipusu erteket tarol, illetve ez a tipus jelenik meg a \l{getErtek()} visszateresi tipusakent es a \l{setErtek()} parameterenek tipusakent is.
+
+\begin{lstlisting}[language=Java, caption=Generikus Doboz osztaly]
+public class Doboz<T> {
+	T ertek;
+
+	public T getErtek() {
+		return ertek;
+	}
+
+	public void setErtek(T ertek) {
+		this.ertek = ertek;
+	}
+}
+\end{lstlisting}
+
+Innentol kezdve amikor a \l{Doboz} osztalybol peldanyositunk, az osztaly neve mogotti \l{<TipusNeve>} segitsegevel adhatjuk meg egy osztaly (primitiv tipus nem hasznalhato) nevet, ami erre a valtozora vegleges lesz. Mivel a \l{T} parameter a metodusokra is alkalmazva lett, a \l{getErtek()} az alabbi peldaban String ertekkel ter vissza, tehat tipuskonverziora nincs szuksegunk.
+
+\begin{lstlisting}[language=Java, caption=Generikus Doboz hasznalata String-gel]
+Doboz<String> doboz = new Doboz<>();
+doboz.setErtek("Hello");
+String ertek = doboz.getErtek();
+\end{lstlisting}
+
+\newpage
+
+\subsection{Generikusok Szukitese}
+
+Amikor egy generikus tipust letrehozunk, alapvetoen barmilyen tipust megadhatunk a peldanyoknak parameterkent, illetve amikor megsem adunk meg neki tipusparametert, akkor a legtagabb szuloosztaly lesz a tipusa az peldanynak, a \l{Doboz} eseteben tehat \l{Object}. Sok esetben azonban nem teljesen mindegy, milyen tipusokat engedelyezunk az osztalyunkban, igy megjelolhetunk egy osztalyt vagy interfeszt amit es aminek altipusait elfogadunk.
+
+Az alabbi peldaban a \l{SzamDoboz} egy olyan osztaly aminek a tipusparametere a \l{Number} osztaly alosztalya kell legyen, tehat \l{SzamDoboz<String>} peldaul forditasi hibat okoz. Ez azt is jelenti, hogy az alapveto legtagabb tipusa ennek a parameternek \l{Number} lesz, es amikor tipusparameter nelkul peldanyositjuk a \l{SzamDoboz} osztalyt, akkor is csak szamokkal mukodik, de akkor minden fele szammal.
+
+\begin{lstlisting}[language=Java, caption=SzamDoboz osztaly]
+public class SzamDoboz<T extends Number> {
+	T ertek;
+
+	public T getErtek() {
+		return ertek;
+	}
+
+	public void setErtek(T ertek) {
+		this.ertek = ertek;
+	}
+}
+\end{lstlisting}
+
+\subsection{Generikusok Metodusok}
+
+Vannak olyan esetek, amikor statikus metodusnak lenne szuksegunk egy generikus valtozatara. Ilyenkor, mivel a metodus statikus, a peldanyositas folyamata, amikor peldanyoknaknak a tipusparameteret meghatarozzuk, nem hasznos.
+
+A lenti peldaban a statikus \l{visszadob} metodus is generikus, azonban a tipusa nem az osztalyatol fugg, hanem a kapott parameter tipusatol, tehat ha String bemenetet kap, String objektummal fog visszaterni, ami azt jelenti, hogy univerzalissa tehetem a metodusom szukito tipuskonverzio nelkul.
+
+\begin{lstlisting}[language=Java, caption=Generikus metodus]
+static <T> T visszadob(T ertek) {
+	return ertek;
+}
+\end{lstlisting}
+
+Generikus metodusok eseteben is van lehetosegunk szukiteni a hasznalhato tipusok listajat, az alabbi peldaban peldaul csak \l{List} implementaciokat lehet hasznalni. Mivel T mindig egy \l{List} lesz, igy meg tudjuk hivni az \l{isEmpty()} metodust, es ha igazat ad eredmenyul, \l{null} lesz az eredmeny, minden mas esetben bejovo erteket adjuk vissza.
+
+\begin{lstlisting}[language=Java, caption=Generikus metodus]
+static <T extends List> T visszadob(T ertek) {
+	if(ertek.isEmpty()) {
+		return null;
+	} else {
+		return ertek;
+	}
+}
+\end{lstlisting}
+
+
+\subsection{Tobb Tipusparameter Hasznalata}
+
+Van lehetosegunk egyszerre tobb tipusparametert is megadni egy osztalynak. Az alabbi \l{SzamozottErtek} osztaly \l{SZ} tipusparametere egy szam kell legyen, \l{E} viszont barmi lehet.
+
+\begin{lstlisting}[language=Java, caption=Osztaly tobb tipusparameterrel]
+public class SzamozottErtek<SZ extends Number, E> {
+	SZ szam;
+	E ertek;
+
+	public SzamozottErtek(SZ szam, E ertek) {
+		this.szam = szam;
+		this.ertek = ertek;
+	}
+
+	public SZ getSzam() {
+		return szam;
+	}
+
+	public E getErtek() {
+		return ertek;
+	}
+}
+\end{lstlisting}
+A fenti \l{SzamozottErtek} osztalyt a kovetkezo keppen tudjuk hasznalni:
+
+\begin{lstlisting}[language=Java, caption=SzamozottErtek osztaly hasznalata]
+SzamozottErtek<Integer, String> ertek1 =
+	new SzamozottErtek<>(1, "Juliska");
+SzamozottErtek<Integer, String> ertek2 =
+	new SzamozottErtek<>(2, "Jancsika");
+\end{lstlisting}
+
+\newpage
+
+\section{Feladatok}
+
+\subsection{Feladat}
+
+Mi tortenik, ha
+\begin{itemize}
+    \item egy generikus tipussal rendelkezo osztaly nem kap tipusparametert,
+    \item egy generikus tipussal nem rendelkezo osztaly kap tipusparametert,
+	\item egy generikus osztaly tipusparameteret az osztalyban nem hasznaljuk,
+	\item egy generikus osztaly tipusparameteret probaljuk peldanyositani,
+	\item egy generikus osztaly tipusparameterevel probalunk tipuskonverziot vegezni,
+	\item egy generikus osztaly tipusparameteren probalunk metodust vagy valtozot elerni,
+	\item egy generikus osztalyt kibovitunk,
+	\item egy interfesznek adunk generikus tipusparametert,
+	\item egy generikus interfeszt implementalunk,
+	\item egy generikus osztalyban egy generikus, statikus metodust hozunk letre?
+\end{itemize}
+
+\subsection{Feladat}
+
+Figyelmesen olvasd el es elemezd a \l{java.util.List} interfesz implementaciojat, figyeld meg es ertelmezd, hogy hogyan hasznalja a generikusokat.
+
+\subsection{Feladat}
+
+Figyelmesen olvasd el es elemezd a \l{java.util.ArrayList} osztaly implementaciojat, figyeld meg es ertelmezd, hogy hogyan hasznalja a generikusokat.
+
+\subsection{Feladat}
+
+Hozz letre egy listat, amiben a \l{SzamDoboz} osztalyunk \l{Double} formajanak elemeit tarolhatjuk, es tarolj el benne harom \l{SzamDoboz} peldanyt.
+
+\subsection{Feladat}
+
+Implementald a \l{SzamDoboz} osztalyban a \l{Comparable} interfeszt ugy, hogy minden \l{SzamDoboz} mas \l{SzamDoboz} peldanyokkal osszehasonlithato legyen az eltarolt ertekeik alapjan.
+
+\end{document}
+

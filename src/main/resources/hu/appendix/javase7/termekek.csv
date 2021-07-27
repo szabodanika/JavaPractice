@@ -1,0 +1,38 @@
+id,megnevezes,kategoria,alkategoria,ar
+1,piros alma,elelmiszer,zoldseg-gyumolcs,50
+2,zold alma,elelmiszer,zoldseg-gyumolcs,55
+3,banan,elelmiszer,zoldseg-gyumolcs,40
+4,kenyer 1kg,elelmiszer,pek termek,360
+5,kenyer 500g,elelmiszer,pek termek,220
+6,kifli,elelmiszer,pek termek,50
+7,zsemle,elelmiszer,pek termek,34
+8,viz 1l,elelmiszer,ital,200
+9,viz 0.5l,elelmiszer,ital,120
+10,narancsle,elelmiszer,ital,260
+11,csokolade,elelmiszer,edesseg,220
+12,turorudi,elelmiszer,edesseg,110
+13,szivacs,haztartas,tisztasag,200
+14,mosogatoszer,haztartas,tisztasag,400
+15,szappan,haztartas,tisztasag,320
+16,szemetes zsak 20l,haztartas,tisztasag,120
+17,szemetes zsak 40l,haztartas,tisztasag,170
+18,C vitamin,egeszseg,tabletta,300
+19,D3 vitamin,egeszseg,tabletta,320
+20,fogkrem,egeszseg,szajhigienia,320
+21,fogkefe,egeszseg,szajhigienia,400
+22,fogselyem,egeszseg,szajhigienia,290
+23,szajmaszk fekete,egeszseg,szajmaszk,400
+24,szajmaszk viragos,egeszseg,szajmaszk,400
+25,zabkasa,baba,baba etel-ital,200
+26,pelenka S,baba,pelenka,510
+27,pelenka M,baba,pelenka,530
+28,pelenka L,baba,pelenka,570
+29,cumisuveg kek,baba,cumisuveg,600
+30,cumisuveg rozsaszin,baba,cumisuveg,600
+31,szaraz cicaeledel,allat,eledel,300
+32,nedves cicaeledel,allat,eledel,320
+33,szaraz kutyaeledel,allat,eledel,250
+34,nedves kutyaeledel,allat,eledel,340
+35,macskaalom,allat,egyeb,400
+36,kullancsriaszto,allat,egyeb,240
+37,parna,allat,egyeb,500

@@ -22,7 +22,7 @@ belowskip=1em
 \restylefloat{table}
 
 \title{%
-Java SE Vizsga 1\\
+Java SE Vizsga\\
 \large Java Alapok, OOP\\
 \large Rendelkezesre allo ido: 90 perc}
 
@@ -43,7 +43,7 @@ A vizsgahoz a kovetkezo fajlokra van szukseged:
     \item \lstinline{Aruhaz.java}
     \item \lstinline{Termek.java}
 \end{itemize}
-Ezeket egy uj Eclipse Java projekt-ben helyezzuk el. A projekt neve legyen \lstinline{JavaSEVizsga1_KeresztnevVezeteknev}. A projekt-ben hozzunk letre egy \lstinline{vizsga} csomagot es abban helyezzuk el a ket osztalyt. Ne felejtsd el a csomag megnevezeset az osztalyokban is modositani.
+Ezeket egy uj Eclipse Java projekt-ben helyezzuk el. A projekt neve legyen \lstinline{JavaSEVizsga1_VezeteknevKeresztnev}. A projekt-ben hozzunk letre egy \lstinline{vizsga} csomagot es abban helyezzuk el a ket osztalyt. Ne felejtsd el a csomag megnevezeset az osztalyokban is modositani.
 
 \subsection{Feladatok megoldasa}
 
@@ -62,20 +62,20 @@ A teljes projektet egy zip allomanykent mentsuk el. Ezt megtehetjuk a File $\rig
 
 Mielott hozzakezdenel a feladatok megoldasahoz, figyelmesen olvasd el a kodot amit kaptal es ertelmezd az osztalyok elemeit, keresd meg a hianyzo reszeket es a feladatok helyeit.
 
-\subsection{Feladat}
+\subsection{Feladat (4 pont)}
 Egeszitsd ki a \lstinline{Termek} osztalyt a kovetkezokkel:
 \begin{itemize}
-    \item privat osztalyvaltozok a peldaadat alapjan megadott tipusokkal
-    \item komplett konstruktor ami az osztaly minden valtozojat beallitja
-    \item get metodus minden osztalyvaltozohoz
-    \item toString metodus ami visszaad egy egysoros String-et ami tartalmazza a termek minden adatat (lasd: 1. kodreszlet)
+    \item privat osztalyvaltozok a peldaadat alapjan megadott tipusokkal,
+    \item komplett konstruktor ami az osztaly minden valtozojat beallitja,
+    \item get metodus minden osztalyvaltozohoz,
+    \item toString metodus ami visszaad egy egysoros String-et ami tartlmazza a termek minden adatat (lasd: 1. kodreszlet).
 \end{itemize}
 
 \begin{lstlisting}[language=Java, caption=Pelda Termek.toString() eredmeny]
 Alma    Elelmiszer  50 Ft
 \end{lstlisting}
 
-\subsection{Feladat}
+\subsection{Feladat (3 pont)}
 Az \lstinline{Aruhaz} osztaly \lstinline{megjelenit()} metodusat egeszitsd ki ugy, hogy a termekek listan levo minden termeket jelenitsen meg a konzolban, oszlopnevekkel egyutt.
 
 \begin{lstlisting}[language=Java, caption=Pelda Aruhaz.megjelenit() kimenet]
@@ -86,23 +86,23 @@ Banan   Elelmiszer  40 Ft
 Korte   Elelmiszer  45 Ft
 \end{lstlisting}
 
-\subsection{Feladat}
+\subsection{Feladat (2 pont)}
 
-Az \lstinline{Aruhaz} osztaly \lstinline{termekekSzama()} metodusat egeszitsd ki ugy, hogy az elerheto termekek szamat irja ki a konzolra (ha valtozik a termekek szama, automatikusan valtozzon a kiirt ertek is, ne mindig 15-ot irjon ki).
+Az \lstinline{Aruhaz} osztaly \lstinline{termekekSzama()} metodusat egeszitsd ki ugy, hogy az elerheto termekek szamat irja ki a konzolra.
 
 \begin{lstlisting}[language=Java, caption=Pelda Aruhaz.termekekSzama() kimenet]
 Termekek szama: 15db
 \end{lstlisting}
 
-\subsection{Feladat}
+\subsection{Feladat (4 pont)}
 
-Az \lstinline{Aruhaz} osztaly \lstinline{elektronikaiTermekekSzama()} metodusat egeszitsd ki ugy, hogy az elerheto elektronikai termekek szamat irja ki a konzolra (ha valtozik a termekek szama, automatikusan valtozzon a kiirt ertek is, ne mindig 8-at irjon ki).
+Az \lstinline{Aruhaz} osztaly \lstinline{elektronikaiTermekekSzama()} metodusat egeszitsd ki ugy, hogy az elerheto elektronikai termekek szamat irja ki a konzolra.
 
 \begin{lstlisting}[language=Java, caption=Pelda Aruhaz.elektronikaiTermekekSzama() kimenet]
 Elektronikai termekek szama: 8db
 \end{lstlisting}
 
-\subsection{Feladat}
+\subsection{Feladat (3 pont)}
 
 Az \lstinline{Aruhaz} osztaly \lstinline{legdragabbTermek()} metodusat egeszitsd ki ugy, hogy a legdragabb termek adatait jelenitse meg a konzolon.
 
@@ -113,11 +113,11 @@ Elnevezes   Kategoria   Ar
 Laptop  Elektronika    43920 Ft
 \end{lstlisting}
 
-\subsection{Feladat}
+\subsection{Feladat (4 pont)}
 
 Az \lstinline{Aruhaz} osztaly \lstinline{elelmiszerekAtlagAra()} metodusat egeszitsd ki ugy, hogy az elelmiszer kategoriaban levo termekek atlagos arat jelenitse meg.
 
-\begin{lstlisting}[language=Java, caption=Pelda Aruhaz.legdragabbTermek() kimenet]
+\begin{lstlisting}[language=Java, caption=Pelda Aruhaz.elelmiszerekAtlagAra() kimenet]
 Elelmiszerek atlagara: 50.714287 Ft
 \end{lstlisting}
 

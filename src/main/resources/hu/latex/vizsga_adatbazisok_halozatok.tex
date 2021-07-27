@@ -1,0 +1,137 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kodreszlet}%
+\lstset{language=Java,
+backgroundcolor=\color[HTML]{ebebeb},
+keywordstyle={\bfseries \color[HTML]{5d00ff}},
+frame=single,
+basicstyle=\footnotesize\ttfamily,
+captionpos=b,
+tabsize=2,
+numbers=left,
+aboveskip=2em,
+belowskip=1em
+}
+\usepackage{graphicx}
+\usepackage{float}
+\restylefloat{table}
+\let\l\lstinline
+
+\title{%
+Java SE Vizsga\\
+\large Adatbazis- es Halozatkezeles\\
+\large Rendelkezesre allo ido: 90 perc}
+
+\author{Szabo Daniel\\daniel.szabo99@outlook.com}
+
+\date{\today}
+
+\begin{document}
+
+    \maketitle
+
+    \section{Utasitasok}
+
+    \subsection{Projekt megnyitasa}
+
+    A vizsgahoz a kovetkezo fajlokra van szukseged:
+    \begin{itemize}
+        \item \l{pingpong.Ping.java},
+        \item \l{pingpong.Pong.java},
+        \item \l{termekek.Adatbazis.java},
+        \item \l{termekek.Termek.java},
+        \item \l{termekek.Main.java},
+        \item \l{termekek.termekek.sql},
+        \item legfrissebb JDBC meghajto.
+    \end{itemize}
+    Ezeket egy uj Eclipse Java projekt-ben helyezzuk el. A projekt neve legyen \l{JavaSEAdatbazisEsHalozatokVizsga_VezeteknevKeresztnev}. A projekt-ben hozzunk letre a \l{pingpong} es \l{termekek} csomagot es azokban helyezzuk el az osztalyainkat. Ne felejtsd el a csomag megnevezeset az osztalyokban is modositani.
+
+    \subsection{Feladatok megoldasa}
+
+    \begin{itemize}
+        \item A megoldas soran kovessuk az objektum orientalt programozas iranyelveit, torekedjuk osztalyokat es metodusokat hasznalni a megoldashoz.
+        \item Nem mukodo kodot illetve felesleges kommenteket ne hagyjunk a projektben
+    \end{itemize}
+
+    \subsection{Megoldas beadasa}
+
+    A teljes projektet egy zip allomanykent mentsuk el. Ezt megtehetjuk a File $\rightarrow$ Export $\rightarrow$ Archive File menuponttal. A tomoritett allomany neve legyen a projekt nevevel azonos. Beadas elott csomagold ki a projektet es ellenorizd, hogy mukodik a megoldasod, majd add be a zip allomanyt.
+
+\section{Feladatok}
+
+Mielott hozzakezdenel a feladatok megoldasahoz, figyelmesen olvasd el a kodot amit kaptal es ertelmezd az osztalyok elemeit, keresd meg a hianyzo reszeket es a feladatok helyeit.
+
+\subsection{Feladat (4 pont)}
+Egeszitsd ki a \lstinline{Ping} osztaly main metodusaban levo Socket kapcsolatot ugy, hogy a kapcsolat kiepitese utan rogton kuldjon egy String "ping" uzenetet a szervernek es a konzolra is irja ki, hogy "ping", majd varjon bejovo uzenetekre. Ha a bejovo uzenet "pong", irja ki a konzolra, hogy "pong", ha nem ez a valaszuzenet, akkor irja ki a konzolra, hogy "Helytelen Pong valaszuzenet fogadva".
+
+\subsection{Feladat (4 pont)}
+Egeszitsd ki a \lstinline{Pong} osztaly main metodusaban levo Socket kapcsolatot ugy, hogy a kapcsolat kiepitese utan rogton irja ki a konzolra, hogy "Bejovo kapcsolat fogadva:" majd utana a bejovo kapcsolat IP cimet. Ez utan rogton olvassa be az elso bejovo uzenetet. Ha az uzenet "ping", valaszoljon "pong"-gal es irja ki a konzolra, hogy "Pong visszakuldve". Ha az uzenet nem "ping", irja ki a konzolra, hogy "Helytelen ping erkezett".
+
+Az elozo ket feladat megoldasa utan a Pong szerver es a Ping kliens inditasa utan a kovetkezo kimenetet kell lassuk:
+
+\begin{lstlisting}[language=Java, caption=Ping]
+ping
+pong
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Pong]
+Pong varakozik...
+Bejovo kapcsolat fogadva: /127.0.0.1
+Pong visszakuldve.
+Pong varakozik...
+\end{lstlisting}
+
+
+\subsection{Feladat (2 pont)}
+Az \lstinline{Adatbazis} osztaly \lstinline{csatlakozas()} metodusat egeszitsd ki ugy, hogy a megfelelo helyen toltse be a JDBC meghajtot.
+
+\subsection{Feladat (2 pont)}
+
+A termekek.sql segitsegevel hozd letre a \l{termekek } adatbazist es a \l{termek} tablat, majd hozz letre egy felhasznalot aki hozzafer ehhez a tablahoz es lekerdezesi joga van.
+Az \lstinline{Adatbazis} osztaly \lstinline{csatlakozas()} metodusat egeszitsd ki ugy, hogy a megfelelo helyen csatlakozzon az adatbazisodhoz. A kiepitett kapcsolatot a globalis \l{conn} valtozo kapja meg.
+
+\subsection{Feladat (3 pont)}
+Az \lstinline{Adatbazis} osztaly \lstinline{lekerdezes()} metodusat egeszitsd ki ugy, hogy a \l{termekek} listaba a kapott \l{ResultSet} objektumbol betolti a lekerdezes eredmenyekent beerkezett termekeket.
+
+\subsection{Feladat (1 pont)}
+Az \lstinline{Adatbazis} osztaly \lstinline{bezaras()} metodusat egeszitsd ki ugy, hogy zarja le az adatbaziskapcsolatot. Ha sikertelen volt a muvelet, jelenitsen meg egy megfelelo hibauzenetet.
+
+\subsection{Feladat (2 pont)}
+Az \lstinline{Main} osztaly \lstinline{main()} metodusat egeszitsd ki ugy, hogy kerdezze le az \l{Adatbazis} osztalyunk segitsegevel az osszes termek adatait majd azokat jelenitse meg.
+
+\newpage
+
+\subsection{Feladat (2 pont)}
+Az \lstinline{Main} osztaly \lstinline{main()} metodusat egeszitsd ki ugy, hogy kerdezze le az \l{Adatbazis} osztalyunk segitsegevel a 100 forintnal olcsobb termekek adatait ar alapjan novekvo sorrendben majd azokat jelenitse meg.
+
+Az elozo ket feladat megoldasa utan a \l{main()} metodus futtatasa utan a kovetkezo kimenetet kell lassuk:
+
+\begin{lstlisting}[language=Java, caption=Main.main() kimenet]
+Csatlakozas...
+JDBC meghajto sikeresen betoltve.
+Sikeresen csatlakozva a MySQL adatbazishoz.
+Minden termek:
+Termek{id=1, megnevezes='piros alma', ar=50}
+Termek{id=2, megnevezes='zold alma', ar=55}
+Termek{id=3, megnevezes='banan', ar=40}
+...
+Termek{id=35, megnevezes='macskaalom', ar=400}
+Termek{id=36, megnevezes='kullancsriaszto', ar=240}
+Termek{id=37, megnevezes='parna', ar=500}
+Olcso termekek:
+Termek{id=7, megnevezes='zsemle', ar=34}
+Termek{id=3, megnevezes='banan', ar=40}
+Termek{id=1, megnevezes='piros alma', ar=50}
+Termek{id=6, megnevezes='kifli', ar=50}
+Termek{id=2, megnevezes='zold alma', ar=55}
+MySQL kapcoslat sikeresen lezarva.
+\end{lstlisting}
+
+
+
+\end{document}

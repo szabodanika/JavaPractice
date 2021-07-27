@@ -1,0 +1,141 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kodreszlet}%
+\lstset{language=Java,
+backgroundcolor=\color[HTML]{ebebeb},
+keywordstyle={\bfseries \color[HTML]{5d00ff}},
+frame=single,
+basicstyle=\footnotesize\ttfamily,
+captionpos=b,
+tabsize=2,
+numbers=left,
+aboveskip=2em,
+belowskip=1em
+}
+\usepackage{graphicx}
+\let\l\lstinline
+
+\title{%
+Java SE Feladatsor 2 \\
+\large Adatfeldolgozas}
+
+\author{Szabo Daniel\\daniel.szabo99@outlook.com}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+Ebben a feladatsorban fajlokbol beolvasott, CSV formatumu adattal fogunk dolgozni es komplex statisztikakat szamolni. A feladatsor sikeres megoldasa kritikus fontossagu a kesobbi vizsgakhoz, mert alapveto fajlmuveleteket es szamitasokat erint, mint atlagszamitas, csoportositas, szures, extrem ertek kereses illetve ezek kombinacioi.
+\end{abstract}
+
+\newpage
+
+\tableofcontents{}
+
+\newpage
+
+\section{Feladatok}
+
+\paragraph{Bevezetes}
+
+Ebben a feladatsorban egy konyvesbolt adatait fogjuk beolvasni, majd a beolvasott adatokon muveleteket vegezni, statisztikakat szamolni. A feladatsorhoz mellekelt kovetkezo fajlokra lesz szukseged: \newline
+\begin{itemize}
+    \item konyvek.csv,
+    \item szerzok.csv,
+    \item kiadok.csv,
+    \item Main.java,
+    \item Feladatok.java.
+\end{itemize}
+
+
+\subsection{Feladat}
+Figyelmesen olvasd at a mellekelt csv fajlokat es azoknak megfeleloen hozz letre modell osztalyokat, amik a fajlok egy-egy sorat hianytalanul eltarolni kepesek.
+
+\subsection{Feladat}
+A Feladatok osztaly \l{feladat2()} metodusat egeszitsd ki ugy, hogy olvassa be a harom csv fajl adatait, helyezze a sorokat objektumokba es tarolja el azokat a megfelelo listakban.
+
+\subsection{Feladat}
+A Feladatok osztaly \l{feladat3()} metodusat egeszitsd ki ugy, hogy jelenitse meg mindharom beolvasott adattipus listajanak elso 2 elemet.
+
+\subsection{Feladat}
+A Feladatok osztaly \l{feladat4()} metodusat egeszitsd ki ugy, hogy szamolja ki es jelenitse meg a konyvek atlagos arat forintban, 2 tizedes pontossaggal.
+
+\subsection{Feladat}
+A Feladatok osztaly \l{feladat5()} metodusat egeszitsd ki ugy, hogy jelenitse meg a szerzo nevet akinek a legtobb konyve van a listankon, es hogy osszesen hany darab.
+
+\subsection{Feladat}
+A Feladatok osztaly \l{feladat6()} metodusat egeszitsd ki ugy, hogy keresse meg es jelenitse meg a legdragabb konyv cimet es arat.
+
+\subsection{Feladat}
+A Feladatok osztaly \l{feladat7()} metodusat egeszitsd ki ugy, hogy listazza novekvo sorrendben az osszes evet amiben lett konyv kiadva.
+
+\subsection{Feladat}
+A Feladatok osztaly \l{feladat8()} metodusat egeszitsd ki ugy, hogy az 1990 utan (tehat 1991 es kesobb) szuletett szerzok altal irt konyvek atlagarat szamitsa ki es jelenitse meg.
+
+\subsection{Feladat}
+A Feladatok osztaly \l{feladat9()} metodusat egeszitsd ki ugy, hogy keresse, majd jelenitse meg a konyvkiadot aki a legtobb konyvet adta ki 1990 utan szuletett szerzoktol, es hany darabot osszesen.
+
+\subsection{Feladat}
+A Feladatok osztaly \l{feladat10()} metodusat egeszitsd ki ugy, hogy szamitsa ki, melyik kiado konyvei kerulnek a legtobbe forint/oldal alapon, majd jelenitse meg a kiado nevet es forint/oldal atlagat.
+
+\newpage
+
+\section{Eredmenyek}
+
+Ha sikeresen megoldottad a feladatokat, a kovetkezo eredmenyt kell lasd. Aprobb formai elteresek megengedettek.
+
+\begin{lstlisting}[language=Java, caption=Kimenet a feladatok megoldasa utan]
+###		FELADAT 2		###
+Beolvasas Sikeres!
+###		FELADAT 3		###
+Szerzo{szam=1, nev='Kis Julia', szuletesiEv=1983}
+Szerzo{szam=2, nev='Nagy Janos', szuletesiEv=1962}
+Kiado{szam=1, nev='Oracle Konyvkiado', szekhely='Debrecen'}
+Kiado{szam=2, nev='Eclipse Konyvkiado', szekhely='Budapest'}
+Konyv{szam=1, cim='Java SE Programozas 1', szerzo=Szerzo{szam=1,
+            nev='Kis Julia', szuletesiEv=1983}, kiado=Kiado{szam=1,
+            nev='Oracle Konyvkiado', szekhely='Debrecen'}, ev=2019,
+            oldal=213, ar=1999, kemenyboritos=true}
+Konyv{szam=2, cim='Java SE Programozas 2', szerzo=Szerzo{szam=1,
+            nev='Kis Julia', szuletesiEv=1983}, kiado=Kiado{szam=1,
+            nev='Oracle Konyvkiado', szekhely='Debrecen'}, ev=2020,
+            oldal=206, ar=1999, kemenyboritos=true}
+###		FELADAT 4		###
+Atlagos konyv ar: 3061.40 Ft
+###		FELADAT 5		###
+A legtobb konyve Kis Julia szerzonek van: 8 db
+###		FELADAT 6		###
+A legdragabb konyv A Webfejlesztes Enciklopediaja - 7899 Ft
+###		FELADAT 7		###
+2009
+2011
+2012
+2014
+2016
+2017
+2019
+2020
+2021
+###		FELADAT 8		###
+1990 utan szuletett szerzok konyveinek atlagos ara: 3760.25 Ft
+###		FELADAT 9		###
+A legtobb 1990 utani szuletesu szerzo altal
+    irt konyvet Oracle Konyvkiado adta ki: 3 db
+###		FELADAT 10		###
+A legnagyobb atlagos Ft/oldal erteku kiado
+    Konstans Tankonyvkiado: 15.02 Ft
+\end{lstlisting}
+
+\newpage
+
+\section{Megoldas beadasa}
+Ha minden feladatot megoldottal es az osszes teszt sikeresen lefut, akkor gyozodj meg rola, hogy a kodod tiszta es olvashato, nem tartalmaz felesleges, kommentelt vagy nem mukodo kodot illetve minden feladat megoldasahoz objektum orientalt programozast alkalmaztal amennyire csak lehetseges volt, majd a teljes projektet (tehat nem csak a src mappat vagy csak a .java fajlokat) csomagold be egy .zip kiterjesztesu fajlba, aminek a neve legyen peldaul \lstinline{KisJuliska_JavaSE2.zip}. Ezt a fajlt utana vagy el kell kuldened e-mail-ben vagy fel kell feltoltened, errol kulon fogsz pontos utmutatast kapni.
+
+\end{document}

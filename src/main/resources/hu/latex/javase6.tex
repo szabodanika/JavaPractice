@@ -1,0 +1,305 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kodreszlet}%
+\lstset{language=Java,
+backgroundcolor=\color[HTML]{ebebeb},
+keywordstyle={\bfseries \color[HTML]{5d00ff}},
+frame=single,
+basicstyle=\footnotesize\ttfamily,
+captionpos=b,
+tabsize=2,
+numbers=left,
+aboveskip=2em,
+belowskip=1em
+}
+\usepackage{graphicx}
+\usepackage{float}
+\restylefloat{table}
+\let\l\lstinline
+
+\title{%
+Java SE 6 \\
+\large Hibakezeles}
+
+\author{Szabo Daniel\\daniel.szabo99@outlook.com}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+Ebben a feladatsorban megismerjuk, milyen hibakkal talalkozhatunk Java programozas kozben, es milyen modszerekkel kezelhetjuk oket.
+\end{abstract}
+
+\newpage
+
+\tableofcontents{}
+
+\newpage
+
+\section{Java hibak fo fajtai}
+
+\paragraph{Bevezetes}
+
+Alapvetoen harom hiba tipust kulonboztetunk meg Java-ban, attol fuggoen, hogy a hiba mennyire sulyos, es hogy a programunk a hiba elofordulasa utan tovabb futhat-e.
+
+\subsection{Exception (nem ellenorzott)}
+A nem ellenorzott, vagy unchecked exception az amivel a leggyakrabban talalkozunk. Ezek olyan kivetelek, amik a program futasa kozben derulhetnek ki es sok alapveto hiba eloidezheti ezeket.
+
+Pelda nem ellenorzott hibara peldaul a \l{NullPointerException}, ami akkor tortenik, ha egy null erteku objektum valtozojat vagy metodusat probaljuk meghivni. \l{ArithmeticException} akkor fordulhat elo, ha peldaul 0-val vegzunk osztast, vagy szinten gyakori a \l{IndexOutOfBoundsException}, amit azzal idezunk elo, hogy egy tomb tartomanyan kivuli elemet probalunk elerni, peldaul egy 5 hosszusagu tombon az 5 indexen levo elemet, mert elfelejtettuk, hogy 0-tol 4-ig van indexelve az a bizonyos tomb.
+
+\begin{lstlisting}[language=Java, caption=NullPointerException-t dobo kodreszlet]
+String a = null;
+a.length();
+\end{lstlisting}
+
+Hibak eseteben a Java alapvetoen a konzolon fog informacioval szolgalni, peldaul a fenti kod eseteben a kovetkezot fogja kiirni:
+
+\begin{lstlisting}[language=Java, caption=NullPointerException]
+Exception in thread "main" java.lang.NullPointerException:
+    Cannot invoke "String.length()" because "a" is null
+at generikusok.Homokozo.main(Homokozo.java:8)
+\end{lstlisting}
+
+Ezek a hibauzenetek leirjak hogy melyik programszalon tortent a hiba, a hiba pontos tipusat (csomag es osztalynev), egy uzenetet ami segit megerteni, mi is tortent, illetve azt, hogy hol tortent a hiba. Leirja, melyik metodusban, illetve ha tobb metodushivas vezetett el a hibaig, akkor a teljes utvonalat (stack trace).
+
+Ezeket a hibakat gyakran nehez elkerulni, odafigyelessel es alaposan megtervezett koddal lehet az ilyen hibak szamat csokkenteni, illetve a hibakat okozo esetek kiszuresevel (peldaul az oszto ellenorzesevel, hogy biztosan soha ne legyen 0).
+
+\newpage
+
+\subsection{Exception (ellenorzott)}
+
+Az ellenorzott, vagy checked exception egy olyan hiba, amit a fejlesztonek kotelezoen kezelnie kell, tehat futasi idoben varatlanul biztosan nem fordulhat elo. Ezek olyan hibak amik a rendszer allapotatol fuggoen gyakran (es vartan) megtortenhetnek, de a Java folyamat tovabb futhat.
+
+A legkezenfekvobb pelda ilyen hibakra az \l{IOException} ami adat beolvasaskor vagy iraskor tortenhet (akar lemezen vagy halozaton is), illetve a \l{FileNotFoundException}, az \l{IOException} egy alosztalya, ami kifejezetten akkor fordulhat elo, ha egy beolvasando allomany nem talalhato a megadott utvonalon.
+
+\begin{lstlisting}[language=Java, caption=Kezeletlen FileNotFoundException]
+FileInputStream fis = new FileInputStream("adat.txt");
+\end{lstlisting}
+
+A fenti kodban beolvasasra nyitom meg az adat.txt fajlt, viszont nem kezeltem le a \l{FileNotFoundException}-t, ezert a fordito a lenti hibat fogja megjeleniteni, es a programom nem fog elindulni.
+
+\begin{lstlisting}[language=Java, caption=Kezeletlen FileNotFoundException]
+C:\Users\User\Documents\dev\PeldaProject\src\Main.java:10:27
+java: unreported exception java.io.FileNotFoundException;
+    must be caught or declared to be thrown
+\end{lstlisting}
+
+Ellenorzott hibat ket eljarassal kezelhetek le. Jellemzoen egy \l{try-catch} blokk hasznalataval meghatarozom, hogy mi tortenjen, ha az adott hiba elofordul. A lenti kodreszletben az 1. sorban kezdodo \l{try} blokk tartalmazza az utasitast, ami a hibat dobhatja, es alatta a 3. sorban kezdodo \l{catch} blokkban a \l{fileNotFoundException} nevu \l{FileNotFoundException} objektumot kapjuk meg, ahol eloszor kiiratjuk a konzolra a hibat a \l{printStackTrace()} metodussal, majd kiirunk egy felhasznalobarat uzenetet. A \l{catch} blokk akar uresen is maradhat, hogy ha a hiba eseten semmilyen reakciot nem szeretnek ujraprobalhatom a muveletet, visszaterhetek egy korabbi allapotba vagy akar kilephetek a programbol.
+
+\begin{lstlisting}[language=Java, caption=Kezelt FileNotFoundException]
+try {
+    FileInputStream fis = new FileInputStream("adat.txt");
+} catch (FileNotFoundException fileNotFoundException) {
+    fileNotFoundException.printStackTrace();
+    System.out.println("Nem sikerult az adat.txt fajlt megnyitni.");
+}
+\end{lstlisting}
+
+A masodik lehetosegem az, hogy meghatarozom, hogy a metodusom dobja tovabb a hibat az ot meghivo metodusnak, ha nem szeretnem a hibat itt helyben kezelni. Ezt a \l{throws} kulcsszoval tehetem meg, ezutan pedig ha egy masik metodus meghivja a \l{beolvas} metodusom, neki szinten vagy \l{try-catch} blokkal kell kezelnie, vagy tovabbdobnia.
+
+\begin{lstlisting}[language=Java, caption=Tovabbdobott FileNotFoundException]
+void beolvas() throws FileNotFoundException{
+    FileInputStream fis = new FileInputStream("adat.txt");
+}
+\end{lstlisting}
+
+
+\subsection{Error}
+
+Az error tipusu hibak olyan sulyos hibak altal tortenhetnek meg, amik kozvetlenul megakadalyozzak, hogy a programunk tovabbfusson. Ezeket elore nem lathatjuk a legtobb esetben es nem kezeljuk oket. Pelda erre az \l{OutOfMemoryError}, ami akkor tortenik, amikor nincs eleg szabad memoria egy objektum letrehozasahoz, \l{StackOverflowError} amit azert kaphatunk, mert egy tul mely rekurzio tortent vagy \l{UnknownError} amikor a programunkat futtato Java virtualis gep (JVM) futott egy ismeretlen hibaba. Ilyenekkel ritkabban talalkozunk es figyelmesseggel torekedhetunk az elkerulesukre, peldaul atgondolt es limitalt rekurziv fuggvenyhivasokkal es a felhasznalt memoria limitalasaval, foleg olyan programok eseteben amik alacsony eroforrasokkal rendelkezo rendszerekre keszulnek.
+
+\begin{lstlisting}[language=Java, caption=Vegtelen rekurzio ami StackOverFlowError-t fog okozni]
+	void rekurzio() {
+		System.out.println("Most meg fogom hivni sajat magam");
+		rekurzio();
+	}
+\end{lstlisting}
+
+\subsection{Forditasi hibak}
+
+Ugyan ezeket a hibakat nem a Java program dobja, hanem a fordito (compiler), hagyomanyos ertelemben a nyelvi hibakat is ide sorolhatjuk, peldaul a szintaxis hibakat amit kezdo (es nem ritkan akar halado) programozok vetenek, peldaul zarojelek elhagyasa, kulcsszavak helytelen hasznalata vagy nem letezo tipusra, valtozora vagy metodusra valo hivatkozas. Ezeket a hibakat a fordito fogja megtalalni es ertesiti a programozot, de a modern fejlesztoi kornyezetek is segitenek ezeket kiszurni automatikusan.
+
+\newpage
+
+\section{Egyedi hibak}
+
+Lehetosegunk van sajat metodusainkbol is hibakat dobni, ellenorzott es nem ellenorzott kiveteleket egyarant. Az alabbi kodreszletben az \l{osztas} metodus nem ellenorzott \l{ArithmeticException}-t fog dobni a \l{throw} kulcsszo segitsegevel es egy egyedi uzenettel, ha az \l{oszto} parameter erteke 0.
+
+\begin{lstlisting}[language=Java, caption=ArithmeticException dobasa manualisan]
+float osztas(float osztando, float oszto) {
+    if(oszto == 0) {
+        throw new ArithmeticException("Az oszto nem lehet nulla!");
+    } else {
+        return osztando/oszto;
+    }
+}
+\end{lstlisting}
+
+A kovetkezo kodreszletben a nem ellenorzott \l{ArithmeticException} egy altalanos \l{Exception} kivetelt dobunk, ami viszont ellenorzott, igy vagy helyben a 3. sort egy \l{try-catch} blokkal kell kezelnem (ami viszont hasztalanna teszi a manualis kivetel dobast), vagy tovabb kell dobnom a meghivo metodusnak a hibat.
+
+\begin{lstlisting}[language=Java, caption=Exception dobasa manualisan]
+float osztas(float osztando, float oszto) throws Exception{
+    if(oszto == 0) {
+        throw new Exception("Az oszto nem lehet nulla!");
+    } else {
+        return osztando/osztando;
+    }
+}
+\end{lstlisting}
+\newpage
+
+A legtobb gyakori hibara van egy mar elkeszitett osztaly, de elofordulhat, hogy sajat hibara van szuksegunk. A lenti osztaly az \l{Exception} osztaly boviti ki es a konstruktorat felulirja ugy, hogy egy egyszeru \l{String} uzenet helyett egy osztandot es egy osztot kerjen be, majd azok alapjan allitja be a hiba uzenetet.
+
+\begin{lstlisting}[language=Java, caption=Egyedi Exception osztaly]
+public class OsztasException extends Exception{
+
+	public OsztasException(Number osztando, Number oszto) {
+		super(osztando + "-t nem oszthatod " + oszto + "-val!" );
+	}
+
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Egyedi Exception hasznalata]
+	float osztas(float osztando, float oszto) throws OsztasException {
+		if(oszto == 0) {
+			throw new OsztasException(osztando, oszto);
+		} else {
+			return osztando/osztando;
+		}
+	}
+\end{lstlisting}
+
+Mivel az \l{OsztasException} az ellenorzott \l{Exception} alosztalya, igy az \l{osztas} fuggvenyt meghivasakor le kell kezelnem:
+
+\begin{lstlisting}[language=Java, caption=Egyedi Exception hasznalata]
+try {
+    osztas(20, 0);
+} catch (OsztasException e) {
+    e.printStackTrace();
+}
+\end{lstlisting}
+
+A fenti kodreszlet a kovetkezo hibauzenetet fogja produkalni, miutan lefuttatom a programom:
+
+\begin{lstlisting}[language=Java, caption=Egyedi Exception uzenete]
+generikusok.OsztasException: 20.0-t nem oszthatod 0.0-val!
+	at generikusok.Homokozo.osztas(Homokozo.java:17)
+	at generikusok.Homokozo.main(Homokozo.java:8)
+\end{lstlisting}
+
+\newpage
+
+\section{Bovebben a try-catch blockrol}
+
+\subsection{Tobb kivetel kezelese}
+
+Ha egy metodus tobb kulonbozo hibat is okozhat, a metodus hivasakor kivetel nelkul mindet le kell kezelnunk. Ennek a leggyakoribb modja az, hogy minden hibanak egy kulon \l{catch} blokkot hozunk letre.
+
+A kovetkezo peldaban az \l{osztas} metodust atalakitottuk ugy, hogy negativ parameterek eseten \l{NemTamogatottMuveletException}-t dobjon egy egyedi uzenettel:
+\begin{lstlisting}[language=Java, caption=Metodus ami tobb kivetelt okozhat]
+static float osztas(float osztando, float oszto)
+    throws OsztasException, NemTamogatottMuveletException {
+    if(oszto == 0) {
+        throw new OsztasException(osztando, oszto);
+    } else if(osztando < 0 || oszto < 0) {
+        throw new NemTamogatottMuveletException(
+            "Ez a metodus nem oszthat negativ szamokkal!");
+    } else {
+        return osztando/osztando;
+    }
+}
+\end{lstlisting}
+
+Ebben az esetben mind a ket kivetelnek letrehozunk kulon \l{catch} blokkokat, ha szeretnenk a ket hibat kulonbozo modon kezelni.
+
+\begin{lstlisting}[language=Java, caption=Osztas metodus kiveteleinek kezelese kulon]
+try {
+    osztas(20, 0);
+} catch (OsztasException e) {
+    e.printStackTrace();
+} catch (NemTamogatottMuveletException e) {
+    e.printStackTrace();
+}
+\end{lstlisting}
+
+Mivel mindket kivetel eseten ugyanaz lesz a rendszer reakcioja, igy viszont felesleges kulon \l{catch} blokk mindkettonek, es ilyenkor egy blokkban kezelhetjuk mindkettot, ha egy kozos szuloosztalyukra hivatkozunk.
+
+\begin{lstlisting}[language=Java, caption=Osztas metodus kiveteleinek kezelese egyutt]
+try {
+    osztas(20, 0);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+\end{lstlisting}
+
+Ha egy blokkban szeretnenk a ket kivetelt kezelni, de nem szeretnenk tul altalanos modon kezelni ezeket a kiveteleket, a kovetkezo \l{catch} blokkot is letrehozhatjuk:
+
+\begin{lstlisting}[language=Java, caption=Osztas metodus kiveteleinek kezelese egyutt]
+try {
+    osztas(20, 0);
+} catch (OsztasException | NemTamogatottMuveletException e) {
+    e.printStackTrace();
+}
+\end{lstlisting}
+
+\subsection{Finally blokk}
+
+Ha egy \l{try-catch} blokk utan szeretnenk tovabbi utasitasokat futtatni, ezt megtehetjuk egyszeruen ugy, hogy a \l{catch} blokk lezarasa utan tesszuk oket, azonban ha a \l{try} vagy valamelyik \l{catch} blokkunk visszater a metodusbol, azok mar nem lesznek meghivva. Egy \l{finally} blokk segitsegevel meg olyan utasitasokat adhatunk meg, amik minden esetben le fognak futni, akar sikeres volt a \l{try} blokk, akar nem, es meg azelott le fog futni, hogy a metodus visszaterne.
+
+A lenti peldaban ha sikeres volt az osztas (nem dobott semmilyen kivetelt), a \l{return} kulcsszoval visszaterunk, de elobb a \l{finally} blokk ki fogja irni, hogy az osztas meg lett kiserelve. Ha nem volt sikeres az osztas, szinten eloszor a \l{finally} blokk hivodik meg, de mivel nem tertunk vissza a metodusbol, a \l{catch} blokk lezarasa utan levo uzenet is meg fog jelenni.
+
+\begin{lstlisting}[language=Java, caption=Finally block]
+try {
+    osztas(20, 0);
+    return;
+} catch (OsztasException | NemTamogatottMuveletException e) {
+    e.printStackTrace();
+} finally {
+    System.out.println("Az osztast megkisereltuk.");
+}
+System.out.println("Az osztas nem volt sikeres.");
+\end{lstlisting}
+\newpage
+
+\newpage
+\section{Feladatok}
+
+\subsection{Feladat}
+
+Mi tortenik, ha
+\begin{itemize}
+    \item egy nem ellenorzott kivetelt \l{try-catch} blokkal kezelsz,
+    \item egy ellenorzott kivetelt nem kezelsz,
+    \item egy nem ellenorzott kivetelt dobsz a \l{throw} kulcsszoval,
+    \item egy egy olyan kivetelt kezelsz egy \l{try-catch} blokkban, amit egy utasitas sem dob a \l{try} blokkban,
+    \item metodusodnal a \l{throws} kulcsszoval dobhato hibat adsz meg, de a metodusban sosem dobsz olyan kivetelt?
+\end{itemize}
+
+\subsection{Feladat}
+
+Mi lesz az eredmenye az alabbi metodusnak, ha a bemenet \l{true}, es miert?
+
+\begin{lstlisting}[language=Java, caption=Feladat]
+static boolean feladat(boolean b) {
+    while (b) {
+        try {
+            return true;
+        } finally {
+            break;
+        }
+    }
+    return false;
+}
+
+\end{lstlisting}
+
+\end{document}
+
