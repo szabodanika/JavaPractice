@@ -1,0 +1,374 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Kodreszlet}%
+\lstset{language=Java,
+backgroundcolor=\color[HTML]{ebebeb},
+keywordstyle={\bfseries \color[HTML]{5d00ff}},
+frame=single,
+basicstyle=\footnotesize\ttfamily,
+captionpos=b,
+tabsize=2,
+numbers=left,
+aboveskip=2em,
+belowskip=1em
+}
+\usepackage{graphicx}
+\usepackage{float}
+\restylefloat{table}
+\let\l\lstinline
+
+\title{%
+Java SE 11 \\
+\large Tobbszalas Programozas}
+
+\author{Szabo Daniel\\daniel.szabo99@outlook.com}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+Ebben a feladatsorban egy specialis interfesz tipust, a funkcionalis interfeszt ismerjuk meg, ezek felepiteset es hasznalatat hagyomanyos implementacioval, nevtelen osztalyokkal, lambda kifejezesekkel es metodus hivatkozasokkal.
+\end{abstract}
+
+\newpage
+
+\tableofcontents{}
+
+\newpage
+
+\section{Szalak Letrehozasa}
+\paragraph{Bevezetes}
+
+Egy hatterszal inditasahoz a \l{Thread} osztalyt kell peldanyositanunk es a \l{.start()} metodussal elinditanunk. Minden szalnak egy \l{Runnable} peldanyra van szuksege a konstruktorban, ami egy funkcionalis interfesz, tehat lambda kifejezessel is implementalhatjuk. Opcionalisan adhatunk egy nevet is a szalunknak, ez a jovoben megkonnyiti a hibakeresest.
+
+\begin{lstlisting}[language=Java, caption=Uj szal inditasa]
+Thread szal = new Thread(() -> {
+	System.out.println("Betoltes elindult.");
+	Adatbazis.betolt("adat.txt");
+	System.out.println("Betoltes elkeszult.");
+}, "BetoltoSzal");
+
+szal.start();
+\end{lstlisting}
+
+Ha tobb szal ugyanazon szeretnenk, hogy dolgozzon, implementalhatjuk a \l{Runnable} interfeszt egy valtozoban vagy egy egyedi osztalyban.
+
+\begin{lstlisting}[language=Java, caption=Uj szal inditasa]
+public class BetoltoFeladat implements Runnable {
+	private String file;
+
+	public BetoltoFeladat(String file) {
+		this.file = file;
+	}
+
+	@Override
+	public void run() {
+		System.out.println("Betoltes elindult.");
+		Adatbazis.betolt(file);
+		System.out.println("Betoltes elkeszult.");
+	}
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Uj szalak inditasa ugyanazzal a Runnable objektummal]
+BetoltoFeladat bf = new BetoltoFeladat("adat.txt");
+Thread szal1 = new Thread(bf, "BetoltoSzal1");
+Thread szal2 = new Thread(bf, "BetoltoSzal2");
+szal1.start();
+szal2.start();
+\end{lstlisting}
+
+
+Szinten adott a kovetkezo \l{Ismetlogep} osztaly, aminek az \l{ismetel()} metodusa \l{iteraciok} alkalommal hivja meg a parameterkent kapott \l{Futtathato} objektum \l{futtat()} metodusat.
+
+\begin{lstlisting}[language=Java, caption=Ismetlogep osztaly]
+public class Ismetlogep {
+	private int iteraciok;
+
+	public Ismetlogep(int iteraciok) {
+		this.iteraciok = iteraciok;
+	}
+
+	public void ismetel(Futtathato futtathato) {
+		for (int i = 0; i < iteraciok; i++) {
+			futtathato.futtat();
+		}
+	}
+}
+\end{lstlisting}
+
+Ezeket hagyomanyos modon ugy hasznalnank, hogy keszitenenk a \l{Futtathato} interfesznek egy implementaciot, peldaul az alabbi \l{Koszono} osztalyt, aminek a \l{futtat()} implementacioja az, hogy a konzolra ir egy uzenetet.
+
+\begin{lstlisting}[language=Java, caption=Koszono osztaly]
+public class Koszono implements Futtathato{
+    @Override
+    public void futtat() {
+        System.out.println("Hello!");
+    }
+}
+\end{lstlisting}
+
+Ha peldanyositjuk az \l{Ismetlogep} es a \l{Koszono} osztalyokat es az alabbi modon meghivjuk az \l{ismetel()} metodust, otszor megjelenik a "Hello!" uzenet a konzolban.
+
+\begin{lstlisting}[language=Java, caption=Koszono osztaly es Ismetlogep hasznalata]
+Ismetlogep ismetlogep = new Ismetlogep(5);
+Koszono koszono = new Koszono();
+ismetlogep.ismetel(koszono);
+\end{lstlisting}
+
+Funkcionalis interfeszek eseteben, mint a \l{Futtathato}, valoszinu hogy sok kulonbozo implementaciora van szuksegunk es lehet hogy ezek kozul egyiket sem hasznaljuk fel tobbszor, ami szembemegy azzal az okozattal amivel indokoltuk az osztalyok keszitesenek szuksegletet: az ismetlodes csokkentese.
+
+Ilyen esetekben tehat, amikor egy funkcionalis interfesznek egy implementaciojat nem hasznaljuk tobbszor, helyi, nevtelen implementaciot hozhatunk letre a kovetkezo keppen:
+
+\begin{lstlisting}[language=Java, caption=Futtathato interfesz nevtelen implementacioja]
+Ismetlogep ismetlogep = new Ismetlogep(5);
+Futtathato futtathato = new Futtathato() {
+    @Override
+    public void futtat() {
+        System.out.println("Hello!");
+    }
+};
+ismetlogep.ismetel(futtathato);
+\end{lstlisting}
+
+Az interfesz szokasos peldanyositasa utan zarojelben felsoroljuk az implementalni/felulirni kivant metodusokat. Ezek az implementaciok kizarolag erre a peldanyra fognak vonatkozni, sehol mashol nem leteznek, ezzel tehat anelkul implementaltam a \l{Futtathato} interfeszt, hogy egy uj tipust hoztam volna letre.
+
+\newpage
+
+\section{Lambda Kifejezesek}
+
+Vegyuk peldaul a \l{Futtathato} interfesz nevtelen implementaciojat. Figyeld meg, hogy a 2, 3 es 5. sorok teljesen redundansak, mert a \l{Futtathato} interfesznek egyetlen absztrakt metodusa van, tehat itt meghatarozni, hogy melyik metodust implementaljuk, teljesen felesleges.
+
+\begin{lstlisting}[language=Java, caption=Futtathato interfesz nevtelen implementacioja]
+Futtathato futtathato = new Futtathato() {
+    @Override
+    public void futtat() {
+        System.out.println("Hello!");
+    }
+};
+\end{lstlisting}
+
+Ilyen helyzetekben a redundans kodot lambda kifejezesekkel helyettesithetjuk:
+
+\begin{lstlisting}[language=Java, caption=Egysoros lambda kifejezes]
+Futtathato futtathato = () -> System.out.println("Hello!");
+\end{lstlisting}
+
+Ha esetleg tobb sorobol all az implementacionk, a lambda kifejezes mukodik kodblokkal is:
+
+\begin{lstlisting}[language=Java, caption=Lambda kifejezes kodblokkal]
+Futtathato futtathato = () -> {
+System.out.print("Hello ");
+System.out.println("world!");
+};
+\end{lstlisting}
+
+\newpage
+
+\subsection{Lambda Kifejezesek Parameterekkel}
+
+Ha az implementalt metodusnak parameterei vannak, lambda kifejezesben arra is tudunk hivatkozni. Csereljuk ki a \l{Futtathato} interfeszunk \l{futtat()} metodusat a kovetkezovel:
+
+\begin{lstlisting}[language=Java, caption=Absztrakt metodus parameterrel]
+void futtatBemenettel(Object o);
+\end{lstlisting}
+
+Ha egyetlen parametere van a metodusnak, zarojel nelkul egy lokalis nevet adunk neki (ebben az esetben \l{o}), es a lambda implementacion ezen a neven erjuk el a parametert. Ha tobb parametere van a metodusnak, akkor zarojelben felsorolva (pl.: \l{(szam, nev) -> ...}) hivatkozunk rajuk.
+
+\begin{lstlisting}[language=Java, caption=Parameteres absztrakt metodus implementalasa lambda kifejezessel]
+Futtathato futtathato = o -> System.out.println(o);
+\end{lstlisting}
+
+\subsection{Lambda Kifejezesek Visszateresi Ertekekkel}
+
+Ha az implementalt metodusnem \l{void} visszateresi tipusu, akkor a lambda kifejezesbol is meg kell hatarozni egy erteket a metodusnak. Csereljuk ki a \l{Futtathato} interfeszunk \l{futtat()} metodusat a kovetkezovel:
+
+\begin{lstlisting}[language=Java, caption=Absztrakt metodus visszateresi ertekkel]
+int futtatBemenettel(int a, int b);
+\end{lstlisting}
+
+Ebben az esetben mindossze egy muveletet kell meghataroznunk aminek az eredmenye azonos tipusu a metodus visszateresi tipusaval, tehat \l{int}.
+
+\begin{lstlisting}[language=Java, caption=Nem void absztrakt metodus implementalasa lambda kifejezessel]
+Futtathato futtathato = (a, b) -> a + b;
+\end{lstlisting}
+
+Blokkos lambda kifejezesnek a \l{return} kulcsszo hasznalata kotelezo:
+
+\begin{lstlisting}[language=Java, caption=Nem void absztrakt metodus implementalasa lambda kifejezessel]
+Futtathato futtathato = (a, b) -> {
+	if(a > b) return a;
+	else return b;
+};
+\end{lstlisting}
+\newpage
+
+\section{Metodus hivatkozasok}
+
+Ugyan a lambda kifejezesekkel a kodunk sokkal rovidebb lett sok helyen, bizonyos esetekben meg mindig felesleges informaciot fejezunk ki. Az alabbi peldaban az \l{o} osztalyvaltozot csak annyira hasznaljuk, hogy tovabbadjuk a \l{System.out.println()} metodusnak.
+
+\begin{lstlisting}[language=Java, caption=Parameteres absztrakt metodus implementalasa lambda kifejezessel]
+Futtathato futtathato = o -> System.out.println(o);
+\end{lstlisting}
+
+Ezekben az esetekben, amikor a lambda kifejezes csak egyetlen metodushivast tartalmaz, metodus hivatkozast alkalmazhatunk, de fontos megjegyezni, hogy metodushivatkozaskor csak olyan metodusokra hivatkozhatunk, amiknek a parameterei es a visszateresi erteke megegyeznek a funkcionalis interfesz absztrakt metodusaval (ez alol kivetel az, amikor egy \l{void} absztrakt metodusnak nem-\l{void} metodust adunk hivatkozaskent, ilyenkor a visszateresi ertek ignoralva lesz). Ez ebben az esetben teljesul, mert a \l{futtat()} es a \l{System.out.println()} metodusok egy-egy \l{Object} parametert fogadnak be es nem adnak visszateresi erteket.
+
+\begin{lstlisting}[language=Java, caption=Metodus hivatkozas]
+Futtathato futtathato = System.out::println;
+\end{lstlisting}
+
+Ezek a metodus hivatkozasok kifejezetten hasznosak lesznek akkor, amikor egy metodusnak sok parametere van. Vegyunk peldaul az alabbi absztrakt metodust 4 parameterrel:
+
+\begin{lstlisting}[language=Java, caption=Absztrakt metodus 4 parameterrel]
+int futtatBemenettel(int a, int b, int c, int d);
+\end{lstlisting}
+
+Ha ennek a funkcionalis interfesznek egy olyan implementaciot szeretnenk letrehozni ami osszeadja a bemeneteket, lambda kifejezessel a kovetkezo keppen nezne ki:
+
+\begin{lstlisting}[language=Java, caption=Lambda implementacio]
+Futtathato futtathato = (a, b, c, d) -> a + b + c + d;
+\end{lstlisting}
+
+\newpage
+
+Viszont ha feltesszuk, hogy mar korabban letrehoztunk az alabbi \l{Main.sum()} statikus metodust, akkor meghivhatjuk azt is.
+
+\begin{lstlisting}[language=Java, caption=Sum() metodus]
+	static int sum(int... szamok) {
+		return Arrays.stream(szamok).sum();
+	}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Lambda implementacio metodushivassal]
+Futtathato futtathato = (a, b, c, d) -> sum(a, b, c, d);
+\end{lstlisting}
+
+Ebben az esetben megint csak annyira hasznaljuk a parametereket, hogy tovabbadjuk oket a \l{Main.sum()} metodusnak, amit egyszerubben megtehetnenk, ha egy metodushivatkozast illesztenenk be.
+
+\begin{lstlisting}[language=Java, caption=Implementacio metodus hivatkozassal]
+Futtathato futtathato = Main::sum;
+\end{lstlisting}
+
+\newpage
+
+\section{Nevezetes Funkcionalis Interfeszek}
+
+Sok alapveto funkcionalis interfesz alapvetoen elerheto szamunkra a \l{java.util.function} csomagban. Ezek lefedik a legtob helyzetet amikor funkcionalis interfeszre lenne szukseged, de ezeket mi boviteni tudjuk es ujakat is hozhatunk letre.
+
+\subsection{Predicate}
+
+A \l{Predicate} egy olyan funkcionalis interfesz, aminek egy tetszoleges bemenete van es \l{boolean} ertekkel ter vissza. Ez kifejezetten hasznos lesz szuresek elvegzesehez. A lenti pelda a bemenetkent kapott egesz szamrol megallapitja, hogy paros vagy sem.
+
+\begin{lstlisting}[language=Java, caption=Pelda Predicate]
+Predicate<Integer> predicate = new Predicate<Integer>() {
+	@Override
+	public boolean test(Integer integer) {
+		return integer%2 == 0;
+	}
+};
+\end{lstlisting}
+
+\subsection{Operator}
+
+A \l{UnaryOperator} es a \l{BinaryOperator} interfeszek elemek modositasara valok, tehat bemeneti es kimeneti tipusuk megegyezik. A \l{UnaryOperator} 1, mig a \l{BinaryOperator} 2 parameterrel rendelkezik. Az elso pelda egy bemenetkent kapott szovegbol eltavolitja a szokozoket, a kovetkezo pelda pedig ket szam osszeget adja eredmenyul.
+
+\begin{lstlisting}[language=Java, caption=Pelda UnaryOperator]
+UnaryOperator<String> operator = new UnaryOperator<>() {
+	@Override
+	public String apply(String s) {
+		return s.replace(" ", "");
+	}
+};
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption=Pelda BinaryOperator]
+BinaryOperator<Integer> operator = new BinaryOperator<Integer>() {
+	@Override
+	public Integer apply(Integer a, Integer b) {
+		return a + b;
+	}
+};
+\end{lstlisting}
+
+\subsection{Function}
+
+A \l{Function} a legflexibilisebb funkcionalis interfesz aminek tetszoleges bemenete es tetszoleges visszateresi tipusa van. A \l{Function} egy, a \l{BiFunction} ket bemettel rendelkezik. A lenti pelda egy szoveg bemenet karakterszamat adja eredmenyul.
+
+\begin{lstlisting}[language=Java, caption=Pelda Function]
+Function<String, Integer> function = new Function<String, Integer>() {
+	@Override
+	public Integer apply(String s) {
+		return s.length();
+	}
+};
+\end{lstlisting}
+
+\subsection{Supplier}
+
+A \l{Supplier} interfesznek nincsen bemenete, csak kimenete. Ezt olyankor hasznaljuk, amikor egy muveletnek vagy rendszernek rugalmasan kezeljuk az adatforrasat, igy kulonbozo \l{Supplier}-ek elkeszitesevel tobb, dinamikusan cserelheto forrast adhatunk meg. A kovetkezo peldaban veletlenszeruen generalunk egesz szamokat, de az adat forrasa lehet determinisztikus is, peldaul fajl beolvasas, halozati beolvasas vagy szabalyszeru generalas.
+
+\begin{lstlisting}[language=Java, caption=Pelda Supplier]
+Supplier<Integer> supplier = new Supplier<Integer>() {
+	@Override
+	public Integer get() {
+		return new Random().nextInt(10);
+	}
+};
+\end{lstlisting}
+
+\subsection{Consumer}
+A \l{Consumer} interfesznek bemenete van, de visszateresi erteke nem, tehat adatok vegso feldolgozasara/felhasznalasara hasznaljuk. A lenti peldaban a kapott szovegeket kisbetusitve jelenitjuk meg a konzolban.
+
+\begin{lstlisting}[language=Java, caption=Pelda Consumer]
+Consumer<String> consumer = new Consumer<String>() {
+	@Override
+	public void accept(String s) {
+		System.out.println(s.toLowerCase());
+	}
+};
+\end{lstlisting}
+
+\subsection{Runnable}
+
+A \l{Runnable} interfesznek nincsen bemenete, se kimenete. A lenti peldaban a \l{runnable} minden hivaskor kiirja a konzolra, hogy "Hello!".
+
+\begin{lstlisting}[language=Java, caption=Pelda Function]
+Runnable runnable = new Runnable() {
+	@Override
+	public void run() {
+		System.out.println("Hello!");
+	}
+};
+\end{lstlisting}
+
+\section{Feladatok}
+
+\subsection{Feladat}
+
+Hozz letre egy \l{Szamgyujtemeny} osztalyt ami egy 10 elemu \l{int} tombot tartalmaz. Legyen egy metodusa, \l{feltolt()}, ami egy megfelelo tipusu \l{Supplier} objektumot ker be, es annak segitsegevel feltolti a belso tombot.
+
+\subsection{Feladat}
+
+Egeszitsd ki a \l{Szamgyujtemeny} osztalyt egy \l{feldolgoz()} metodussal, ami egy parameterkent kapott \l{Consumer} objektummal feldolgoztatja a tomb elemeit.
+
+\subsection{Feladat}
+
+Egeszitsd ki a \l{Szamgyujtemeny} osztalyt egy \l{szur()} metodussal, ami egy parameterkent kapott \l{Predicate} objektum segitsegevel kivalogatja a szamokat egy tombbe vagy listaba es azt adja vissza eredmenyul.
+
+\subsection{Feladat}
+
+Egeszitsd ki a \l{Szamgyujtemeny} osztalyt egy \l{modosit()} metodussal, ami egy parameterkent kapott \l{UnaryOperator} objektum segitsegevel modositja a tarolt szamokat.
+
+\subsection{Feladat}
+
+Teszteld a \l{Szamgyujtemeny} osztaly osszes metodusat tetszoleges implementaciokkal.
+
+\end{document}
+
